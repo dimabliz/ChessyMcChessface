@@ -1,3 +1,5 @@
+import java.lang.StringBuilder;
+
 public abstract class AbstractPiece implements Piece {
 	
 	private boolean isWhite;
@@ -32,5 +34,6 @@ public abstract class AbstractPiece implements Piece {
 		sb.append(", ");
 		sb.append(myY);
 		sb.append("}\n");
+      return sb.toString();
 	}
 }

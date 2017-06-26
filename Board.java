@@ -1,9 +1,11 @@
+//import Pieces.AbstractPiece;
+
 public class Board {
 	
-	AbstractPiece[][] myBoard;
+	//AbstractPiece[][] myBoard;
 	
 	public Board() {
-		myBoard = new AbstractPiece[8][8];
+		//myBoard = new AbstractPiece[8][8];
 	}
 	
 	public void initializePieces() {
