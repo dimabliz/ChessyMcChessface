@@ -1,1 +1,3 @@
-public abstarct
+public abstract class AbstractPiece implements Piece {
+	
+}
