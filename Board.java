@@ -1,9 +1,9 @@
 public class Board {
 	
-	Piece[][] myBoard;
+	AbstractPiece[][] myBoard;
 	
 	public Board() {
-		myBoard = new Piece[8][8];
+		myBoard = new AbstractPiece[8][8];
 	}
 	
 	public void initializePieces() {
