@@ -27,8 +27,36 @@ public class Board {
 		myBoard[0][5] = new Bishop(PieceColor.Black, new Point(0, 5)); //top right bishop
 		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
 		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7)); //top right rook
+		
+		initializePawns(1, PieceColor.Black);
+		
+		// set up white major pieces
+		myBoard[7][0] = new Rook(PieceColor.White, new Point(7, 0)); //bottom left rook
+		myBoard[7][1] = new Knight(PieceColor.White, new Point(7, 1)); //bottom left knight
+		myBoard[7][2] = new Bishop(PieceColor.White, new Point(7, 2)); //bottom left bishop
+		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3)); //bottom queen
+		myBoard[7][4] = new King(PieceColor.White, new Point(7, 4)); //bottom king
+		myBoard[7][5] = new Bishop(PieceColor.White, new Point(7, 5)); //bottom right bishop
+		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
+		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7)); //bottom right rook
+		
+		initializePawns(6, PieceColor.White);
 	}
 	
+	/**
+	 * Initializes one full row with pawns provided the color.
+	 * @param row
+	 * @param color
+	 */
+	private void initializePawns(int row, PieceColor color) {
+		for(int i = 0; i < 8; i++) {
+			myBoard[row][i] = new Pawn(color, new Point(row, i));
+		}
+	}
+	
+	/**
+	 * Prints the current state of the board.
+	 */
 	public void printBoard() {
 		for(Piece[] row : myBoard) {
 			System.out.print("|");
