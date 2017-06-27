@@ -1,8 +1,13 @@
 package Pieces;
 import Enums.PieceColor;
+import Enums.PiecePoints;
 
 public class Bishop extends AbstractPiece { 
-	public Bishop() {
-		super(PieceColor.White);
+	public Bishop(PieceColor theColor) {
+		super(theColor, PiecePoints.BISHOP);
+	}
+	
+	public String toString() {
+		return super.toString() + "B";
 	}
 }

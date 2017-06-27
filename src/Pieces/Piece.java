@@ -7,5 +7,4 @@ public interface Piece {
 	int getPointValue();
 	
 	String toString();
-  
 }

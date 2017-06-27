@@ -5,7 +5,8 @@ public enum PiecePoints {
     KNIGHT(3),
     BISHOP(3),
     ROOK(5),
-    QUEEN(9);
+    QUEEN(9),
+    KING(1000);
     
     private final int myValue;
     
@@ -13,7 +14,7 @@ public enum PiecePoints {
       myValue = theValue;
     }
     
-    int getValue() {
+    public int getValue() {
       return myValue;
     }
 }
