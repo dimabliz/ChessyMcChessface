@@ -1,5 +1,7 @@
 package Pieces;
 
+import java.awt.Point;
+
 import Enums.PieceColor;
 import Enums.PiecePoints;
 
@@ -11,9 +13,11 @@ import Enums.PiecePoints;
  */
 public abstract class AbstractPiece implements Piece {
 	/** Color of this piece. */
-	PieceColor myColor;
+	private PieceColor myColor;
 	/** Points this piece is worth. */
-	PiecePoints myPoints;
+	private PiecePoints myPoints;
+	/** My location on board. */
+	private Point myLocation;
 	
 	/**
 	 * Creates a piece.
@@ -21,14 +25,16 @@ public abstract class AbstractPiece implements Piece {
 	 * @param theColor is color of this piece.
 	 * @param thePoints is point value of this piece.
 	 */
-	protected AbstractPiece(PieceColor theColor, PiecePoints thePoints) {
+	protected AbstractPiece(PieceColor theColor, PiecePoints thePoints, Point theLocation) {
 		myColor = theColor;
 		myPoints = thePoints;
+		myLocation = theLocation;
 	}
 	
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public boolean isWhite() {
 		return myColor == PieceColor.White;
 	}
@@ -36,6 +42,7 @@ public abstract class AbstractPiece implements Piece {
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public String toString() {
 		return myColor == PieceColor.White ? "W" : "B";
 	}
@@ -43,7 +50,32 @@ public abstract class AbstractPiece implements Piece {
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public int getPointValue() {
 		return myPoints.getValue();
+	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	@Override
+	public Point getLocation() {
+		return (Point) myLocation.clone();
+	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	@Override
+	public int getX() {
+		return (int) myLocation.getX();
+	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	@Override
+	public int getY() {
+		return (int) myLocation.getY();
 	}
 }

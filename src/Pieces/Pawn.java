@@ -1,4 +1,6 @@
 package Pieces;
+import java.awt.Point;
+
 import Enums.PieceColor;
 import Enums.PiecePoints;
 
@@ -14,13 +16,14 @@ public class Pawn extends AbstractPiece {
 	 * 
 	 * @param theColor the color of this pawn.
 	 */
-	public Pawn(PieceColor theColor) {
-		super(theColor, PiecePoints.PAWN);
+	public Pawn(PieceColor theColor, Point theLocation) {
+		super(theColor, PiecePoints.PAWN, theLocation);
 	}
 	
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public String toString() {
 		return super.toString() + "P";
 	}

@@ -1,4 +1,6 @@
 package Pieces;
+import java.awt.Point;
+
 import Enums.PieceColor;
 import Enums.PiecePoints;
 
@@ -14,13 +16,14 @@ public class Queen extends AbstractPiece implements Piece {
 	 * 
 	 * @param theColor is the color of this queen.
 	 */
-	public Queen(PieceColor theColor) {
-		super(theColor, PiecePoints.QUEEN);
+	public Queen(PieceColor theColor, Point theLocation) {
+		super(theColor, PiecePoints.QUEEN, theLocation);
 	}
 	
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public String toString() {
 		return super.toString() + "Q";
 	}
