@@ -1,5 +1,7 @@
 package Pieces;
 
+import java.awt.Point;
+
 /**
  * Piece interface.
  * 
@@ -27,4 +29,25 @@ public interface Piece {
 	 * @return visual representation of this piece.
 	 */
 	String toString();
+	
+	/**
+	 * Returns the location of this piece.
+	 * 
+	 * @return the location of this piece.
+	 */
+	Point getLocation();
+	
+	/**
+	 * Returns x location of this piece.
+	 * 
+	 * @return x location of this piece.
+	 */
+	int getX();
+	
+	/**
+	 * Returns y location of this piece.
+	 * 
+	 * @return y location of this piece.
+	 */
+	int getY();
 }

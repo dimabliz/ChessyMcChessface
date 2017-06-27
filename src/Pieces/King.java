@@ -1,4 +1,6 @@
 package Pieces;
+import java.awt.Point;
+
 import Enums.PieceColor;
 import Enums.PiecePoints;
 /**
@@ -13,8 +15,8 @@ public class King extends AbstractPiece {
 	 * 
 	 * @param theColor of this king.
 	 */
-	public King(PieceColor theColor) {
-		super(theColor, PiecePoints.KING);
+	public King(PieceColor theColor, Point theLocation) {
+		super(theColor, PiecePoints.KING, theLocation);
 	}
 	
 	/**
