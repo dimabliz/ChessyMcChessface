@@ -1,5 +1,6 @@
 package Pieces;
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
 import Enums.PieceColor;
@@ -27,7 +28,21 @@ public class Knight extends AbstractPiece {
 	 * @return 
 	 */
 	public List<Point> getAvailableMoves() {
-		return null;
+		List<Point> moves = new ArrayList<Point>();
+		
+		// 8 available moves to the knight
+		moves.add(new Point(myLocation.x-1, myLocation.y-2));
+		moves.add(new Point(myLocation.x-2, myLocation.y-1));
+		moves.add(new Point(myLocation.x+1, myLocation.y-2));
+		moves.add(new Point(myLocation.x+2, myLocation.y-1));
+		moves.add(new Point(myLocation.x-2, myLocation.y+1));
+		moves.add(new Point(myLocation.x-1, myLocation.y+2));
+		moves.add(new Point(myLocation.x+1, myLocation.y+2));
+		moves.add(new Point(myLocation.x+2, myLocation.y+1));
+		
+		refineBounds(moves);
+		
+		return moves;
 	}
 	
 	/**

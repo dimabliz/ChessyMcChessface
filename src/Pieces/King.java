@@ -1,7 +1,6 @@
 package Pieces;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import Enums.PieceColor;
@@ -46,21 +45,21 @@ public class King extends AbstractPiece {
 		return moves;
 	}
 	
-	/**
-	 * Private helper method to get rid of the available moves that
-	 * are out of bounds of the board.
-	 * 
-	 * @return refined list
-	 */
-	private void refineBounds(List<Point> moves) {
-		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
-		    Point currentPoint = iterator.next();
-		    if (currentPoint.x < 0 || currentPoint.x > 7 
-		    		|| currentPoint.y < 0 || currentPoint.y > 7) {
-		        iterator.remove();
-		    }
-		}
-	}
+//	/**
+//	 * Private helper method to get rid of the available moves that
+//	 * are out of bounds of the board.
+//	 * 
+//	 * @return refined list
+//	 */
+//	private void refineBounds(List<Point> moves) {
+//		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+//		    Point currentPoint = iterator.next();
+//		    if (currentPoint.x < 0 || currentPoint.x > 7 
+//		    		|| currentPoint.y < 0 || currentPoint.y > 7) {
+//		        iterator.remove();
+//		    }
+//		}
+//	}
 	
 	/**
 	 * {@inheritDoc Piece.java}

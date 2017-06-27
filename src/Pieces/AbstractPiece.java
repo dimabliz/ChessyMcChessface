@@ -1,6 +1,8 @@
 package Pieces;
 
 import java.awt.Point;
+import java.util.Iterator;
+import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
@@ -29,6 +31,22 @@ public abstract class AbstractPiece implements Piece {
 		myColor = theColor;
 		myPoints = thePoints;
 		myLocation = theLocation;
+	}
+	
+	/**
+	 * Private helper method to get rid of the available moves that
+	 * are out of bounds of the board.
+	 * 
+	 * @return refined list
+	 */
+	protected void refineBounds(List<Point> moves) {
+		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+		    Point currentPoint = iterator.next();
+		    if (currentPoint.x < 0 || currentPoint.x > 7 
+		    		|| currentPoint.y < 0 || currentPoint.y > 7) {
+		        iterator.remove();
+		    }
+		}
 	}
 	
 	/**
