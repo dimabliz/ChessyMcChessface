@@ -3,12 +3,11 @@ package chess;
 import java.awt.Point;
 
 import Enums.PieceColor;
-import Pieces.Piece;
 import Pieces.*;
 
 public class Board {
 	
-	Piece[][] myBoard;
+	private Piece[][] myBoard;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
