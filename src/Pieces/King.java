@@ -22,6 +22,7 @@ public class King extends AbstractPiece {
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public String toString() {
 		return super.toString() + "K";
 	}

@@ -23,6 +23,7 @@ public class Queen extends AbstractPiece implements Piece {
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public String toString() {
 		return super.toString() + "Q";
 	}

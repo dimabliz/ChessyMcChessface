@@ -23,6 +23,7 @@ public class Pawn extends AbstractPiece {
 	/**
 	 * {@inheritDoc Piece.java}
 	 */
+	@Override
 	public String toString() {
 		return super.toString() + "P";
 	}
