@@ -35,24 +35,32 @@ public class Rook extends AbstractPiece {
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.y-i > 0) 
 				moves.add(new Point(myLocation.x, myLocation.y-i));
+			else
+				break;
 		}
 		
 		//down squares
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.y+i < 8) 
 				moves.add(new Point(myLocation.x, myLocation.y+i));
+			else
+				break;
 		}
 
 		//left squares
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x-i > 0) 
 				moves.add(new Point(myLocation.x-1, myLocation.y));
+			else
+				break;
 		}
 		
 		//right squares
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x+i < 8) 
 				moves.add(new Point(myLocation.x+1, myLocation.y));
+			else
+				break;
 		}	
 		
 		return moves;
