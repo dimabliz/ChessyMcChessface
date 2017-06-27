@@ -1,5 +1,6 @@
 package Pieces;
 import java.awt.Point;
+import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
@@ -17,6 +18,16 @@ public class Knight extends AbstractPiece {
 	 */
 	public Knight(PieceColor theColor, Point theLocation) {
 		super(theColor, PiecePoints.KNIGHT, theLocation);
+	}
+	
+	/**
+	 * Returns a list of all the Points to where the knight
+	 * is allowed to move.
+	 * 
+	 * @return 
+	 */
+	public List<Point> getAvailableMoves() {
+		return null;
 	}
 	
 	/**

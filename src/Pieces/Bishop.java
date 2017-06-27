@@ -1,5 +1,6 @@
 package Pieces;
 import java.awt.Point;
+import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
@@ -17,6 +18,16 @@ public class Bishop extends AbstractPiece {
 	 */
 	public Bishop(PieceColor theColor, Point theLocation) {
 		super(theColor, PiecePoints.BISHOP, theLocation);
+	}
+	
+	/**
+	 * Returns a list of all the Points to where the bishop
+	 * is allowed to move.
+	 * 
+	 * @return 
+	 */
+	public List<Point> getAvailableMoves() {
+		return null;
 	}
 	
 	/**

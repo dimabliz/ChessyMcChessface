@@ -13,11 +13,11 @@ import Enums.PiecePoints;
  */
 public abstract class AbstractPiece implements Piece {
 	/** Color of this piece. */
-	private PieceColor myColor;
+	protected PieceColor myColor;
 	/** Points this piece is worth. */
-	private PiecePoints myPoints;
+	protected PiecePoints myPoints;
 	/** My location on board. */
-	private Point myLocation;
+	protected Point myLocation;
 	
 	/**
 	 * Creates a piece.

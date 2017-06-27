@@ -1,5 +1,6 @@
 package Pieces;
 import java.awt.Point;
+import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
@@ -18,6 +19,16 @@ public class Rook extends AbstractPiece {
 	 */
 	public Rook(PieceColor theColor, Point theLocation) {
 		super(theColor, PiecePoints.ROOK, theLocation);
+	}
+	
+	/**
+	 * Returns a list of all the Points to where the rook
+	 * is allowed to move.
+	 * 
+	 * @return 
+	 */
+	public List<Point> getAvailableMoves() {
+		return null;
 	}
 	
 	/**
