@@ -30,9 +30,6 @@ public class Bishop extends AbstractPiece {
 	public List<Point> getAvailableMoves() {
 		List<Point> moves = new ArrayList<Point>();
 		
-		// 8 available moves to the king
-		moves.add(new Point(myLocation.x-1, myLocation.y-1));
-		
 		// Two loops below are adding points on this diagonal line:  /
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x+i < 8 && myLocation.y-i > 0) 
