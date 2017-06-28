@@ -50,7 +50,7 @@ public class Rook extends AbstractPiece {
 		//left squares
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x-i >= 0) 
-				moves.add(new Point(myLocation.x-1, myLocation.y));
+				moves.add(new Point(myLocation.x-i, myLocation.y));
 			else
 				break;
 		}
@@ -58,7 +58,7 @@ public class Rook extends AbstractPiece {
 		//right squares
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x+i < 8) 
-				moves.add(new Point(myLocation.x+1, myLocation.y));
+				moves.add(new Point(myLocation.x+i, myLocation.y));
 			else
 				break;
 		}	

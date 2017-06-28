@@ -33,7 +33,7 @@ public class King extends AbstractPiece {
 		// 8 available moves to the king
 		moves.add(new Point(myLocation.x-1, myLocation.y-1));
 		moves.add(new Point(myLocation.x-1, myLocation.y));
-		moves.add(new Point(myLocation.x, myLocation.y+1));
+		moves.add(new Point(myLocation.x-1, myLocation.y+1));
 		moves.add(new Point(myLocation.x, myLocation.y-1));
 		moves.add(new Point(myLocation.x, myLocation.y+1));
 		moves.add(new Point(myLocation.x+1, myLocation.y-1));

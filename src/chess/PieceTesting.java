@@ -14,10 +14,35 @@ public class PieceTesting {
 	
 	public static void main(String[] args) {
 		
-		Pawn pawn = new Pawn(PieceColor.White, new Point(6, 2));
-		insertPoint("O", 6, 2);
-		inserts("X", pawn.getAvailableMoves());
-		System.out.println(pawn.getAvailableMoves().size());
+//		Pawn pawn = new Pawn(PieceColor.White, new Point(6, 2));
+//		insertPoint("O", 6, 2);
+//		inserts("p", pawn.getAvailableMoves());
+//		System.out.println(pawn.getAvailableMoves().size());
+		
+//		King king = new King(PieceColor.White, new Point(0, 7));
+//		insertPoint("O", 0, 7);
+//		inserts("K", king.getAvailableMoves());
+//		System.out.println(king.getAvailableMoves().size());
+		
+//		Knight knight = new Knight(PieceColor.White, new Point(6, 3));
+//		insertPoint("O", 6, 3);
+//		inserts("N", knight.getAvailableMoves());
+//		System.out.println(knight.getAvailableMoves().size());
+		
+//		Bishop bishop = new Bishop(PieceColor.White, new Point(7, 7));
+//		insertPoint("O", 7, 7);
+//		inserts("B", bishop.getAvailableMoves());
+//		System.out.println(bishop.getAvailableMoves().size());
+		
+//		Rook rook = new Rook(PieceColor.White, new Point(0, 0));
+//		insertPoint("R", 0, 0);
+//		inserts("X", rook.getAvailableMoves());
+//		System.out.println(rook.getAvailableMoves().size());
+		
+		Queen queen = new Queen(PieceColor.White, new Point(1, 1));
+		insertPoint("Q", 1, 1);
+		inserts("X", queen.getAvailableMoves());
+		System.out.println(queen.getAvailableMoves().size());
 		
 		printBoard();
 
