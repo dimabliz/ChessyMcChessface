@@ -32,17 +32,17 @@ public class Bishop extends AbstractPiece {
 		
 		// Two loops below are adding points on this diagonal line:  /
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.x+i < 8 && myLocation.y-i > 0) 
+			if (myLocation.x+i < 8 && myLocation.y-i >= 0) 
 				moves.add(new Point(myLocation.x+i, myLocation.y-i));
 		}
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.x-i > 0 && myLocation.y+i < 8) 
+			if (myLocation.x-i >= 0 && myLocation.y+i < 8) 
 				moves.add(new Point(myLocation.x-i, myLocation.y+i));
 		}
 		
 		//Next two loops are adding points on this diagonal line: \
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.x-i > 0 && myLocation.y-i > 0) 
+			if (myLocation.x-i >= 0 && myLocation.y-i >= 0) 
 				moves.add(new Point(myLocation.x-i, myLocation.y-i));
 		}
 		for(int i = 1; i < 8; i++) {
