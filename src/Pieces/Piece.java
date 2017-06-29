@@ -1,6 +1,7 @@
 package Pieces;
 
 import java.awt.Point;
+import java.util.List;
 
 /**
  * Piece interface.
@@ -15,6 +16,14 @@ public interface Piece {
 	 * @return true if this piece is white, false otherwise.
 	 */
 	boolean isWhite();
+	
+	/**
+	 * Returns a list of all the Points to where the current
+	 * piece is allowed to move.
+	 * 
+	 * @return 
+	 */
+	List<Point> getAvailableMoves();
 	
 	/**
 	 * Returns point value of this piece.
