@@ -33,33 +33,32 @@ public class Pawn extends AbstractPiece {
 		
 		//white pawns move up the board
 		if (myColor == PieceColor.White) {
-			if (myLocation.y-1 >= 0) { // one square up
-				moves.add(new Point(myLocation.x, myLocation.y-1));
+			if (myLocation.x-1 >= 0) { // one square up
+				moves.add(new Point(myLocation.y, myLocation.x-1));
 			}
-			if (myLocation.y-2 >= 0) { //two squares up
-				moves.add(new Point(myLocation.x, myLocation.y-2));
+			if (myLocation.x-2 >= 0) { //two squares up
+				moves.add(new Point(myLocation.y, myLocation.x-2));
 			}
-			if (myLocation.y-1 >= 0 && myLocation.x-1 >= 0) { //take left
-				moves.add(new Point(myLocation.x-1, myLocation.y-1));
+			if (myLocation.x-1 >= 0 && myLocation.y-1 >= 0) { //take left
+				moves.add(new Point(myLocation.y-1, myLocation.x-1));
 			}
-			if (myLocation.y-1 >= 0 && myLocation.x+1 < 8) { //take right
-				moves.add(new Point(myLocation.x+1, myLocation.y-1));
+			if (myLocation.x-1 >= 0 && myLocation.y+1 <= 7) { //take right
+				moves.add(new Point(myLocation.y+1, myLocation.x-1));
 			}
 		} 
-		
 		//black pawns move down the board
 		else {
-			if (myLocation.y+1 < 8) { // one square down
-				moves.add(new Point(myLocation.x, myLocation.y+1));
+			if (myLocation.x+1 <= 7) { // one square down
+				moves.add(new Point(myLocation.y, myLocation.x+1));
 			}
-			if (myLocation.y+2 < 8) { //two squares down
-				moves.add(new Point(myLocation.x, myLocation.y+2));
+			if (myLocation.x+2 <= 7) { //two squares down
+				moves.add(new Point(myLocation.y, myLocation.x+2));
 			}
-			if (myLocation.y+1 < 8 && myLocation.x-1 >= 0) { //take right
-				moves.add(new Point(myLocation.x-1, myLocation.y+1));
+			if (myLocation.x+1 <= 7 && myLocation.y-1 >= 0) { //take right
+				moves.add(new Point(myLocation.y-1, myLocation.x+1));
 			}
-			if (myLocation.y+1 < 8 && myLocation.x+1 < 8) { //take left
-				moves.add(new Point(myLocation.x+1, myLocation.y+1));
+			if (myLocation.x+1 <= 7 && myLocation.y+1 <= 7) { //take left
+				moves.add(new Point(myLocation.y+1, myLocation.x+1));
 			}
 		}
 		

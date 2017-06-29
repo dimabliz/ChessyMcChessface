@@ -17,8 +17,28 @@ public class PieceTesting {
 		
 		board.initializePieces();
 		board.printBoard();
-		board.printAllowedMoves(new Point(1, 6));
+		printAllBlackPawns();
+		System.out.println("*******************************************************************************\n");
+		printAllWhitePawns();
 
+	}
+	
+	public static void printAllBlackPawns() {
+		Piece pawn;
+		for (int i = 0; i <= 7; i++) {
+			pawn = board.getPiece(1, i);
+			System.out.println("\nNow printing avaliable moves of piece on [1][" + i + "] (" + (char)(i + 65) + "7) which is :" + pawn);
+			board.printAllowedMoves(pawn);			
+		}
+	}
+	
+	public static void printAllWhitePawns() {
+		Piece pawn;
+		for (int i = 0; i <= 7; i++) {
+			pawn = board.getPiece(6, i);
+			System.out.println("\nNow printing avaliable moves of piece on [6][" + i + "] (" + (char)(i + 65) + "2) which is :" + pawn);
+			board.printAllowedMoves(pawn);			
+		}
 	}
 	
 	public static void insertPoint(String what, int x, int y) {

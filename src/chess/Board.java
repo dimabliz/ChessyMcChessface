@@ -38,7 +38,8 @@ public class Board {
 		myBoard[7][4] = new King(PieceColor.White, new Point(7, 4)); //bottom king
 		myBoard[7][5] = new Bishop(PieceColor.White, new Point(7, 5)); //bottom right bishop
 		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
-		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7)); //bottom right rook
+		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7
+				)); //bottom right rook
 		
 		initializePawns(6, PieceColor.White);
 	}
@@ -71,6 +72,19 @@ public class Board {
 	}
 	
 	/**
+	 * Returns a piece on the board. 0,0 is top left, 7,7 is bottom right.
+	 * 
+	 * @return a piece in that coordinate.
+	 */
+	public Piece getPiece(int y, int x) {
+		Piece result = myBoard[y][x];
+		if (result != null)
+			return result;
+		else
+			return null;
+	}
+	
+	/**
 	 * Prints out all of the moves that the Piece at the given point is allowed to make.
 	 * O is the piece.
 	 * X is where it can go.
@@ -79,14 +93,14 @@ public class Board {
 	 * 
 	 * @param piece
 	 */
-	public void printAllowedMoves(Point point) {
+	public void printAllowedMoves(Piece thePiece) {
 		String[][] myPlot = new String[8][8];
-		Piece daPiece = myBoard[point.y][point.x];
-		List<Point> moves = daPiece.getAvailableMoves(myBoard);
-		System.out.println(daPiece.toString() + " " + daPiece.getColor());
+		//Piece daPiece = myBoard[thePiece.getX()][thePiece.getY()];
+		List<Point> moves = thePiece.getAvailableMoves(myBoard);
+		System.out.println(thePiece.toString() + " " + thePiece.getColor());
 		System.out.println(moves.size());
 		
-		myPlot[point.y][point.x] = "O";
+		myPlot[thePiece.getX()][thePiece.getY()] = "O";
 		for(Point p : moves) {
 			myPlot[p.y][p.x] = "X";
 		}
