@@ -17,10 +17,12 @@ public class PieceTesting {
 		
 		board.initializePieces();
 		board.printBoard();
-		printAllBlackPawns();
-		System.out.println("*******************************************************************************\n");
-		printAllWhitePawns();
-
+//		printAllBlackPawns();
+//		System.out.println("*******************************************************************************\n");
+//		printAllWhitePawns();
+		Piece rook = board.getPiece(7, 0);
+		System.out.println(rook);
+		board.printAllowedMoves(rook);
 	}
 	
 	public static void printAllBlackPawns() {

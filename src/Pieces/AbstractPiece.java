@@ -57,13 +57,13 @@ public abstract class AbstractPiece implements Piece {
 	 * @param board
 	 */
 	protected void refineByPieces(List<Point> moves, final Piece[][] board) {
-//		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
-//		    Point currentPoint = iterator.next();
-//		    if (board[currentPoint.y][currentPoint.x] != null 
-//		    		&& board[currentPoint.y][currentPoint.x].getColor() == myColor) {
-//		        iterator.remove();
-//		    }
-//		}
+		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+		    Point currentPoint = iterator.next();
+		    if (board[currentPoint.y][currentPoint.x] != null 
+		    		&& board[currentPoint.y][currentPoint.x].getColor() == myColor) {
+		        iterator.remove();
+		    }
+		}
 	}
 	
 	/**
