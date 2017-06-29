@@ -50,11 +50,35 @@ public abstract class AbstractPiece implements Piece {
 	}
 	
 	/**
+	 * Removes from available moves, if the square contains a piece of the same color.
+	 * Used by King and Knight.
+	 * 
+	 * @param moves
+	 * @param board
+	 */
+	protected void refineByPieces(List<Point> moves, final Piece[][] board) {
+		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+		    Point currentPoint = iterator.next();
+		    if (board[currentPoint.y][currentPoint.x] != null 
+		    		&& board[currentPoint.y][currentPoint.x].getColor() == myColor) {
+		        iterator.remove();
+		    }
+		}
+	}
+	
+	/**
 	 * {@inheritDoc Piece.java}
 	 */
 	@Override
 	public boolean isWhite() {
 		return myColor == PieceColor.White;
+	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	public PieceColor getColor() {
+		return myColor;
 	}
   
 	/**

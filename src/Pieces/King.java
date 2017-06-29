@@ -45,6 +45,25 @@ public class King extends AbstractPiece {
 		return moves;
 	}
 	
+	public List<Point> getAvailableMoves(final Piece[][] board) {
+		List<Point> moves = new ArrayList<Point>();
+		
+		// 8 available moves to the king
+		moves.add(new Point(myLocation.x-1, myLocation.y-1));
+		moves.add(new Point(myLocation.x-1, myLocation.y));
+		moves.add(new Point(myLocation.x-1, myLocation.y+1));
+		moves.add(new Point(myLocation.x, myLocation.y-1));
+		moves.add(new Point(myLocation.x, myLocation.y+1));
+		moves.add(new Point(myLocation.x+1, myLocation.y-1));
+		moves.add(new Point(myLocation.x+1, myLocation.y));
+		moves.add(new Point(myLocation.x+1, myLocation.y+1));
+		
+		refineBounds(moves);
+		refineByPieces(moves, board);
+		
+		return moves;
+	}
+	
 //	/**
 //	 * Private helper method to get rid of the available moves that
 //	 * are out of bounds of the board.

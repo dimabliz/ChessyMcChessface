@@ -3,6 +3,8 @@ package Pieces;
 import java.awt.Point;
 import java.util.List;
 
+import Enums.PieceColor;
+
 /**
  * Piece interface.
  * 
@@ -16,6 +18,13 @@ public interface Piece {
 	 * @return true if this piece is white, false otherwise.
 	 */
 	boolean isWhite();
+	
+	/**
+	 * Returns the color of the piece.
+	 * 
+	 * @return
+	 */
+	PieceColor getColor();
 	
 	/**
 	 * Returns a list of all the Points to where the current
