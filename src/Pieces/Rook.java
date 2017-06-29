@@ -28,14 +28,21 @@ public class Rook extends AbstractPiece {
 	 * 
 	 * @return 
 	 */
-	public List<Point> getAvailableMoves() {
+	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
 		
 		//up squares
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.y-i >= 0) 
-				moves.add(new Point(myLocation.x, myLocation.y-i));
-			else
+			if (myLocation.y-i >= 0) { // checking bound
+				if (board[myLocation.y-i][myLocation.x] != null)  { //piece at that location
+					if (board[myLocation.y-i][myLocation.x].getColor() != myColor) {
+						moves.add(new Point(myLocation.x, myLocation.y-i)); //different color piece (legal move)
+					}
+					break;
+				} else {
+					moves.add(new Point(myLocation.x, myLocation.y-i));
+				}
+			} else
 				break;
 		}
 		

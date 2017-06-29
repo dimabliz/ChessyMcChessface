@@ -28,7 +28,7 @@ public class Pawn extends AbstractPiece {
 	 * 
 	 * @return 
 	 */
-	public List<Point> getAvailableMoves() {
+	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
 		
 		//white pawns move up the board
@@ -62,6 +62,8 @@ public class Pawn extends AbstractPiece {
 				moves.add(new Point(myLocation.x+1, myLocation.y+1));
 			}
 		}
+		
+		refineByPieces(moves, board);
 		
 		return moves;
 	}

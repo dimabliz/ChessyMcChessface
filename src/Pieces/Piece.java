@@ -32,7 +32,7 @@ public interface Piece {
 	 * 
 	 * @return 
 	 */
-	List<Point> getAvailableMoves();
+	List<Point> getAvailableMoves(final Piece[][] board);
 	
 	/**
 	 * Returns point value of this piece.

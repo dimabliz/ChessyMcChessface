@@ -27,24 +27,6 @@ public class King extends AbstractPiece {
 	 * 
 	 * @return 
 	 */
-	public List<Point> getAvailableMoves() {
-		List<Point> moves = new ArrayList<Point>();
-		
-		// 8 available moves to the king
-		moves.add(new Point(myLocation.x-1, myLocation.y-1));
-		moves.add(new Point(myLocation.x-1, myLocation.y));
-		moves.add(new Point(myLocation.x-1, myLocation.y+1));
-		moves.add(new Point(myLocation.x, myLocation.y-1));
-		moves.add(new Point(myLocation.x, myLocation.y+1));
-		moves.add(new Point(myLocation.x+1, myLocation.y-1));
-		moves.add(new Point(myLocation.x+1, myLocation.y));
-		moves.add(new Point(myLocation.x+1, myLocation.y+1));
-		
-		refineBounds(moves);
-		
-		return moves;
-	}
-	
 	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
 		
