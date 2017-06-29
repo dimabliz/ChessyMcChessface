@@ -11,6 +11,7 @@ import Pieces.*;
 public class PieceTesting {
 
 	public static String[][] myTestBoard = new String[8][8];
+	public static Board board = new Board();
 	
 	public static void main(String[] args) {
 		
@@ -44,7 +45,11 @@ public class PieceTesting {
 //		inserts("X", queen.getAvailableMoves());
 //		System.out.println(queen.getAvailableMoves().size());
 		
-		printBoard();
+		//printBoard();
+		
+		board.initializePieces();
+		board.printBoard();
+		board.printAllowedMoves(new Point(1, 6));
 
 	}
 	

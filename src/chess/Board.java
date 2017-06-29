@@ -1,5 +1,6 @@
 package chess;
 
+import java.util.List;
 import java.awt.Point;
 
 import Enums.PieceColor;
@@ -64,6 +65,39 @@ public class Board {
 					System.out.print("  |");
 				else
 					System.out.print(piece.toString() + "|");
+			}
+			System.out.println();
+		}
+	}
+	
+	/**
+	 * Prints out all of the moves that the Piece at the given point is allowed to make.
+	 * O is the piece.
+	 * X is where it can go.
+	 * 
+	 * @Before A piece has to exist at that point or null pointer exception will be thrown.
+	 * 
+	 * @param piece
+	 */
+	public void printAllowedMoves(Point point) {
+		String[][] myPlot = new String[8][8];
+		Piece daPiece = myBoard[point.y][point.x];
+		List<Point> moves = daPiece.getAvailableMoves(myBoard);
+		System.out.println(daPiece.toString() + " " + daPiece.getColor());
+		System.out.println(moves.size());
+		
+		myPlot[point.y][point.x] = "O";
+		for(Point p : moves) {
+			myPlot[p.y][p.x] = "X";
+		}
+		
+		for(String[] row : myPlot) {
+			System.out.print("|");
+			for(String piece : row) {
+				if (piece == null)
+					System.out.print(" |");
+				else
+					System.out.print(piece + "|");
 			}
 			System.out.println();
 		}
