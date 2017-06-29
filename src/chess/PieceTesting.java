@@ -39,10 +39,10 @@ public class PieceTesting {
 //		inserts("X", rook.getAvailableMoves());
 //		System.out.println(rook.getAvailableMoves().size());
 		
-		Queen queen = new Queen(PieceColor.White, new Point(1, 1));
-		insertPoint("Q", 1, 1);
-		inserts("X", queen.getAvailableMoves());
-		System.out.println(queen.getAvailableMoves().size());
+//		Queen queen = new Queen(PieceColor.White, new Point(1, 1));
+//		insertPoint("Q", 1, 1);
+//		inserts("X", queen.getAvailableMoves());
+//		System.out.println(queen.getAvailableMoves().size());
 		
 		printBoard();
 

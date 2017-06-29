@@ -28,7 +28,7 @@ public class Queen extends AbstractPiece implements Piece {
 	 * 
 	 * @return 
 	 */
-	public List<Point> getAvailableMoves() {
+	public List<Point> getAvailableMoves(final Piece[][] board) {
 		
 		// Next four for loops are taken from the bishop's getAvailableMoves method
 		List<Point> moves = new ArrayList<Point>();

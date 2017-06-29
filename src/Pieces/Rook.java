@@ -48,28 +48,50 @@ public class Rook extends AbstractPiece {
 		
 		//down squares
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.y+i < 8) 
-				moves.add(new Point(myLocation.x, myLocation.y+i));
+			if (myLocation.y+i < 8) {
+				if (board[myLocation.y+i][myLocation.x] != null)  { //piece at that location
+					if (board[myLocation.y+i][myLocation.x].getColor() != myColor) {
+						moves.add(new Point(myLocation.x, myLocation.y+i)); //different color piece (legal move)
+					}
+					break;
+				} else {
+					moves.add(new Point(myLocation.x, myLocation.y+i));
+				}
+			}
 			else
 				break;
 		}
 
 		//left squares
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.x-i >= 0) 
-				moves.add(new Point(myLocation.x-i, myLocation.y));
+			if (myLocation.x-i >= 0) {
+				if (board[myLocation.y][myLocation.x-i] != null)  { //piece at that location
+					if (board[myLocation.y][myLocation.x-i].getColor() != myColor) {
+						moves.add(new Point(myLocation.x-i, myLocation.y)); //different color piece (legal move)
+					}
+					break;
+				} else {
+					moves.add(new Point(myLocation.x-i, myLocation.y));
+				}
+			}
 			else
 				break;
 		}
 		
 		//right squares
 		for(int i = 1; i < 8; i++) {
-			if (myLocation.x+i < 8) 
-				moves.add(new Point(myLocation.x+i, myLocation.y));
-			else
+			if (myLocation.x+i < 8) {
+				if (board[myLocation.y][myLocation.x+i] != null)  { //piece at that location
+					if (board[myLocation.y][myLocation.x+i].getColor() != myColor) {
+						moves.add(new Point(myLocation.x+i, myLocation.y)); //different color piece (legal move)
+					}
+					break;
+				} else {
+					moves.add(new Point(myLocation.x+i, myLocation.y));
+				}
+			} else
 				break;
 		}	
-		
 		return moves;
 	}
 	

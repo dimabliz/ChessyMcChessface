@@ -27,7 +27,7 @@ public class Bishop extends AbstractPiece {
 	 * 
 	 * @return 
 	 */
-	public List<Point> getAvailableMoves() {
+	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
 		
 		// Two loops below are adding points on this diagonal line:  /
