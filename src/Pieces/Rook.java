@@ -31,10 +31,6 @@ public class Rook extends AbstractPiece {
 	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
 		
-//		moves.add(new Point(myLocation.y, myLocation.x-1));
-//		moves.add(new Point(myLocation.y-1, myLocation.x-1));
-//		moves.add(new Point(myLocation.y+1, myLocation.x-1));
-		
 		//up squares
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x-i >= 0) { // checking bound
