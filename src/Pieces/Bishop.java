@@ -30,15 +30,11 @@ public class Bishop extends AbstractPiece {
 	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
 		
-//		moves.add(new Point(myLocation.y, myLocation.x-1));
-//		moves.add(new Point(myLocation.y-1, myLocation.x-1));
-//		moves.add(new Point(myLocation.y+1, myLocation.x-1));
-		
 		// Two loops below are adding points on this diagonal line:  /
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.y+i < 8 && myLocation.x-i >= 0) {
-				if (board[myLocation.y+i][myLocation.x-i] != null)  { //piece at that location
-					if (board[myLocation.y+i][myLocation.x-i].getColor() != myColor) {
+				if (board[myLocation.x-i][myLocation.y+i] != null)  { //piece at that location
+					if (board[myLocation.x-i][myLocation.y+i].getColor() != myColor) {
 						moves.add(new Point(myLocation.y+i, myLocation.x-i)); //different color piece (legal move)
 					}
 					break;
@@ -49,8 +45,8 @@ public class Bishop extends AbstractPiece {
 		}
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.y-i >= 0 && myLocation.x-i >= 0) {
-				if (board[myLocation.y-i][myLocation.x-i] != null)  { //piece at that location
-					if (board[myLocation.y-i][myLocation.x-i].getColor() != myColor) {
+				if (board[myLocation.x-i][myLocation.y-i] != null)  { //piece at that location
+					if (board[myLocation.x-i][myLocation.y-i].getColor() != myColor) {
 						moves.add(new Point(myLocation.y-i, myLocation.x-i)); //different color piece (legal move)
 					}
 					break;
@@ -63,11 +59,11 @@ public class Bishop extends AbstractPiece {
 		//Next two loops are adding points on this diagonal line: \
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.y-i >= 0 && myLocation.x+i < 8) {
-				//if (board[myLocation.x+i][myLocation.y-i] != null)  { //piece at that location
-				if (board[myLocation.y-i][myLocation.x+i] != null)  {
+				if (board[myLocation.x+i][myLocation.y-i] != null)  { //piece at that location
+				//if (board[myLocation.y-i][myLocation.x+i] != null)  {
 					System.out.println("Piece esists");
 					System.out.println("Here i = " + i + " " + board[myLocation.y-i][myLocation.x+i]);
-					if (board[myLocation.y-i][myLocation.x+i].getColor() != myColor) {
+					if (board[myLocation.x+i][myLocation.y-i].getColor() != myColor) {
 						moves.add(new Point(myLocation.y-i, myLocation.x+i)); //different color piece (legal move)
 					}
 					break;
@@ -78,8 +74,8 @@ public class Bishop extends AbstractPiece {
 		}
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.x+i < 8 && myLocation.y+i < 8) {
-				if (board[myLocation.y+i][myLocation.x+i] != null)  { //piece at that location
-					if (board[myLocation.y+i][myLocation.x+i].getColor() != myColor) {
+				if (board[myLocation.x+i][myLocation.y+i] != null)  { //piece at that location
+					if (board[myLocation.x+i][myLocation.y+i].getColor() != myColor) {
 						moves.add(new Point(myLocation.y+i, myLocation.x+i)); //different color piece (legal move)
 					}
 					break;

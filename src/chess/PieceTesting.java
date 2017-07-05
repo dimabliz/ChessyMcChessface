@@ -16,11 +16,11 @@ public class PieceTesting {
 	public static void main(String[] args) {
 		
 		board.initializePieces();
-		//Piece kinginit = new Bishop(PieceColor.White, new Point(3, 5));
-		//board.placePiece(kinginit, 3, 5);
+		Piece kinginit = new Rook(PieceColor.White, new Point(3, 5));
+		board.placePiece(kinginit, 3, 5);
 		board.printBoard();
 		
-		Piece king = board.getPiece(7, 2);
+		Piece king = board.getPiece(3, 5);
 		System.out.println(king);
 		board.printAllowedMoves(king);
 	}
