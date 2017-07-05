@@ -28,7 +28,7 @@ public class Board {
 		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
 		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7)); //top right rook
 		
-		initializePawns(1, PieceColor.Black);
+		//initializePawns(1, PieceColor.Black);
 		
 		// set up white major pieces
 		myBoard[7][0] = new Rook(PieceColor.White, new Point(7, 0)); //bottom left rook
@@ -38,10 +38,9 @@ public class Board {
 		myBoard[7][4] = new King(PieceColor.White, new Point(7, 4)); //bottom king
 		myBoard[7][5] = new Bishop(PieceColor.White, new Point(7, 5)); //bottom right bishop
 		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
-		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7
-				)); //bottom right rook
+		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7)); //bottom right rook
 		
-		initializePawns(6, PieceColor.White);
+		//initializePawns(6, PieceColor.White);
 	}
 	
 	/**

@@ -20,9 +20,9 @@ public class PieceTesting {
 //		printAllBlackPawns();
 //		System.out.println("*******************************************************************************\n");
 //		printAllWhitePawns();
-		Piece rook = board.getPiece(7, 0);
-		System.out.println(rook);
-		board.printAllowedMoves(rook);
+		Piece king = board.getPiece(0, 4);
+		System.out.println(king);
+		board.printAllowedMoves(king);
 	}
 	
 	public static void printAllBlackPawns() {
