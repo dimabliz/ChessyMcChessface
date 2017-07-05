@@ -31,14 +31,17 @@ public class Knight extends AbstractPiece {
 		List<Point> moves = new ArrayList<Point>();
 		
 		// 8 available moves to the knight
-		moves.add(new Point(myLocation.x-1, myLocation.y-2));
-		moves.add(new Point(myLocation.x-2, myLocation.y-1));
-		moves.add(new Point(myLocation.x+1, myLocation.y-2));
-		moves.add(new Point(myLocation.x+2, myLocation.y-1));
-		moves.add(new Point(myLocation.x-2, myLocation.y+1));
-		moves.add(new Point(myLocation.x-1, myLocation.y+2));
-		moves.add(new Point(myLocation.x+1, myLocation.y+2));
-		moves.add(new Point(myLocation.x+2, myLocation.y+1));
+		moves.add(new Point(myLocation.y-2, myLocation.x-1));
+		moves.add(new Point(myLocation.y-1, myLocation.x-2));
+		
+		moves.add(new Point(myLocation.y+2, myLocation.x-1));
+		moves.add(new Point(myLocation.y+1, myLocation.x-2));
+		
+		moves.add(new Point(myLocation.y-2, myLocation.x+1));
+		moves.add(new Point(myLocation.y-1, myLocation.x+2));
+		
+		moves.add(new Point(myLocation.y+2, myLocation.x+1));
+		moves.add(new Point(myLocation.y+1, myLocation.x+2));
 		
 		refineBounds(moves);
 		refineByPieces(moves, board);

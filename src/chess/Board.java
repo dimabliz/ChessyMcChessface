@@ -14,6 +14,10 @@ public class Board {
 		myBoard = new Piece[8][8];
 	}
 	
+	public void placePiece(Piece piece, int x, int y) {
+		myBoard[x][y] = piece;
+	}
+	
 	/**
 	 * Method to set the board into the beginning of the state of the game.
 	 */

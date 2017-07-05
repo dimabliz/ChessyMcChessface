@@ -15,12 +15,12 @@ public class PieceTesting {
 	
 	public static void main(String[] args) {
 		
-		board.initializePieces();
+		//board.initializePieces();
+		Piece kinginit = new Bishop(PieceColor.White, new Point(3, 5));
+		board.placePiece(kinginit, 3, 5);
 		board.printBoard();
-//		printAllBlackPawns();
-//		System.out.println("*******************************************************************************\n");
-//		printAllWhitePawns();
-		Piece king = board.getPiece(0, 4);
+		
+		Piece king = board.getPiece(3, 5);
 		System.out.println(king);
 		board.printAllowedMoves(king);
 	}
