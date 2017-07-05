@@ -60,9 +60,6 @@ public class Bishop extends AbstractPiece {
 		for(int i = 1; i < 8; i++) {
 			if (myLocation.y-i >= 0 && myLocation.x+i < 8) {
 				if (board[myLocation.x+i][myLocation.y-i] != null)  { //piece at that location
-				//if (board[myLocation.y-i][myLocation.x+i] != null)  {
-					System.out.println("Piece esists");
-					System.out.println("Here i = " + i + " " + board[myLocation.y-i][myLocation.x+i]);
 					if (board[myLocation.x+i][myLocation.y-i].getColor() != myColor) {
 						moves.add(new Point(myLocation.y-i, myLocation.x+i)); //different color piece (legal move)
 					}

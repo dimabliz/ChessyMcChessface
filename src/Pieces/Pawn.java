@@ -13,6 +13,12 @@ import Enums.PiecePoints;
  * @author Maksimv@uw.edu
  */
 public class Pawn extends AbstractPiece { 
+	
+	/**
+	 * If the piece is about to make a first move.
+	 */
+	private boolean firstMove = true;
+	
 	/**
 	 * Creates a pawn of this color.
 	 * 
@@ -36,14 +42,22 @@ public class Pawn extends AbstractPiece {
 			if (myLocation.x-1 >= 0) { // one square up
 				moves.add(new Point(myLocation.y, myLocation.x-1));
 			}
-			if (myLocation.x-2 >= 0) { //two squares up
-				moves.add(new Point(myLocation.y, myLocation.x-2));
+			if (firstMove) {
+				if (myLocation.x-2 >= 0) { //two squares up
+					moves.add(new Point(myLocation.y, myLocation.x-2));
+				}
 			}
 			if (myLocation.x-1 >= 0 && myLocation.y-1 >= 0) { //take left
-				moves.add(new Point(myLocation.y-1, myLocation.x-1));
+				if (board[myLocation.x-1][myLocation.y-1] != null 
+						&& board[myLocation.x-1][myLocation.y-1].getColor() != myColor) {
+					moves.add(new Point(myLocation.y-1, myLocation.x-1));
+				}
 			}
 			if (myLocation.x-1 >= 0 && myLocation.y+1 <= 7) { //take right
-				moves.add(new Point(myLocation.y+1, myLocation.x-1));
+				if (board[myLocation.x-1][myLocation.y+1] != null 
+						&& board[myLocation.x-1][myLocation.y+1].getColor() != myColor) {
+					moves.add(new Point(myLocation.y+1, myLocation.x-1));
+				}
 			}
 		} 
 		//black pawns move down the board
@@ -51,14 +65,22 @@ public class Pawn extends AbstractPiece {
 			if (myLocation.x+1 <= 7) { // one square down
 				moves.add(new Point(myLocation.y, myLocation.x+1));
 			}
-			if (myLocation.x+2 <= 7) { //two squares down
-				moves.add(new Point(myLocation.y, myLocation.x+2));
+			if (firstMove) {
+				if (myLocation.x+2 <= 7) { //two squares down
+					moves.add(new Point(myLocation.y, myLocation.x+2));
+				}
 			}
 			if (myLocation.x+1 <= 7 && myLocation.y-1 >= 0) { //take right
-				moves.add(new Point(myLocation.y-1, myLocation.x+1));
+				if (board[myLocation.x+1][myLocation.y-1] != null 
+						&& board[myLocation.x+1][myLocation.y-1].getColor() != myColor) {
+					moves.add(new Point(myLocation.y-1, myLocation.x+1));
+				}
 			}
 			if (myLocation.x+1 <= 7 && myLocation.y+1 <= 7) { //take left
-				moves.add(new Point(myLocation.y+1, myLocation.x+1));
+				if (board[myLocation.x+1][myLocation.y+1] != null 
+						&& board[myLocation.x+1][myLocation.y+1].getColor() != myColor) {
+					moves.add(new Point(myLocation.y+1, myLocation.x+1));
+				}
 			}
 		}
 		

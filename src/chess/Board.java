@@ -14,6 +14,12 @@ public class Board {
 		myBoard = new Piece[8][8];
 	}
 	
+	/**
+	 * Place a piece at that x and y. I used it for testing purposes.
+	 * @param piece
+	 * @param x
+	 * @param y
+	 */
 	public void placePiece(Piece piece, int x, int y) {
 		myBoard[x][y] = piece;
 	}
@@ -32,7 +38,7 @@ public class Board {
 		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
 		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7)); //top right rook
 		
-		//initializePawns(1, PieceColor.Black);
+		initializePawns(1, PieceColor.Black);
 		
 		// set up white major pieces
 		myBoard[7][0] = new Rook(PieceColor.White, new Point(7, 0)); //bottom left rook
@@ -44,7 +50,7 @@ public class Board {
 		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
 		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7)); //bottom right rook
 		
-		//initializePawns(6, PieceColor.White);
+		initializePawns(6, PieceColor.White);
 	}
 	
 	/**
