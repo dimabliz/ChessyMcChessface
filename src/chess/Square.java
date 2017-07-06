@@ -2,8 +2,7 @@ package chess;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -27,6 +26,8 @@ public class Square extends JPanel {
 	
 	public void setText(String text) {
 		removeAll();
-		add(new JLabel(text));
+		JLabel label = new JLabel(text);
+		label.setFont(new Font("Serif", Font.PLAIN, 14));
+		add(label);
 	}
 }
