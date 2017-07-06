@@ -27,7 +27,7 @@ public class Square extends JPanel {
 	public void setText(String text) {
 		removeAll();
 		JLabel label = new JLabel(text);
-		label.setFont(new Font("Serif", Font.PLAIN, 14));
+		label.setFont(new Font("Serif", Font.PLAIN, 18));
 		add(label);
 	}
 }

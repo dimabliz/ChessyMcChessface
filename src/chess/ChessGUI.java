@@ -21,8 +21,12 @@ public class ChessGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = -8257636818570539745L;
 	
-	private JPanel board;
+	/**
+	 * the GUI board that holds the squares.
+	 */
+	private JPanel guiboard;
 	private List<Square> squareList;
+	private Board myBoard = new Board();
 
 	public ChessGUI() {
         super("ChessyMcChessface");
@@ -41,7 +45,9 @@ public class ChessGUI extends JFrame {
         add(gamePanel, BorderLayout.NORTH);
         
         setCheckeredColor();
-        getSquare(3, 6);
+        myBoard.initializePieces();
+        
+        initializeNames();
         
         pack();
         setVisible(true);
@@ -55,6 +61,19 @@ public class ChessGUI extends JFrame {
 	 */
 	public Square getSquare(int y, int x) {
 		return squareList.get(y*8 + x);
+	}
+	
+	/**
+	 * To put the names of the pieces inside the Square.
+	 */
+	private void initializeNames() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (myBoard.getPiece(j, i) != null) {
+					getSquare(j, i).setText(myBoard.getPiece(j, i).toString());
+				}
+			}
+		}
 	}
 	
 	/**
@@ -87,19 +106,19 @@ public class ChessGUI extends JFrame {
 	private JPanel createBoard() {
 		squareList = new ArrayList<Square>();
 		
-		board = new JPanel(new GridLayout(8,8));
-		board.setPreferredSize(new Dimension(500, 500));
-		board.setBackground(Color.BLACK);
-		board.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		guiboard = new JPanel(new GridLayout(8,8));
+		guiboard.setPreferredSize(new Dimension(500, 500));
+		guiboard.setBackground(Color.BLACK);
+		guiboard.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		
 		for (int i = 0; i < 64; i++) {
 			Square square = new Square(i);
 			square.addMouseListener(new BoxListener());
-        	board.add(square);
+        	guiboard.add(square);
         	squareList.add(square);
         }
 		
-		return board;
+		return guiboard;
 	}
 	
 	public static class BoxListener extends MouseAdapter {
