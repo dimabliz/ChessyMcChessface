@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -15,6 +17,8 @@ public class ChessGUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -8257636818570539745L;
+	
+	private JPanel board;
 
 	public ChessGUI() {
         super("ChessyMcChessface");
@@ -42,15 +46,24 @@ public class ChessGUI extends JFrame {
 	 */
 	private JPanel createBoard() {
 		
-		JPanel board = new JPanel(new GridLayout(8,8));
+		board = new JPanel(new GridLayout(8,8));
 		board.setPreferredSize(new Dimension(500, 500));
 		board.setBackground(Color.BLACK);
 		board.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 		
 		for (int i = 1; i <= 64; i++) {
-        	board.add(new Square(i));
+			Square square = new Square(i);
+			square.addMouseListener(new BoxListener());
+        	board.add(square);
         }
 		
 		return board;
 	}
+	
+	public static class BoxListener extends MouseAdapter {
+    	public void mouseClicked(MouseEvent me) {
+            Square clickedBox = (Square) me.getSource(); 
+            clickedBox.setBackground(Color.PINK);
+        }
+    }
 }

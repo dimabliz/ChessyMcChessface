@@ -23,14 +23,10 @@ public class Square extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setEnabled(true);
 		setName(Integer.toString(id));	
-		
-		addMouseListener(new BoxListener());
 	}
-
-	public static class BoxListener extends MouseAdapter {
-    	public void mouseClicked(MouseEvent me) {
-            JPanel clickedBox = (JPanel) me.getSource(); 
-            clickedBox.setBackground(Color.RED);  
-        }
-    }
+	
+	public void setText(String text) {
+		removeAll();
+		add(new JLabel(text));
+	}
 }
