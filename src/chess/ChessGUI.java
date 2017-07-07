@@ -18,12 +18,12 @@ import javax.swing.JPanel;
 import Pieces.Piece;
 
 public class ChessGUI extends JFrame {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8257636818570539745L;
-	
+
 	/**
 	 * the GUI board that holds the squares.
 	 */
@@ -32,30 +32,30 @@ public class ChessGUI extends JFrame {
 	private Board myBoard = new Board();
 
 	public ChessGUI() {
-        super("ChessyMcChessface");
+		super("ChessyMcChessface");
 	}
-	
+
 	public void start() {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        setMinimumSize(new Dimension(800, 600));
-        setResizable(false);
-        
-        JPanel gamePanel = new JPanel();
-        gamePanel.setBackground(Color.DARK_GRAY);
-        gamePanel.add(createBoard(), BorderLayout.WEST);
-        add(gamePanel, BorderLayout.NORTH);
-        
-        setCheckeredColor();
-        myBoard.initializePieces();
-        
-        initializeNames();
-                
-        pack();
-        setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+
+		setMinimumSize(new Dimension(800, 600));
+		setResizable(false);
+
+		JPanel gamePanel = new JPanel();
+		gamePanel.setBackground(Color.DARK_GRAY);
+		gamePanel.add(createBoard(), BorderLayout.WEST);
+		add(gamePanel, BorderLayout.NORTH);
+
+		setCheckeredColor();
+		myBoard.initializePieces();
+
+		initializeNames();
+
+		pack();
+		setVisible(true);
 	}
-	
+
 	/**
 	 * Returns the right Square using x and y coordinates.
 	 * @param x
@@ -65,16 +65,28 @@ public class ChessGUI extends JFrame {
 	public Square getSquare(int y, int x) {
 		return squareList.get(y*8 + x);
 	}
-	
+
+	/**
+	 * Shows the available moves a piece can do that is on these y, x coordinates.
+	 * If there is no piece at those coordinates, nothing happens.
+	 * 
+	 * @param y location on board.
+	 * @param x location on board.
+	 */
 	public void showAvailableSquares(int y, int x) {
 		setCheckeredColor();
-		Piece current = myBoard.getPiece(y, x);
-		List<Point> moves = current.getAvailableMoves(myBoard.getMyBoardArray());
-		for(Point point : moves) {
-			getSquare(point.y, point.x).setBackground(Color.GREEN);
+
+		Piece clickedPiece = myBoard.getPiece(y, x);
+
+		if (clickedPiece != null) {
+			getSquare(y, x).setBackground(Color.CYAN);
+			List<Point> moves = clickedPiece.getAvailableMoves(myBoard.getMyBoardArray());
+			for(Point point : moves) {
+				getSquare(point.y, point.x).setBackground(Color.GREEN);
+			}
 		}
 	}
-	
+
 	/**
 	 * To put the names of the pieces inside the Square.
 	 */
@@ -87,7 +99,7 @@ public class ChessGUI extends JFrame {
 			}
 		}
 	}
-	
+
 	/**
 	 * Makes the board checkered.
 	 */
@@ -101,7 +113,7 @@ public class ChessGUI extends JFrame {
 		checkerRow(48, 1);
 		checkerRow(56, 0);
 	}
-	
+
 	private void checkerRow(int start, int even) {
 		for (int i = start; i < start+8; i++) {
 			Square square = squareList.get(i);
@@ -111,38 +123,44 @@ public class ChessGUI extends JFrame {
 				square.setBackground(Color.WHITE);
 		}
 	}
-	
+
 	/**
 	 * Creates the chess board panel and returns it.
 	 * @return
 	 */
 	private JPanel createBoard() {
 		squareList = new ArrayList<Square>();
-		
+
 		guiboard = new JPanel(new GridLayout(8,8));
 		guiboard.setPreferredSize(new Dimension(500, 500));
 		guiboard.setBackground(Color.BLACK);
 		guiboard.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
-		
+
 		for (int i = 0; i < 64; i++) {
 			Square square = new Square(i);
 			square.addMouseListener(new BoxListener(this));
-        	guiboard.add(square);
-        	squareList.add(square);
-        }
-		
+			guiboard.add(square);
+			squareList.add(square);
+		}
+
 		return guiboard;
 	}
-	
+
 	public static class BoxListener extends MouseAdapter {
 		ChessGUI myBoard;
 		public BoxListener(ChessGUI theBoard) {
 			myBoard = theBoard;
 		}
-    	public void mouseClicked(MouseEvent me) {
-            Square clickedBox = (Square) me.getSource(); 
-            clickedBox.setBackground(Color.PINK);
-            myBoard.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
-        }
-    }
+		
+		@Override
+		public void mouseClicked(MouseEvent theEvent) {
+			Square clickedBox = (Square) theEvent.getSource(); 
+			myBoard.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
+		}
+		
+		@Override
+		public void mouseReleased(MouseEvent theEvent) {
+			mouseClicked(theEvent);
+		}
+	}
 }
