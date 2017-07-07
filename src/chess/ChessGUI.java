@@ -67,9 +67,12 @@ public class ChessGUI extends JFrame {
 	}
 	
 	public void showAvailableSquares(int y, int x) {
+		setCheckeredColor();
 		Piece current = myBoard.getPiece(y, x);
-		//List<Point> moves = current.getAvailableMoves(myBoard.);
-		myBoard.printAllowedMoves(current);
+		List<Point> moves = current.getAvailableMoves(myBoard.getMyBoardArray());
+		for(Point point : moves) {
+			getSquare(point.y, point.x).setBackground(Color.GREEN);
+		}
 	}
 	
 	/**
@@ -102,9 +105,10 @@ public class ChessGUI extends JFrame {
 	private void checkerRow(int start, int even) {
 		for (int i = start; i < start+8; i++) {
 			Square square = squareList.get(i);
-			if (Integer.parseInt(square.getName()) % 2 == even) {
+			if (Integer.parseInt(square.getName()) % 2 == even)
 				square.setBackground(Color.GRAY);
-			}
+			else
+				square.setBackground(Color.WHITE);
 		}
 	}
 	

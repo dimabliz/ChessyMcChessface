@@ -53,6 +53,10 @@ public class Board {
 		initializePawns(6, PieceColor.White);
 	}
 	
+	public Piece[][] getMyBoardArray() {
+		return myBoard;
+	}
+	
 	/**
 	 * Initializes one full row with pawns provided the color.
 	 * @param row
