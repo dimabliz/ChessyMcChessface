@@ -30,4 +30,12 @@ public class Square extends JPanel {
 		label.setFont(new Font("Serif", Font.PLAIN, 18));
 		add(label);
 	}
+	
+	public int getX() {
+		return Integer.parseInt(this.getName()) % 8;
+	}
+	
+	public int getY() {
+		return Integer.parseInt(this.getName()) / 8;
+	}
 }
