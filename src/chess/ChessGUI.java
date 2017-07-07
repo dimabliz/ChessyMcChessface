@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -13,6 +14,8 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import Pieces.Piece;
 
 public class ChessGUI extends JFrame {
 	
@@ -61,6 +64,12 @@ public class ChessGUI extends JFrame {
 	 */
 	public Square getSquare(int y, int x) {
 		return squareList.get(y*8 + x);
+	}
+	
+	public void showAvailableSquares(int y, int x) {
+		Piece current = myBoard.getPiece(y, x);
+		//List<Point> moves = current.getAvailableMoves(myBoard.);
+		myBoard.printAllowedMoves(current);
 	}
 	
 	/**
@@ -129,6 +138,7 @@ public class ChessGUI extends JFrame {
     	public void mouseClicked(MouseEvent me) {
             Square clickedBox = (Square) me.getSource(); 
             clickedBox.setBackground(Color.PINK);
+            myBoard.showAvailableSquares(clickedBox.getY(), clickedBox.getX());
         }
     }
 }
