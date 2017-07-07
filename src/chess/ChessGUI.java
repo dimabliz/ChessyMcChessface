@@ -48,7 +48,7 @@ public class ChessGUI extends JFrame {
         myBoard.initializePieces();
         
         initializeNames();
-        
+                
         pack();
         setVisible(true);
 	}
@@ -113,7 +113,7 @@ public class ChessGUI extends JFrame {
 		
 		for (int i = 0; i < 64; i++) {
 			Square square = new Square(i);
-			square.addMouseListener(new BoxListener());
+			square.addMouseListener(new BoxListener(this));
         	guiboard.add(square);
         	squareList.add(square);
         }
@@ -122,6 +122,10 @@ public class ChessGUI extends JFrame {
 	}
 	
 	public static class BoxListener extends MouseAdapter {
+		ChessGUI myBoard;
+		public BoxListener(ChessGUI theBoard) {
+			myBoard = theBoard;
+		}
     	public void mouseClicked(MouseEvent me) {
             Square clickedBox = (Square) me.getSource(); 
             clickedBox.setBackground(Color.PINK);
