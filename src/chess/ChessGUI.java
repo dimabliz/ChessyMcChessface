@@ -138,7 +138,7 @@ public class ChessGUI extends JFrame {
     	public void mouseClicked(MouseEvent me) {
             Square clickedBox = (Square) me.getSource(); 
             clickedBox.setBackground(Color.PINK);
-            myBoard.showAvailableSquares(clickedBox.getY(), clickedBox.getX());
+            myBoard.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
         }
     }
 }

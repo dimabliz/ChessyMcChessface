@@ -31,11 +31,11 @@ public class Square extends JPanel {
 		add(label);
 	}
 	
-	public int getX() {
+	public int getMyX() {
 		return Integer.parseInt(this.getName()) % 8;
 	}
 	
-	public int getY() {
+	public int getMyY() {
 		return Integer.parseInt(this.getName()) / 8;
 	}
 }
