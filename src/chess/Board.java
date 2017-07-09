@@ -9,7 +9,7 @@ import java.awt.Point;
 import Enums.PieceColor;
 import Pieces.*;
 
-public class Board extends JPanel{
+public class Board {
 	
 	private Piece[][] myBoard;
 	

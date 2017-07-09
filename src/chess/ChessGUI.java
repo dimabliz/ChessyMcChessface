@@ -69,7 +69,6 @@ public class ChessGUI extends JFrame {
 		setCheckeredColor();
 		myBoard.initializePieces();
 		
-		this.add(myBoard);
 		
 		initializeNames();
 
@@ -215,6 +214,8 @@ public class ChessGUI extends JFrame {
 				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 				isSecondClick = true;
+				
+				myGui.getSquare(1, 1).setText("Hello");
 			}
 		}	
 	}

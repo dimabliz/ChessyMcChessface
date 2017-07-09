@@ -3,6 +3,7 @@ package chess;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -15,6 +16,8 @@ public class Square extends JPanel {
 	 */
 	private static final long serialVersionUID = 1717875125357590175L;
 	
+	JLabel label;
+	
 	public Square(int id) {
 		setPreferredSize(new Dimension(50, 50));
 		setBackground(Color.WHITE);
@@ -22,13 +25,14 @@ public class Square extends JPanel {
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		setEnabled(true);
 		setName(Integer.toString(id));	
+		
+		label = new JLabel();
+		label.setFont(new Font("Serif", Font.PLAIN, 18));
+		add(label);
 	}
 	
 	public void setText(String text) {
-		removeAll();
-		JLabel label = new JLabel(text);
-		label.setFont(new Font("Serif", Font.PLAIN, 18));
-		add(label);
+		label.setText(text);
 	}
 	
 	public int getMyX() {
