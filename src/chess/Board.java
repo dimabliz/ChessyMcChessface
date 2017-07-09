@@ -58,6 +58,19 @@ public class Board {
 	}
 	
 	/**
+	 * Moves from from point to to point.
+	 * @param from
+	 * @param to
+	 */
+	public void move(Point from, Point to) {
+		if (!from.equals(to)) {
+			final Piece movingPiece = myBoard[from.y][from.x];
+			myBoard[from.y][from.x] = null;
+			myBoard[to.y][to.x] = movingPiece;
+		}
+	}
+	
+	/**
 	 * Initializes one full row with pawns provided the color.
 	 * @param row
 	 * @param color

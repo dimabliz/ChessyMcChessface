@@ -2,7 +2,6 @@ package chess;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -30,6 +29,7 @@ public class ChessGUI extends JFrame {
 	private JPanel guiboard;
 	private List<Square> squareList;
 	private Board myBoard = new Board();
+	private boolean clickedOnPiece = false;
 
 	public ChessGUI() {
 		super("ChessyMcChessface");
@@ -85,6 +85,11 @@ public class ChessGUI extends JFrame {
 				getSquare(point.y, point.x).setBackground(Color.GREEN);
 			}
 		}
+	}
+	
+	public void refreshGUI() {
+		setCheckeredColor();
+		initializeNames();
 	}
 
 	/**
@@ -153,14 +158,10 @@ public class ChessGUI extends JFrame {
 		}
 		
 		@Override
-		public void mouseClicked(MouseEvent theEvent) {
+		public void mousePressed(MouseEvent theEvent) {
 			Square clickedBox = (Square) theEvent.getSource(); 
 			myBoard.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
 		}
 		
-		@Override
-		public void mousePressed(MouseEvent theEvent) {
-			mouseClicked(theEvent);
-		}
 	}
 }
