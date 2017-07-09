@@ -159,7 +159,7 @@ public class ChessGUI extends JFrame {
 		}
 		
 		@Override
-		public void mouseReleased(MouseEvent theEvent) {
+		public void mousePressed(MouseEvent theEvent) {
 			mouseClicked(theEvent);
 		}
 	}
