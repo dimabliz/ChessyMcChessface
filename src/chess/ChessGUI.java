@@ -3,6 +3,7 @@ package chess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -13,8 +14,26 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import Pieces.Piece;
+
+
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 public class ChessGUI extends JFrame {
 
@@ -28,11 +47,11 @@ public class ChessGUI extends JFrame {
 	 */
 	private JPanel guiboard;
 	private List<Square> squareList;
-	private Board myBoard = new Board();
-	private boolean clickedOnPiece = false;
+	private Board myBoard;
 
 	public ChessGUI() {
 		super("ChessyMcChessface");
+		myBoard = new Board();
 	}
 
 	public void start() {
@@ -49,7 +68,9 @@ public class ChessGUI extends JFrame {
 
 		setCheckeredColor();
 		myBoard.initializePieces();
-
+		
+		this.add(myBoard);
+		
 		initializeNames();
 
 		pack();
@@ -86,11 +107,13 @@ public class ChessGUI extends JFrame {
 			}
 		}
 	}
-	
+
 	public void refreshGUI() {
-		setCheckeredColor();
 		initializeNames();
+		setCheckeredColor();
+		myBoard.printBoard();
 	}
+	
 
 	/**
 	 * To put the names of the pieces inside the Square.
@@ -152,40 +175,45 @@ public class ChessGUI extends JFrame {
 	}
 
 	public static class BoxListener extends MouseAdapter {
-		ChessGUI myGui;
-		Square lastClick;
-		Square currentClick;
-		boolean isSecondClick;
-		List<Point> avaliableMoves;
-		
+		static ChessGUI myGui;
+		static Point firstClick;
+		static Point secondClick;
+		static boolean isSecondClick;
+		static List<Point> avaliableMoves;
+
 		public BoxListener(ChessGUI theBoard) {
 			myGui = theBoard;
-			lastClick = null;
-			currentClick = null;
+			firstClick = null;
+			secondClick = null;
 			isSecondClick = false;
 			avaliableMoves = null;
 		}
-		
+
 		@Override
 		public void mousePressed(MouseEvent theEvent) {
 			if (isSecondClick) {
-				Square secondBox = (Square) theEvent.getSource(); 
-				Point secondClick = new Point(secondBox.getMyX(), secondBox.getMyY());
-				boolean yes = false;
-				for (Point p : avaliableMoves) {
-					if (p.equals(secondClick))
-						yes = true;
+				Square secondSquare = (Square) theEvent.getSource(); 
+				secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
+
+				boolean isSecondClickLegalMove = false;
+				for (Point possibleMove : avaliableMoves) {
+					if (secondClick.equals(possibleMove))
+						isSecondClickLegalMove = true;
 				}
-				
-				
+
+				if (isSecondClickLegalMove) {
+					myGui.myBoard.move(firstClick, secondClick);
+					myGui.refreshGUI();
+				}		
+
 				isSecondClick = false;
 			} else {
 				Square clickedBox = (Square) theEvent.getSource(); 
 				myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
 				Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
-				
+
 				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
-				currentClick = clickedBox;
+				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 				isSecondClick = true;
 			}
 		}	

@@ -1,12 +1,15 @@
 package chess;
 
 import java.util.List;
+
+import javax.swing.JPanel;
+
 import java.awt.Point;
 
 import Enums.PieceColor;
 import Pieces.*;
 
-public class Board {
+public class Board extends JPanel{
 	
 	private Piece[][] myBoard;
 	
@@ -64,7 +67,7 @@ public class Board {
 	 */
 	public void move(Point from, Point to) {
 		if (!from.equals(to)) {
-			final Piece movingPiece = myBoard[from.y][from.x];
+			Piece movingPiece = myBoard[from.y][from.x];
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
 		}
