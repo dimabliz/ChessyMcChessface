@@ -152,16 +152,42 @@ public class ChessGUI extends JFrame {
 	}
 
 	public static class BoxListener extends MouseAdapter {
-		ChessGUI myBoard;
+		ChessGUI myGui;
+		Square lastClick;
+		Square currentClick;
+		boolean isSecondClick;
+		List<Point> avaliableMoves;
+		
 		public BoxListener(ChessGUI theBoard) {
-			myBoard = theBoard;
+			myGui = theBoard;
+			lastClick = null;
+			currentClick = null;
+			isSecondClick = false;
+			avaliableMoves = null;
 		}
 		
 		@Override
 		public void mousePressed(MouseEvent theEvent) {
-			Square clickedBox = (Square) theEvent.getSource(); 
-			myBoard.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
-		}
-		
+			if (isSecondClick) {
+				Square secondBox = (Square) theEvent.getSource(); 
+				Point secondClick = new Point(secondBox.getMyX(), secondBox.getMyY());
+				boolean yes = false;
+				for (Point p : avaliableMoves) {
+					if (p.equals(secondClick))
+						yes = true;
+				}
+				
+				
+				isSecondClick = false;
+			} else {
+				Square clickedBox = (Square) theEvent.getSource(); 
+				myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
+				Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
+				
+				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
+				currentClick = clickedBox;
+				isSecondClick = true;
+			}
+		}	
 	}
 }
