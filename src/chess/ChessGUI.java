@@ -122,6 +122,8 @@ public class ChessGUI extends JFrame {
 			for (int j = 0; j < 8; j++) {
 				if (myBoard.getPiece(j, i) != null) {
 					getSquare(j, i).setText(myBoard.getPiece(j, i).toString());
+				} else {
+					getSquare(j, i).setText("");
 				}
 			}
 		}
@@ -214,8 +216,6 @@ public class ChessGUI extends JFrame {
 				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 				isSecondClick = true;
-				
-				myGui.getSquare(1, 1).setText("Hello");
 			}
 		}	
 	}
