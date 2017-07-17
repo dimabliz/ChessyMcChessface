@@ -120,4 +120,28 @@ public abstract class AbstractPiece implements Piece {
 	public int getY() {
 		return (int) myLocation.getY();
 	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	@Override
+	public void setX(int x) {
+		myLocation.setLocation(x, getY());
+	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	@Override
+	public void setY(int y) {
+		myLocation.setLocation(getX(), y);
+	}
+	
+	/**
+	 * {@inheritDoc Piece.java}
+	 */
+	@Override
+	public void setXY(int x, int y) {
+		myLocation.setLocation(x, y);
+	}
 }

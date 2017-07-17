@@ -68,8 +68,12 @@ public class Board {
 	public void move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			
+			movingPiece.setXY(to.y, to.x);
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
+			
+			
 		}
 	}
 	

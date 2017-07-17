@@ -68,4 +68,19 @@ public interface Piece {
 	 * @return y location of this piece.
 	 */
 	int getY();
+	
+	/**
+	 * sets x location of this piece.
+	 */
+	void setX(int x);
+	
+	/**
+	 * sets y location of this piece.
+	 */
+	void setY(int y);
+	
+	/**
+	 * sets x and y location of this piece.
+	 */
+	void setXY(int x, int y);
 }

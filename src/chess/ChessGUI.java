@@ -216,6 +216,8 @@ public class ChessGUI extends JFrame {
 				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 				isSecondClick = true;
+				
+				myGui.myBoard.printAllowedMoves(clickedPiece);
 			}
 		}	
 	}
