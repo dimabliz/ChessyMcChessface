@@ -52,7 +52,8 @@ public class ChessGUI extends JFrame {
 	private Board myBoard;
 	private JButton startButton;
 	private JButton endButton;
-	private boolean endGame = false;
+	private boolean endGame;
+	private boolean whiteTurn = true;
 
 	public ChessGUI() {
 		super("ChessyMcChessface");
@@ -185,12 +186,15 @@ public class ChessGUI extends JFrame {
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
 		buttonPanel.setBackground(Color.BLACK);
 		startButton = new JButton("Start Game");
-		endButton.addActionListener((theEvent) -> {
+		startButton.addActionListener((theEvent) -> {
 			startGameLoop();
         });
 		
 		endButton = new JButton("End Game");
 		endButton.addActionListener((theEvent) -> {
+			if (endGame) { //second end game click
+				//resetBoard
+			}
 			endGame = true;
         });
 		
@@ -201,10 +205,11 @@ public class ChessGUI extends JFrame {
 	}
 	
 	private void startGameLoop() {
-		boolean turn = true;
-		while(!endGame) {
-			
-		}
+		//boolean turn = true;
+//		while(!endGame) {
+//			
+//		}
+		endGame = false;
 	}
 	
 	public static class BoxListener extends MouseAdapter {
@@ -242,14 +247,16 @@ public class ChessGUI extends JFrame {
 				isSecondClick = false;
 			} else {
 				Square clickedBox = (Square) theEvent.getSource(); 
-				myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
 				Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
-
-				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
-				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
-				isSecondClick = true;
 				
-				myGui.myBoard.printAllowedMoves(clickedPiece);
+				if (myGui.whiteTurn == clickedPiece.isWhite()) {
+					myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
+					avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
+					firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
+					isSecondClick = true;
+					myGui.myBoard.printAllowedMoves(clickedPiece);
+					myGui.whiteTurn = !myGui.whiteTurn;
+				}
 			}
 		}	
 	}
