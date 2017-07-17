@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,6 +29,10 @@ public class Square extends JPanel {
 		
 		label = new JLabel();
 		label.setFont(new Font("Serif", Font.PLAIN, 18));
+		
+//		ImageIcon icon = new ImageIcon("./images/whitePawn.gif");
+//		label.setIcon(icon);
+		
 		add(label);
 	}
 	
