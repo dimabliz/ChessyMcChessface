@@ -52,6 +52,7 @@ public class ChessGUI extends JFrame {
 	private Board myBoard;
 	private JButton startButton;
 	private JButton endButton;
+	private boolean endGame = false;
 
 	public ChessGUI() {
 		super("ChessyMcChessface");
@@ -184,11 +185,26 @@ public class ChessGUI extends JFrame {
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
 		buttonPanel.setBackground(Color.BLACK);
 		startButton = new JButton("Start Game");
+		endButton.addActionListener((theEvent) -> {
+			startGameLoop();
+        });
+		
 		endButton = new JButton("End Game");
+		endButton.addActionListener((theEvent) -> {
+			endGame = true;
+        });
+		
 		buttonPanel.add(startButton);
 		buttonPanel.add(endButton);
 		
 		return buttonPanel;
+	}
+	
+	private void startGameLoop() {
+		boolean turn = true;
+		while(!endGame) {
+			
+		}
 	}
 	
 	public static class BoxListener extends MouseAdapter {
