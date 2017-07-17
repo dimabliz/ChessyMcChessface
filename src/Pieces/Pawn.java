@@ -20,12 +20,33 @@ public class Pawn extends AbstractPiece {
 	private boolean firstMove = true;
 	
 	/**
+	 * if the pawn moved two squares last move.
+	 */
+	private boolean movedTwoSquares = false;
+	
+	/**
 	 * Creates a pawn of this color.
 	 * 
 	 * @param theColor the color of this pawn.
 	 */
 	public Pawn(PieceColor theColor, Point theLocation) {
 		super(theColor, PiecePoints.PAWN, theLocation);
+	}
+	
+	/**
+	 * Set that the piece has just moved two squares.
+	 */
+	public void setMovedTwoSquares() {
+		if (!movedTwoSquares)
+			movedTwoSquares = true;
+	}
+	
+	/**
+	 * Return if the pawn has moved two squares up last time it was moved.
+	 * @return
+	 */
+	public boolean hasMovedTwoSquares() {
+		return movedTwoSquares;
 	}
 	
 	/**
@@ -74,6 +95,27 @@ public class Pawn extends AbstractPiece {
 					moves.add(new Point(myLocation.y+1, myLocation.x-1));
 				}
 			}
+			
+			//adding the en passant left
+			if (myLocation.x-1 >= 0 && myLocation.y-1 >= 0) { //take left
+				if (board[myLocation.x][myLocation.y-1] != null 
+						&& board[myLocation.x][myLocation.y-1].getColor() != myColor
+						&& board[myLocation.x][myLocation.y-1] instanceof Pawn
+						&& ((Pawn) board[myLocation.x][myLocation.y-1]).hasMovedTwoSquares()) {
+					moves.add(new Point(myLocation.y-1, myLocation.x-1));
+				}
+			}
+			
+			//adding en passant right
+			if (myLocation.x-1 >= 0 && myLocation.y+1 >= 0) { //take right
+				if (board[myLocation.x][myLocation.y+1] != null 
+						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
+						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
+						&& ((Pawn) board[myLocation.x][myLocation.y+1]).hasMovedTwoSquares()) {
+					moves.add(new Point(myLocation.y+1, myLocation.x-1));
+				}
+			}
+			
 		} 
 		//black pawns move down the board
 		else {
@@ -95,6 +137,26 @@ public class Pawn extends AbstractPiece {
 				if (board[myLocation.x+1][myLocation.y+1] != null 
 						&& board[myLocation.x+1][myLocation.y+1].getColor() != myColor) {
 					moves.add(new Point(myLocation.y+1, myLocation.x+1));
+				}
+			}
+			
+			//adding the en passant left
+			if (myLocation.x+1 <= 7 && myLocation.y+1 <= 7) { //take left
+				if (board[myLocation.x][myLocation.y+1] != null 
+						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
+						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
+						&& ((Pawn) board[myLocation.x][myLocation.y+1]).hasMovedTwoSquares()) {
+					moves.add(new Point(myLocation.y+1, myLocation.x+1));
+				}
+			}
+			
+			//adding en passant right
+			if (myLocation.x+1 <= 7 && myLocation.y-1 >= 0) { //take right
+				if (board[myLocation.x][myLocation.y-1] != null 
+						&& board[myLocation.x][myLocation.y-1].getColor() != myColor
+						&& board[myLocation.x][myLocation.y-1] instanceof Pawn
+						&& ((Pawn) board[myLocation.x][myLocation.y-1]).hasMovedTwoSquares()) {
+					moves.add(new Point(myLocation.y-1, myLocation.x+1));
 				}
 			}
 		}

@@ -69,7 +69,11 @@ public class Board {
 			
 			movingPiece.setXY(to.y, to.x);
 			if(movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved();
+				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
+				if (Math.abs(to.y - from.y) == 2) {
+					((Pawn)movingPiece).setMovedTwoSquares();
+					System.out.println("Just moved two squares");
+				}
 			}
 			
 			myBoard[from.y][from.x] = null;
