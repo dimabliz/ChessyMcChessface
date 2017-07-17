@@ -3,6 +3,7 @@ package chess;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -48,6 +50,8 @@ public class ChessGUI extends JFrame {
 	private JPanel guiboard;
 	private List<Square> squareList;
 	private Board myBoard;
+	private JButton startButton;
+	private JButton endButton;
 
 	public ChessGUI() {
 		super("ChessyMcChessface");
@@ -58,17 +62,17 @@ public class ChessGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 
-		setMinimumSize(new Dimension(800, 600));
+		setMinimumSize(new Dimension(800, 560));
 		setResizable(false);
 
 		JPanel gamePanel = new JPanel();
 		gamePanel.setBackground(Color.DARK_GRAY);
 		gamePanel.add(createBoard(), BorderLayout.WEST);
 		add(gamePanel, BorderLayout.NORTH);
+		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
 		myBoard.initializePieces();
-		
 		
 		initializeNames();
 
@@ -175,6 +179,18 @@ public class ChessGUI extends JFrame {
 		return guiboard;
 	}
 
+	private JPanel createButtonPanel() {
+		JPanel buttonPanel = new JPanel(new FlowLayout());
+		buttonPanel.setPreferredSize(new Dimension(800, 60));
+		buttonPanel.setBackground(Color.BLACK);
+		startButton = new JButton("Start Game");
+		endButton = new JButton("End Game");
+		buttonPanel.add(startButton);
+		buttonPanel.add(endButton);
+		
+		return buttonPanel;
+	}
+	
 	public static class BoxListener extends MouseAdapter {
 		static ChessGUI myGui;
 		static Point firstClick;
