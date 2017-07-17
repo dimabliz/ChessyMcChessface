@@ -29,6 +29,21 @@ public class Pawn extends AbstractPiece {
 	}
 	
 	/**
+	 * Returns if the piece is in first move.
+	 * @return returns true if the pawn has not moved yet and false otherwise.
+	 */
+	public boolean isFirstMove() {
+		return firstMove;
+	}
+	
+	/**
+	 * Sets that the pawn has already moved.
+	 */
+	public void setMoved() {
+		firstMove = false;
+	}
+	
+	/**
 	 * Returns a list of all the Points to where the pawn
 	 * is allowed to move.
 	 * 

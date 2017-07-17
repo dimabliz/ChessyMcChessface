@@ -249,7 +249,7 @@ public class ChessGUI extends JFrame {
 				Square clickedBox = (Square) theEvent.getSource(); 
 				Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
 				
-				if (myGui.whiteTurn == clickedPiece.isWhite()) {
+				if (myGui.whiteTurn == clickedPiece.isWhite() && !myGui.endGame) {
 					myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
 					avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 					firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());

@@ -2,8 +2,6 @@ package chess;
 
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import java.awt.Point;
 
 import Enums.PieceColor;
@@ -70,6 +68,10 @@ public class Board {
 			Piece movingPiece = myBoard[from.y][from.x];
 			
 			movingPiece.setXY(to.y, to.x);
+			if(movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
+				((Pawn)movingPiece).setMoved();
+			}
+			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
 			
