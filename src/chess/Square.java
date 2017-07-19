@@ -28,10 +28,10 @@ public class Square extends JPanel {
 		setName(Integer.toString(id));	
 		
 		label = new JLabel();
-		//label.setFont(new Font("Serif", Font.PLAIN, 18));
+		label.setFont(new Font("Serif", Font.PLAIN, 18));
 		
-		ImageIcon icon = new ImageIcon("./images/whitePawn.gif");
-		label.setIcon(icon);
+		//ImageIcon icon = new ImageIcon("./images/transparentpawn.png");
+		//label.setIcon(icon);
 		
 		add(label);
 	}
