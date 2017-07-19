@@ -45,6 +45,9 @@ public class ChessGUI extends JFrame {
 	 */
 	private static final long serialVersionUID = -8257636818570539745L;
 
+	public static final Color darkerColor = new Color(151, 105, 79);
+	public static final Color lighterColor = new Color(235, 199, 158);
+	
 	/**
 	 * the GUI board that holds the squares.
 	 */
@@ -154,9 +157,9 @@ public class ChessGUI extends JFrame {
 		for (int i = start; i < start+8; i++) {
 			Square square = squareList.get(i);
 			if (Integer.parseInt(square.getName()) % 2 == even)
-				square.setBackground(Color.GRAY);
+				square.setBackground(darkerColor);
 			else
-				square.setBackground(Color.WHITE);
+				square.setBackground(lighterColor);
 		}
 	}
 
