@@ -28,10 +28,8 @@ public class Square extends JPanel {
 		setName(Integer.toString(id));	
 		
 		label = new JLabel();
-		label.setFont(new Font("Serif", Font.PLAIN, 18));
+		//label.setFont(new Font("Serif", Font.PLAIN, 18));
 		
-		//ImageIcon icon = new ImageIcon("./images/transparentpawn.png");
-		//label.setIcon(icon);
 		
 		add(label);
 	}
@@ -39,12 +37,46 @@ public class Square extends JPanel {
 	public void setText(String text) {
 		if(text.equals("")) {
 			label.setIcon(new ImageIcon());
-		} else if (text.equals("BP")) {
-			ImageIcon icon = new ImageIcon("./images/blackPawn.png");
-			label.setIcon(icon);
-		} else if (text.equals("WP")) {
-			ImageIcon icon = new ImageIcon("./images/whitePawn.png");
-			label.setIcon(icon);
+		} else if (text.startsWith("B")) {
+			if (text.equals("BP")) {
+				ImageIcon icon = new ImageIcon("./images/blackPawn.png");
+				label.setIcon(icon);
+			} else if (text.equals("BR")) {
+				ImageIcon icon = new ImageIcon("./images/blackRook.png");
+				label.setIcon(icon);
+			} else if (text.equals("BB")) {
+				ImageIcon icon = new ImageIcon("./images/blackBishop.png");
+				label.setIcon(icon);
+			} else if (text.equals("BN")) {
+				ImageIcon icon = new ImageIcon("./images/blackKnight.png");
+				label.setIcon(icon);
+			} else if (text.equals("BQ")) {
+				ImageIcon icon = new ImageIcon("./images/blackQueen.png");
+				label.setIcon(icon);
+			} else if (text.equals("BK")) {
+				ImageIcon icon = new ImageIcon("./images/blackKing.png");
+				label.setIcon(icon);
+			}
+		} else {
+			if (text.equals("WP")) {
+				ImageIcon icon = new ImageIcon("./images/whitePawn.png");
+				label.setIcon(icon);
+			} else if (text.equals("WR")) {
+				ImageIcon icon = new ImageIcon("./images/whiteRook.png");
+				label.setIcon(icon);
+			} else if (text.equals("WB")) {
+				ImageIcon icon = new ImageIcon("./images/whiteBishop.png");
+				label.setIcon(icon);
+			} else if (text.equals("WN")) {
+				ImageIcon icon = new ImageIcon("./images/whiteKnight.png");
+				label.setIcon(icon);
+			} else if (text.equals("WQ")) {
+				ImageIcon icon = new ImageIcon("./images/whiteQueen.png");
+				label.setIcon(icon);
+			} else if (text.equals("WK")) {
+				ImageIcon icon = new ImageIcon("./images/whiteKing.png");
+				label.setIcon(icon);
+			}
 		}
 	}
 	
