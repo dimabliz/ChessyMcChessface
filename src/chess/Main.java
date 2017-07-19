@@ -9,9 +9,8 @@ public class Main {
   public static void main(String[] args) {
 	  
 
-//		ImageIcon imgThisImg = new ImageIcon("./images/whitePawn.gif");
-//		System.out.println(imgThisImg);
-//		System.out.println(imgThisImg.getIconWidth());
+	  ImageIcon icon = new ImageIcon("./images/whitePawn.gif");
+	  System.out.println(icon.getIconWidth());
 	  
   }
 }
