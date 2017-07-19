@@ -37,7 +37,15 @@ public class Square extends JPanel {
 	}
 	
 	public void setText(String text) {
-		label.setText(text);
+		if(text.equals("")) {
+			label.setIcon(new ImageIcon());
+		} else if (text.equals("BP")) {
+			ImageIcon icon = new ImageIcon("./images/blackPawn.png");
+			label.setIcon(icon);
+		} else if (text.equals("WP")) {
+			ImageIcon icon = new ImageIcon("./images/whitePawn.png");
+			label.setIcon(icon);
+		}
 	}
 	
 	public int getMyX() {
