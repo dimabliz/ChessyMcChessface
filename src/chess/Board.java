@@ -68,11 +68,20 @@ public class Board {
 			Piece movingPiece = myBoard[from.y][from.x];
 			
 			movingPiece.setXY(to.y, to.x);
-			if(movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
+			
+			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
 				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
 				if (Math.abs(to.y - from.y) == 2) {
 					((Pawn)movingPiece).setMovedTwoSquares();
-					System.out.println("Just moved two squares");
+				}
+			}
+			
+			//en passant take
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
+				if (movingPiece.isWhite()) {
+					myBoard[to.y + 1][to.x] = null;
+				} else {
+					myBoard[to.y - 1][to.x] = null;
 				}
 			}
 			
