@@ -104,12 +104,33 @@ public class Board {
 				}
 			}
 			
+			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
+				((King)movingPiece).setMoved();
+			}
+			
+			if (movingPiece instanceof Rook && !((Rook)movingPiece).hasMoved()) {
+				((Rook)movingPiece).setMoved();
+			}
+			
 			//en passant take
 			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
 					myBoard[to.y + 1][to.x] = null;
 				} else {
 					myBoard[to.y - 1][to.x] = null;
+				}
+			}
+			
+			//castles
+			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
+				if (to.x - from.x > 0) {//right castle
+					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					myBoard[from.y][from.x+3] = null;
+					myBoard[from.y][from.x+1] = rightRook;
+				} else { //left castle
+					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					myBoard[from.y][from.x-4] = null;
+					myBoard[from.y][from.x-1] = leftRook;
 				}
 			}
 			

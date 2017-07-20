@@ -67,24 +67,30 @@ public class King extends AbstractPiece {
 		refineBounds(moves);
 		refineByPieces(moves, board);
 		
+		if (!hasMoved()) {
+				//checking right castle
+				if (board[myLocation.x][myLocation.y+1] == null && board[myLocation.x][myLocation.y+2] == null 
+						&& board[myLocation.x][myLocation.y+3] != null && board[myLocation.x][myLocation.y+3] instanceof Rook) {
+					
+					Rook rightRook = (Rook) board[myLocation.x][myLocation.y+3];
+					if (!rightRook.hasMoved()) {
+						moves.add(new Point(myLocation.y+2, myLocation.x));
+					}
+				}
+				//checking left castle
+				if (board[myLocation.x][myLocation.y-1] == null && board[myLocation.x][myLocation.y-2] == null 
+						&& board[myLocation.x][myLocation.y-3] == null
+						&& board[myLocation.x][myLocation.y-4] != null && board[myLocation.x][myLocation.y-4] instanceof Rook) {
+					
+					Rook leftRook = (Rook) board[myLocation.x][myLocation.y-4];
+					if (!leftRook.hasMoved()) {
+						moves.add(new Point(myLocation.y-2, myLocation.x));
+					}
+				}
+		}
+		
 		return moves;
 	}
-	
-//	/**
-//	 * Private helper method to get rid of the available moves that
-//	 * are out of bounds of the board.
-//	 * 
-//	 * @return refined list
-//	 */
-//	private void refineBounds(List<Point> moves) {
-//		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
-//		    Point currentPoint = iterator.next();
-//		    if (currentPoint.x < 0 || currentPoint.x > 7 
-//		    		|| currentPoint.y < 0 || currentPoint.y > 7) {
-//		        iterator.remove();
-//		    }
-//		}
-//	}
 	
 	/**
 	 * {@inheritDoc Piece.java}
