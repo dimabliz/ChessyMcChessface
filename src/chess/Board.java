@@ -1,5 +1,7 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import java.awt.Point;
@@ -59,6 +61,31 @@ public class Board {
 	}
 	
 	/**
+	 * Method to get all of the squares that the passed in color pieces are attacking.
+	 * 
+	 * @param color
+	 * @return List<Point> attacked squares
+	 */
+	public List<Point> getAttackedSquares(PieceColor color) {
+		HashSet<Point> set = new HashSet<Point>();
+		
+		for(Piece[] row : myBoard) {
+			for(Piece piece : row) {
+				if (piece != null && piece.getColor() == color) {
+					List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
+					for(Point point : pieceAttacking) {
+						set.add(point);
+					}
+				}
+			}
+		}
+		
+		List<Point> allAttackedSquares = new ArrayList<Point>();
+		allAttackedSquares.addAll(set);
+		return allAttackedSquares;
+	}
+	
+	/**
 	 * Moves from from point to to point.
 	 * @param from
 	 * @param to
@@ -69,6 +96,7 @@ public class Board {
 			
 			movingPiece.setXY(to.y, to.x);
 			
+			//setting double square move for the pawn
 			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
 				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
 				if (Math.abs(to.y - from.y) == 2) {

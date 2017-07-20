@@ -2,8 +2,6 @@ package chess;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -28,9 +26,6 @@ public class Square extends JPanel {
 		setName(Integer.toString(id));	
 		
 		label = new JLabel();
-		//label.setFont(new Font("Serif", Font.PLAIN, 18));
-		
-		
 		add(label);
 	}
 	

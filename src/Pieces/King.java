@@ -12,6 +12,12 @@ import Enums.PiecePoints;
  * @author Maksimv@uw.edu
  */
 public class King extends AbstractPiece { 
+	
+	/**
+	 * if the king has moved in this game yet.
+	 */
+	private boolean hasMoved = false;
+	
 	/**
 	 * Creates a king of this color.
 	 * 
@@ -19,6 +25,22 @@ public class King extends AbstractPiece {
 	 */
 	public King(PieceColor theColor, Point theLocation) {
 		super(theColor, PiecePoints.KING, theLocation);
+	}
+	
+	/**
+	 * Set that the piece has moved this game
+	 */
+	public void setMoved() {
+		if (!hasMoved)
+			hasMoved = true;
+	}
+	
+	/**
+	 * Return if the piece has moved this game.
+	 * @return
+	 */
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 	
 	/**

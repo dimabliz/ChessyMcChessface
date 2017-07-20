@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -13,30 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import Pieces.Piece;
-
-
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JMenuItem;
-import javax.swing.JPanel;
-import javax.swing.event.MouseInputAdapter;
 
 public class ChessGUI extends JFrame {
 
@@ -120,7 +100,7 @@ public class ChessGUI extends JFrame {
 	public void refreshGUI() {
 		initializeNames();
 		setCheckeredColor();
-		myBoard.printBoard();
+		//myBoard.printBoard();
 	}
 	
 
@@ -185,6 +165,10 @@ public class ChessGUI extends JFrame {
 		return guiboard;
 	}
 
+	/**
+	 * Creates and returns the bottom button panel.
+	 * @return
+	 */
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
@@ -258,7 +242,7 @@ public class ChessGUI extends JFrame {
 					avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 					firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 					isSecondClick = true;
-					myGui.myBoard.printAllowedMoves(clickedPiece);
+					//myGui.myBoard.printAllowedMoves(clickedPiece);
 					myGui.whiteTurn = !myGui.whiteTurn;
 				}
 			}

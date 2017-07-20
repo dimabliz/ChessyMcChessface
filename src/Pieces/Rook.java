@@ -14,12 +14,33 @@ import Enums.PiecePoints;
 public class Rook extends AbstractPiece { 
 	
 	/**
+	 * if the rook has moved in this game yet.
+	 */
+	private boolean hasMoved = false;
+	
+	/**
 	 * Creates a rook of the given color.
 	 * 
 	 * @param theColor is the color of this rook.
 	 */
 	public Rook(PieceColor theColor, Point theLocation) {
 		super(theColor, PiecePoints.ROOK, theLocation);
+	}
+	
+	/**
+	 * Set that the piece has moved this game
+	 */
+	public void setMoved() {
+		if (!hasMoved)
+			hasMoved = true;
+	}
+	
+	/**
+	 * Return if the piece has moved this game.
+	 * @return
+	 */
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 	
 	/**
