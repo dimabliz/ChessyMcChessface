@@ -97,7 +97,6 @@ public class Queen extends AbstractPiece implements Piece {
 							break;
 						} else {
 							moves.add(new Point(myLocation.y, myLocation.x-i));
-							System.out.println("Here");
 						}
 					} else
 						break;

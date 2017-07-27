@@ -12,6 +12,8 @@ import Pieces.*;
 public class Board {
 	
 	private Piece[][] myBoard;
+	private King whiteKing;
+	private King blackKing;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
@@ -28,17 +30,22 @@ public class Board {
 	}
 	
 	/**
-	 * Temporary method to test the queening functionality of the baord.
-	 * initializes a couple pawns on the baord
+	 * Temporary method to test the queening functionality of the board.
+	 * initializes a couple pawns on the board
 	 */
 	public void initializeQueeningTest() {
 		myBoard[2][2] = new Pawn(PieceColor.White, new Point(2, 2));
 		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5));
 		
 		//some pieces to make extra moves when needed
-		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
-		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
+		blackKing = new King(PieceColor.Black, new Point(0, 4)); //top king
+		myBoard[0][4] = blackKing;
 		
+		whiteKing =  new King(PieceColor.White, new Point(7, 4)); //bottom king
+		myBoard[7][4] = whiteKing;
+		
+		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3)); //top queen
+		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3)); //bottom queen
 	}
 	
 	/**
@@ -50,7 +57,8 @@ public class Board {
 		myBoard[0][1] = new Knight(PieceColor.Black, new Point(0, 1)); //top left knight
 		myBoard[0][2] = new Bishop(PieceColor.Black, new Point(0, 2)); //top left bishop
 		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3)); //top queen
-		myBoard[0][4] = new King(PieceColor.Black, new Point(0, 4)); //top king
+		blackKing = new King(PieceColor.Black, new Point(0, 4)); //top king
+		myBoard[0][4] = blackKing;
 		myBoard[0][5] = new Bishop(PieceColor.Black, new Point(0, 5)); //top right bishop
 		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
 		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7)); //top right rook
@@ -62,7 +70,8 @@ public class Board {
 		myBoard[7][1] = new Knight(PieceColor.White, new Point(7, 1)); //bottom left knight
 		myBoard[7][2] = new Bishop(PieceColor.White, new Point(7, 2)); //bottom left bishop
 		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3)); //bottom queen
-		myBoard[7][4] = new King(PieceColor.White, new Point(7, 4)); //bottom king
+		whiteKing =  new King(PieceColor.White, new Point(7, 4)); //bottom king
+		myBoard[7][4] = whiteKing;
 		myBoard[7][5] = new Bishop(PieceColor.White, new Point(7, 5)); //bottom right bishop
 		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
 		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7)); //bottom right rook
@@ -72,6 +81,28 @@ public class Board {
 	
 	public Piece[][] getMyBoardArray() {
 		return myBoard;
+	}
+	
+	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
+	private boolean checkCheck(PieceColor color) {
+		List<Point> attackedSquares = getAttackedSquares(color);
+		boolean returnValue = false;
+		
+		for (Point p : attackedSquares) {
+			System.out.println("[" + p.x + ", " + p.y + "]");
+		}
+		System.out.println("White King: [" + whiteKing.getLocation().x + ", " + whiteKing.getLocation().y + "]");
+		System.out.println("Black King: [" + blackKing.getLocation().x + ", " + blackKing.getLocation().y + "]");
+		
+		if (color == PieceColor.White && attackedSquares.contains(blackKing.getLocation())) {
+			returnValue = true;
+			System.out.println("CHECK");
+		} else if (color == PieceColor.Black && attackedSquares.contains(whiteKing.getLocation())) {
+			returnValue =  true;
+			System.out.println("CHECK");
+		}
+		
+		return returnValue;
 	}
 	
 	/**
@@ -151,7 +182,7 @@ public class Board {
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
 			
-			
+			checkCheck(movingPiece.getColor());
 		}
 	}
 	
@@ -182,7 +213,7 @@ public class Board {
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
 			
-			
+			checkCheck(movingPiece.getColor());
 		}
 	}
 	

@@ -229,6 +229,20 @@ public class ChessGUI extends JFrame {
 		endGame = false;
 	}
 	
+	//Checks if a piece is a pawn that's about to queen
+	private boolean isQueening(Point firstClick) {
+		Piece queening = myBoard.getPiece(firstClick.y, firstClick.x);
+		boolean returnValue = false;
+		if (queening instanceof Pawn) {
+			if (queening.isWhite() && firstClick.y == 1) {
+				returnValue = true;
+			} else if (!queening.isWhite() && firstClick.y == 6) {
+				returnValue = true;
+			}
+		}
+		return returnValue;
+	}
+	
 	public static class BoxListener extends MouseAdapter {
 		static ChessGUI myGui;
 		static Point firstClick;
@@ -257,13 +271,14 @@ public class ChessGUI extends JFrame {
 				}
 
 				if (isSecondClickLegalMove) {
-					if (isQueening()) {
+					if (myGui.isQueening(firstClick)) {
 						char promotedPiece = myGui.askForPromotedPiece();
 						myGui.myBoard.move(firstClick, secondClick, promotedPiece);
 					} else {
 						myGui.myBoard.move(firstClick, secondClick);
 					}
 					myGui.refreshGUI();
+					myGui.whiteTurn = !myGui.whiteTurn;
 				}		
 
 				isSecondClick = false;
@@ -277,23 +292,8 @@ public class ChessGUI extends JFrame {
 					firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 					isSecondClick = true;
 					//myGui.myBoard.printAllowedMoves(clickedPiece);
-					myGui.whiteTurn = !myGui.whiteTurn;
 				}
 			}
-		}
-		
-		//Checks if a piece is a pawn that's about to queen
-		private boolean isQueening() {
-			Piece queening = myGui.myBoard.getPiece(firstClick.y, firstClick.x);
-			boolean returnValue = false;
-			if (queening instanceof Pawn) {
-				if (queening.isWhite() && firstClick.y == 1) {
-					returnValue =  true;
-				} else if (!queening.isWhite() && firstClick.y == 6) {
-					returnValue = true;
-				}
-			}
-			return returnValue;
 		}
 	}
 }
