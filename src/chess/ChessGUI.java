@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import Pieces.Pawn;
 import Pieces.Piece;
 
 public class ChessGUI extends JFrame {
@@ -58,7 +59,8 @@ public class ChessGUI extends JFrame {
 		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
-		myBoard.initializePieces();
+		//myBoard.initializePieces();
+		myBoard.initializeQueeningTest();
 		
 		initializeNames();
 
@@ -193,10 +195,6 @@ public class ChessGUI extends JFrame {
 	}
 	
 	private void startGameLoop() {
-		//boolean turn = true;
-//		while(!endGame) {
-//			
-//		}
 		endGame = false;
 	}
 	
@@ -228,7 +226,11 @@ public class ChessGUI extends JFrame {
 				}
 
 				if (isSecondClickLegalMove) {
-					myGui.myBoard.move(firstClick, secondClick);
+					if (isQueening()) {
+						myGui.myBoard.move(firstClick, secondClick, 'Q');
+					} else {
+						myGui.myBoard.move(firstClick, secondClick);
+					}
 					myGui.refreshGUI();
 				}		
 
@@ -246,6 +248,20 @@ public class ChessGUI extends JFrame {
 					myGui.whiteTurn = !myGui.whiteTurn;
 				}
 			}
-		}	
+		}
+		
+		//Checks if a piece is a pawn that's about to queen
+		private boolean isQueening() {
+			Piece queening = myGui.myBoard.getPiece(firstClick.y, firstClick.x);
+			boolean returnValue = false;
+			if (queening instanceof Pawn) {
+				if (queening.isWhite() && firstClick.y == 1) {
+					returnValue =  true;
+				} else if (!queening.isWhite() && firstClick.y == 6) {
+					returnValue = true;
+				}
+			}
+			return returnValue;
+		}
 	}
 }

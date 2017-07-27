@@ -28,6 +28,20 @@ public class Board {
 	}
 	
 	/**
+	 * Temporary method to test the queening functionality of the baord.
+	 * initializes a couple pawns on the baord
+	 */
+	public void initializeQueeningTest() {
+		myBoard[6][2] = new Pawn(PieceColor.White, new Point(6, 2));
+		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5));
+		
+		//some pieces to make extra moves when needed
+		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
+		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
+		
+	}
+	
+	/**
 	 * Method to set the board into the beginning of the state of the game.
 	 */
 	public void initializePieces() {
@@ -133,6 +147,28 @@ public class Board {
 					myBoard[from.y][from.x-1] = leftRook;
 				}
 			}
+			
+			myBoard[from.y][from.x] = null;
+			myBoard[to.y][to.x] = movingPiece;
+			
+			
+		}
+	}
+	
+	/**
+	 * Moves from from point to to point, upgrading it to the piece in the char upgrade.
+	 * @param from
+	 * @param to
+	 */
+	public void move(Point from, Point to, char upgrade) {
+		if (!from.equals(to)) {
+			Piece movingPiece = myBoard[from.y][from.x];
+			
+			if (upgrade == 'Q') {
+				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x));
+			}
+			
+			//movingPiece.setXY(to.y, to.x);
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
