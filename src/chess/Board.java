@@ -32,7 +32,7 @@ public class Board {
 	 * initializes a couple pawns on the baord
 	 */
 	public void initializeQueeningTest() {
-		myBoard[6][2] = new Pawn(PieceColor.White, new Point(6, 2));
+		myBoard[2][2] = new Pawn(PieceColor.White, new Point(2, 2));
 		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5));
 		
 		//some pieces to make extra moves when needed
@@ -157,8 +157,11 @@ public class Board {
 	
 	/**
 	 * Moves from from point to to point, upgrading it to the piece in the char upgrade.
+	 * If an invalid upgrade char is passed, the piece will remain a Pawn.
+	 * 
 	 * @param from
 	 * @param to
+	 * @param upgrade 'Q' for queen and so on
 	 */
 	public void move(Point from, Point to, char upgrade) {
 		if (!from.equals(to)) {
@@ -166,9 +169,15 @@ public class Board {
 			
 			if (upgrade == 'Q') {
 				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x));
+			} else if (upgrade == 'R') {
+				movingPiece = new Rook(movingPiece.getColor(), new Point(to.y, to.x));
+			} else if (upgrade == 'B') {
+				movingPiece = new Bishop(movingPiece.getColor(), new Point(to.y, to.x));
+			} else if (upgrade == 'N') {
+				movingPiece = new Knight(movingPiece.getColor(), new Point(to.y, to.x));
+			} else { //just in case
+				movingPiece.setXY(to.y, to.x);
 			}
-			
-			//movingPiece.setXY(to.y, to.x);
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;

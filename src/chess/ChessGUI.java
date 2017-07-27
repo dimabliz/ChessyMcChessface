@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Pieces.Pawn;
@@ -66,6 +67,36 @@ public class ChessGUI extends JFrame {
 
 		pack();
 		setVisible(true);
+	}
+	
+	/**
+	 * Method that asks the user what piece they would like to promote their pawn.
+	 * @return
+	 */
+	private char askForPromotedPiece() {
+		//Custom button text
+		Object[] options = {"Knight", "Bishop", "Rook", "Queen"};
+		
+		int chosenValue = JOptionPane.showOptionDialog(this,
+		    "Choose a Piece",
+		    "What do you want to promote your pawn to?",
+		    JOptionPane.YES_NO_CANCEL_OPTION,
+		    JOptionPane.QUESTION_MESSAGE,
+		    null,
+		    options,
+		    options[3]);
+		
+		char chosenChar = ' ';
+		if (chosenValue == 3) {
+			chosenChar = 'Q';
+		} else if (chosenValue == 2) {
+			chosenChar = 'R';
+		} else if (chosenValue == 1) {
+			chosenChar = 'B';
+		} else if (chosenValue == 0) {
+			chosenChar = 'N';
+		}
+		return chosenChar;
 	}
 
 	/**
@@ -227,7 +258,8 @@ public class ChessGUI extends JFrame {
 
 				if (isSecondClickLegalMove) {
 					if (isQueening()) {
-						myGui.myBoard.move(firstClick, secondClick, 'Q');
+						char promotedPiece = myGui.askForPromotedPiece();
+						myGui.myBoard.move(firstClick, secondClick, promotedPiece);
 					} else {
 						myGui.myBoard.move(firstClick, secondClick);
 					}
