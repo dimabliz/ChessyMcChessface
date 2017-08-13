@@ -88,9 +88,9 @@ public class Board {
 		List<Point> attackedSquares = getAttackedSquares(color);
 		boolean returnValue = false;
 		
-		for (Point p : attackedSquares) {
+		for (Point p : attackedSquares)
 			System.out.println("[" + p.x + ", " + p.y + "]");
-		}
+		
 		System.out.println("White King: [" + whiteKing.getLocation().x + ", " + whiteKing.getLocation().y + "]");
 		System.out.println("Black King: [" + blackKing.getLocation().x + ", " + blackKing.getLocation().y + "]");
 		
@@ -119,7 +119,8 @@ public class Board {
 				if (piece != null && piece.getColor() == color) {
 					List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
 					for(Point point : pieceAttacking) {
-						set.add(point);
+						set.add(new Point((int) point.getY(), (int)point.getX()));
+						//set.add(point);
 					}
 				}
 			}

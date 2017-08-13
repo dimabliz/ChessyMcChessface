@@ -62,7 +62,6 @@ public class Rook extends AbstractPiece {
 					break;
 				} else {
 					moves.add(new Point(myLocation.y, myLocation.x-i));
-					System.out.println("Here");
 				}
 			} else
 				break;
