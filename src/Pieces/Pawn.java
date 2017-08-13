@@ -107,7 +107,7 @@ public class Pawn extends AbstractPiece {
 			}
 			
 			//adding en passant right
-			if (myLocation.x-1 >= 0 && myLocation.y+1 >= 0) { //take right
+			if (myLocation.x-1 >= 0 && myLocation.y+1 <= 7) { //take right
 				if (board[myLocation.x][myLocation.y+1] != null 
 						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
