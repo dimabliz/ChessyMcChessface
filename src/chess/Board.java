@@ -83,16 +83,24 @@ public class Board {
 		return myBoard;
 	}
 	
+	//returns the location of the king of the passed in color
+	public Point getKingLocation(PieceColor color) {
+		if(color == PieceColor.White)
+			return whiteKing.getLocation();
+		else 
+			return blackKing.getLocation();
+	}
+	
 	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
 	private boolean checkCheck(PieceColor color) {
 		List<Point> attackedSquares = getAttackedSquares(color);
 		boolean returnValue = false;
 		
-		for (Point p : attackedSquares)
-			System.out.println("[" + p.x + ", " + p.y + "]");
+//		for (Point p : attackedSquares)
+//			System.out.println("[" + p.x + ", " + p.y + "]");
 		
-		System.out.println("White King: [" + whiteKing.getLocation().x + ", " + whiteKing.getLocation().y + "]");
-		System.out.println("Black King: [" + blackKing.getLocation().x + ", " + blackKing.getLocation().y + "]");
+		//System.out.println("White King: [" + whiteKing.getLocation().x + ", " + whiteKing.getLocation().y + "]");
+		//System.out.println("Black King: [" + blackKing.getLocation().x + ", " + blackKing.getLocation().y + "]");
 		
 		if (color == PieceColor.White && attackedSquares.contains(blackKing.getLocation())) {
 			returnValue = true;
@@ -133,10 +141,11 @@ public class Board {
 	
 	/**
 	 * Moves from from point to to point.
+	 * return whether move puts the other king in check.
 	 * @param from
 	 * @param to
 	 */
-	public void move(Point from, Point to) {
+	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
 			
@@ -183,8 +192,9 @@ public class Board {
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
 			
-			checkCheck(movingPiece.getColor());
+			return checkCheck(movingPiece.getColor());
 		}
+		return false;
 	}
 	
 	/**
@@ -195,7 +205,7 @@ public class Board {
 	 * @param to
 	 * @param upgrade 'Q' for queen and so on
 	 */
-	public void move(Point from, Point to, char upgrade) {
+	public boolean move(Point from, Point to, char upgrade) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
 			
@@ -214,8 +224,9 @@ public class Board {
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
 			
-			checkCheck(movingPiece.getColor());
+			return checkCheck(movingPiece.getColor());
 		}
+		return false;
 	}
 	
 	/**

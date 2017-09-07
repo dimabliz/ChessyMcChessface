@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import Enums.PieceColor;
 import Pieces.Pawn;
 import Pieces.Piece;
 
@@ -60,8 +61,8 @@ public class ChessGUI extends JFrame {
 		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
-		myBoard.initializePieces();
-		//myBoard.initializeQueeningTest();
+		//myBoard.initializePieces();
+		myBoard.initializeQueeningTest();
 		
 		initializeNames();
 
@@ -261,6 +262,7 @@ public class ChessGUI extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent theEvent) {
 			if (isSecondClick) {
+				boolean isCheck = false;
 				Square secondSquare = (Square) theEvent.getSource(); 
 				secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
 
@@ -273,11 +275,20 @@ public class ChessGUI extends JFrame {
 				if (isSecondClickLegalMove) {
 					if (myGui.isQueening(firstClick)) {
 						char promotedPiece = myGui.askForPromotedPiece();
-						myGui.myBoard.move(firstClick, secondClick, promotedPiece);
+						if (myGui.myBoard.move(firstClick, secondClick, promotedPiece)) { //if puts other side in check
+							isCheck = true;
+						}
 					} else {
-						myGui.myBoard.move(firstClick, secondClick);
+						if (myGui.myBoard.move(firstClick, secondClick)) { //if puts other side in check
+							isCheck = true;
+						}
 					}
 					myGui.refreshGUI();
+					if (isCheck) {
+						Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
+						myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);
+						isCheck = false;
+					}
 					myGui.whiteTurn = !myGui.whiteTurn;
 				}		
 
