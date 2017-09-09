@@ -262,48 +262,64 @@ public class ChessGUI extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent theEvent) {
 			if (isSecondClick) {
-				boolean isCheck = false;
-				Square secondSquare = (Square) theEvent.getSource(); 
-				secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
-
-				boolean isSecondClickLegalMove = false;
-				for (Point possibleMove : avaliableMoves) {
-					if (secondClick.equals(possibleMove))
-						isSecondClickLegalMove = true;
-				}
-
-				if (isSecondClickLegalMove) {
-					if (myGui.isQueening(firstClick)) {
-						char promotedPiece = myGui.askForPromotedPiece();
-						if (myGui.myBoard.move(firstClick, secondClick, promotedPiece)) { //if puts other side in check
-							isCheck = true;
-						}
-					} else {
-						if (myGui.myBoard.move(firstClick, secondClick)) { //if puts other side in check
-							isCheck = true;
-						}
-					}
-					myGui.refreshGUI();
-					if (isCheck) {
-						Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
-						myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);
-						isCheck = false;
-					}
-					myGui.whiteTurn = !myGui.whiteTurn;
-					isSecondClick = false;
-				}	
-
-				//isSecondClick = false;
-			} else {
-				Square clickedBox = (Square) theEvent.getSource(); 
-				Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
+				secondClick(theEvent);
 				
-				if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite() && !myGui.endGame) {
-					myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
-					avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
-					firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
-					isSecondClick = true;
+			} else {
+				firstClick(theEvent);
+			}
+		}
+		
+		// Function to handle the event of a user picking a piece to move.
+		// Needs the click event passed in.
+		private void firstClick(MouseEvent theEvent) {
+			Square clickedBox = (Square) theEvent.getSource(); 
+			Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
+			
+			if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite() && !myGui.endGame) {
+				myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
+				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
+				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
+				isSecondClick = true;
+			}
+		}
+		
+		// Function to handle the event if the user picked another square after already choosing a
+		// legal piece to move. Needs the click event passed in.
+		private void secondClick(MouseEvent theEvent) {
+			boolean isCheck = false;
+			Square secondSquare = (Square) theEvent.getSource(); 
+			secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
+
+			boolean isSecondClickLegalMove = false;
+			for (Point possibleMove : avaliableMoves) {
+				if (secondClick.equals(possibleMove))
+					isSecondClickLegalMove = true;
+			}
+
+			if (isSecondClickLegalMove) {
+				if (myGui.isQueening(firstClick)) {
+					char promotedPiece = myGui.askForPromotedPiece();
+					if (myGui.myBoard.move(firstClick, secondClick, promotedPiece)) { //if puts other side in check
+						isCheck = true;
+					}
+				} else {
+					if (myGui.myBoard.move(firstClick, secondClick)) { //if puts other side in check
+						isCheck = true;
+					}
 				}
+				myGui.refreshGUI();
+				if (isCheck) {
+					Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
+					myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);
+					isCheck = false;
+				}
+				myGui.whiteTurn = !myGui.whiteTurn;
+				isSecondClick = false;
+			}
+			
+			Piece clickedPiece = myGui.myBoard.getPiece(secondSquare.getMyY(), secondSquare.getMyX());
+			if (clickedPiece != null && clickedPiece.isWhite() == myGui.whiteTurn) { //user chose another piece to move
+				firstClick(theEvent);
 			}
 		}
 	}
