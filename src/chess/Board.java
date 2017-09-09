@@ -104,10 +104,8 @@ public class Board {
 		
 		if (color == PieceColor.White && attackedSquares.contains(blackKing.getLocation())) {
 			returnValue = true;
-			System.out.println("CHECK");
 		} else if (color == PieceColor.Black && attackedSquares.contains(whiteKing.getLocation())) {
 			returnValue =  true;
-			System.out.println("CHECK");
 		}
 		
 		return returnValue;
