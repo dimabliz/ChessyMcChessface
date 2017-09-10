@@ -75,11 +75,11 @@ public class Pawn extends AbstractPiece {
 		
 		//white pawns move up the board
 		if (myColor == PieceColor.White) {
-			if (myLocation.x-1 >= 0) { // one square up
+			if (myLocation.x-1 >= 0 && board[myLocation.x-1][myLocation.y] == null) { // one square up
 				moves.add(new Point(myLocation.y, myLocation.x-1));
 			}
 			if (firstMove) {
-				if (myLocation.x-2 >= 0) { //two squares up
+				if (myLocation.x-2 >= 0 && board[myLocation.x-2][myLocation.y] == null) { //two squares up
 					moves.add(new Point(myLocation.y, myLocation.x-2));
 				}
 			}
@@ -119,11 +119,11 @@ public class Pawn extends AbstractPiece {
 		} 
 		//black pawns move down the board
 		else {
-			if (myLocation.x+1 <= 7) { // one square down
+			if (myLocation.x+1 <= 7 && board[myLocation.x+1][myLocation.y] == null) { // one square down
 				moves.add(new Point(myLocation.y, myLocation.x+1));
 			}
 			if (firstMove) {
-				if (myLocation.x+2 <= 7) { //two squares down
+				if (myLocation.x+2 <= 7 && board[myLocation.x+2][myLocation.y] == null) { //two squares down
 					moves.add(new Point(myLocation.y, myLocation.x+2));
 				}
 			}
