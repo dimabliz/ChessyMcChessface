@@ -92,15 +92,9 @@ public class Board {
 	}
 	
 	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
-	private boolean checkCheck(PieceColor color) {
+	public boolean checkCheck(PieceColor color) {
 		List<Point> attackedSquares = getAttackedSquares(color);
 		boolean returnValue = false;
-		
-//		for (Point p : attackedSquares)
-//			System.out.println("[" + p.x + ", " + p.y + "]");
-		
-		//System.out.println("White King: [" + whiteKing.getLocation().x + ", " + whiteKing.getLocation().y + "]");
-		//System.out.println("Black King: [" + blackKing.getLocation().x + ", " + blackKing.getLocation().y + "]");
 		
 		if (color == PieceColor.White && attackedSquares.contains(blackKing.getLocation())) {
 			returnValue = true;

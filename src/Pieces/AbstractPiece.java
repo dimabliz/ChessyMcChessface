@@ -70,8 +70,23 @@ public abstract class AbstractPiece implements Piece {
 		}
 	}
 	
-	protected void refineByCheck(List<Point> moves, Board board) {
-		
+	/**
+	 * Removes from available moves, if the new square will have the king in check.
+	 * 
+	 * @param moves
+	 * @param board
+	 */
+	protected void refineByCheck(List<Point> moves) {
+		Point myOriginalLocation = myLocation;
+		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+		    Point currentPoint = iterator.next();
+		    myBoard.move(myLocation, currentPoint);
+//		    if (myBoard.checkCheck(myBoard.getPiece(currentPoint.y, currentPoint.x).getColor())) {
+		    if (myBoard.checkCheck(PieceColor.White)) {
+		    	iterator.remove();
+		    }
+		    myBoard.move(currentPoint, myOriginalLocation);
+		}
 	}
 	
 	/**

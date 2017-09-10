@@ -89,6 +89,7 @@ public class King extends AbstractPiece {
 					}
 				}
 		}
+		refineByCheck(moves);
 		
 		return moves;
 	}
