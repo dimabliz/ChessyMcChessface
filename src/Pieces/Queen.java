@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 
 /**
  * A Queen
@@ -18,8 +19,8 @@ public class Queen extends AbstractPiece implements Piece {
 	 * 
 	 * @param theColor is the color of this queen.
 	 */
-	public Queen(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.QUEEN, theLocation);
+	public Queen(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.QUEEN, theLocation, theBoard);
 	}
 	
 	/**

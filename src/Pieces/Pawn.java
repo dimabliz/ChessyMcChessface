@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 
 /**
  * A pawn.
@@ -29,8 +30,8 @@ public class Pawn extends AbstractPiece {
 	 * 
 	 * @param theColor the color of this pawn.
 	 */
-	public Pawn(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.PAWN, theLocation);
+	public Pawn(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.PAWN, theLocation, theBoard);
 	}
 	
 	/**

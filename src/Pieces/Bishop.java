@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 /**
  * A bishop.
  * 
@@ -17,8 +18,8 @@ public class Bishop extends AbstractPiece {
 	 * 
 	 * @param theColor the color of this bishop.
 	 */
-	public Bishop(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.BISHOP, theLocation);
+	public Bishop(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.BISHOP, theLocation, theBoard);
 	}
 	
 	/**

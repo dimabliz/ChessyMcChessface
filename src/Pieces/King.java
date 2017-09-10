@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 /**
  * A king.
  * 
@@ -23,8 +24,8 @@ public class King extends AbstractPiece {
 	 * 
 	 * @param theColor of this king.
 	 */
-	public King(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.KING, theLocation);
+	public King(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.KING, theLocation, theBoard);
 	}
 	
 	/**

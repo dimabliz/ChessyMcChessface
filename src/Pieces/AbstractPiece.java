@@ -6,6 +6,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 
 /**
  * Abstract Chess Piece.
@@ -20,6 +21,8 @@ public abstract class AbstractPiece implements Piece {
 	protected PiecePoints myPoints;
 	/** My location on board. */
 	protected Point myLocation;
+	/** Board class */
+	protected Board myBoard;
 	
 	/**
 	 * Creates a piece.
@@ -27,10 +30,11 @@ public abstract class AbstractPiece implements Piece {
 	 * @param theColor is color of this piece.
 	 * @param thePoints is point value of this piece.
 	 */
-	protected AbstractPiece(PieceColor theColor, PiecePoints thePoints, Point theLocation) {
+	protected AbstractPiece(final PieceColor theColor, final PiecePoints thePoints, final Point theLocation, Board theBoard) {
 		myColor = theColor;
 		myPoints = thePoints;
 		myLocation = theLocation;
+		myBoard = theBoard;
 	}
 	
 	/**
@@ -64,6 +68,10 @@ public abstract class AbstractPiece implements Piece {
 		        iterator.remove();
 		    }
 		}
+	}
+	
+	protected void refineByCheck(List<Point> moves, Board board) {
+		
 	}
 	
 	/**
