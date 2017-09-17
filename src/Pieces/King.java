@@ -52,7 +52,8 @@ public class King extends AbstractPiece {
 	 */
 	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
-		
+		System.out.println("getAvailableMoves()");
+		System.out.println();
 		// 8 available moves to the king
 		moves.add(new Point(myLocation.y, myLocation.x-1));
 		moves.add(new Point(myLocation.y-1, myLocation.x-1));
@@ -67,6 +68,10 @@ public class King extends AbstractPiece {
 		
 		refineBounds(moves);
 		refineByPieces(moves, board);
+		System.out.println();
+		for (int i = 0; i < moves.size(); i++) {
+			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
+		}
 		
 		if (!hasMoved()) {
 				//checking right castle

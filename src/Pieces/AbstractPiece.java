@@ -77,15 +77,28 @@ public abstract class AbstractPiece implements Piece {
 	 * @param board
 	 */
 	protected void refineByCheck(List<Point> moves) {
-		Point myOriginalLocation = myLocation;
+		System.out.println("refineByCheck()");
+		System.out.println();
+		
+		Point myOriginalLocation = new Point(myLocation.x, myLocation.y);
 		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
 		    Point currentPoint = iterator.next();
-		    myBoard.move(myLocation, currentPoint);
+		    System.out.println("simple move:");
+		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y));
+		    myBoard.printBoard();
 //		    if (myBoard.checkCheck(myBoard.getPiece(currentPoint.y, currentPoint.x).getColor())) {
 		    if (myBoard.checkCheck(PieceColor.White)) {
 		    	iterator.remove();
+		    	System.out.println("ELIMINATED BY CHECK!");
 		    }
-		    myBoard.move(currentPoint, myOriginalLocation);
+		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x));
+		    //System.out.println("currentPoint (x, y): " + currentPoint.x + ", " + currentPoint.y);
+		    //System.out.println("myOriginalLocation (x, y): " + myOriginalLocation.x + ", " + myOriginalLocation.y);
+		    System.out.println("put back");
+		    myBoard.printBoard();
+		}
+		for (int i = 0; i < moves.size(); i++) {
+			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
 		}
 	}
 	

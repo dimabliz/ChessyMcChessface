@@ -93,7 +93,7 @@ public class Board {
 	
 	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
 	public boolean checkCheck(PieceColor color) {
-		List<Point> attackedSquares = getAttackedSquares(color);
+		List<Point> attackedSquares = getAttackedSquaresNoKing(color);
 		boolean returnValue = false;
 		
 		if (color == PieceColor.White && attackedSquares.contains(blackKing.getLocation())) {
@@ -129,6 +129,91 @@ public class Board {
 		List<Point> allAttackedSquares = new ArrayList<Point>();
 		allAttackedSquares.addAll(set);
 		return allAttackedSquares;
+	}
+	
+	/**
+	 * Method to get all of the squares that the passed in color pieces are attacking.
+	 * All squares except for the squares the king is attacking.
+	 * 
+	 * @param color
+	 * @return List<Point> attacked squares
+	 */
+	public List<Point> getAttackedSquaresNoKing(PieceColor color) {
+		HashSet<Point> set = new HashSet<Point>();
+		
+		for(Piece[] row : myBoard) {
+			for(Piece piece : row) {
+				if (piece != null && piece.getColor() == color && !(piece instanceof King)) {
+					List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
+					for(Point point : pieceAttacking) {
+						set.add(new Point((int) point.getY(), (int)point.getX()));
+						//set.add(point);
+					}
+				}
+			}
+		}
+		
+		List<Point> allAttackedSquares = new ArrayList<Point>();
+		allAttackedSquares.addAll(set);
+		return allAttackedSquares;
+	}
+	
+	/**
+	 * Moves from from point to to point without checking for a check.
+	 * Method used to avoid circular checks of checks.
+	 * 
+	 * @param from
+	 * @param to
+	 */
+	public void simpleMove(Point from, Point to) {
+		if (!from.equals(to)) {
+			Piece movingPiece = myBoard[from.y][from.x];
+			System.out.println("Moving from (x, y): " + from.x + ", "+ from.y + " Moving to (x, y): "  + to.x + ", "+ to.y);
+			System.out.println("Moving piece: " + movingPiece);
+			movingPiece.setXY(to.y, to.x);
+			
+			//setting double square move for the pawn
+			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
+				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
+				if (Math.abs(to.y - from.y) == 2) {
+					((Pawn)movingPiece).setMovedTwoSquares();
+				}
+			}
+			
+			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
+				((King)movingPiece).setMoved();
+			}
+			
+			if (movingPiece instanceof Rook && !((Rook)movingPiece).hasMoved()) {
+				((Rook)movingPiece).setMoved();
+			}
+			
+			//en passant take
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
+				if (movingPiece.isWhite()) {
+					myBoard[to.y + 1][to.x] = null;
+				} else {
+					myBoard[to.y - 1][to.x] = null;
+				}
+			}
+			
+			//castles
+			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
+				if (to.x - from.x > 0) {//right castle
+					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					myBoard[from.y][from.x+3] = null;
+					myBoard[from.y][from.x+1] = rightRook;
+				} else { //left castle
+					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					myBoard[from.y][from.x-4] = null;
+					myBoard[from.y][from.x-1] = leftRook;
+				}
+			}
+			
+			myBoard[from.y][from.x] = null;
+			myBoard[to.y][to.x] = movingPiece;
+			
+		}
 	}
 	
 	/**
