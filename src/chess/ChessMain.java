@@ -1,4 +1,5 @@
 //Dmitriy Bliznyuk
+//Maksim Voznyarskiy
 
 package chess;
 
