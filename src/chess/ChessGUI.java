@@ -282,6 +282,7 @@ public class ChessGUI extends JFrame {
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 				isSecondClick = true;
 			}
+			myGui.repaint();
 		}
 		
 		// Function to handle the event if the user picked another square after already choosing a
@@ -322,6 +323,7 @@ public class ChessGUI extends JFrame {
 			if (clickedPiece != null && clickedPiece.isWhite() == myGui.whiteTurn) { //user chose another piece to move
 				firstClick(theEvent);
 			}
+            myGui.repaint();
 		}
 	}
 }

@@ -83,21 +83,27 @@ public abstract class AbstractPiece implements Piece {
 		Point myOriginalLocation = new Point(myLocation.x, myLocation.y);
 		//for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
 		//    Point currentPoint = iterator.next();
-			Point currentPoint = moves.get(0);
+		Iterator<Point> iterator = moves.iterator();
+		while (iterator.hasNext()) {
+
+			Point currentPoint = iterator.next();
 		    System.out.println("simple move:");
+		    Piece savePiece = myBoard.getPiece(currentPoint.y, currentPoint.x);
 		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y));
 		    myBoard.printBoard();
 //		    if (myBoard.checkCheck(myBoard.getPiece(currentPoint.y, currentPoint.x).getColor())) {
 		    if (myBoard.checkCheck(PieceColor.White)) {
-		    	//iterator.remove();
+		    	iterator.remove();
 		    	System.out.println("ELIMINATED BY CHECK!");
 		    }
 		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x));
+		    if (savePiece != null)
+		    	myBoard.placePiece(savePiece, currentPoint.y, currentPoint.x);
 		    //System.out.println("currentPoint (x, y): " + currentPoint.x + ", " + currentPoint.y);
 		    //System.out.println("myOriginalLocation (x, y): " + myOriginalLocation.x + ", " + myOriginalLocation.y);
 		    System.out.println("put back");
 		    myBoard.printBoard();
-		//}
+		}
 		for (int i = 0; i < moves.size(); i++) {
 			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
 		}
