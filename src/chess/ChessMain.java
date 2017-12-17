@@ -1,3 +1,5 @@
+//Dmitriy Bliznyuk
+
 package chess;
 
 import java.awt.EventQueue;
