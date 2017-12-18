@@ -14,9 +14,12 @@ public class Board {
 	private Piece[][] myBoard;
 	private King whiteKing;
 	private King blackKing;
+	/** Keeps track of the last pice that was moved. Will be helpful in en passant. */
+	private Piece lastPieceMoved;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
+		lastPieceMoved = null;
 	}
 	
 	/**
@@ -225,6 +228,7 @@ public class Board {
 	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			lastPieceMoved = movingPiece;
 			
 			movingPiece.setXY(to.y, to.x);
 			
@@ -285,6 +289,7 @@ public class Board {
 	public boolean move(Point from, Point to, char upgrade) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			lastPieceMoved = movingPiece;
 			
 			if (upgrade == 'Q') {
 				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x), this);
@@ -378,5 +383,14 @@ public class Board {
 			System.out.println();
 		}
 	}
+
+    /**
+     * Get method for lastPieceMoved.
+     *
+     * @return the lastPieceMoved.
+     */
+	public Piece getLastPieceMoved() {
+	    return lastPieceMoved;
+    }
 }
 
