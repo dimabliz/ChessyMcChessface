@@ -148,8 +148,8 @@ public class Queen extends AbstractPiece implements Piece {
 						}
 					} else
 						break;
-				}	
-			
+				}
+		refineByCheck(moves);
 		return moves;	
 	}
 	

@@ -113,7 +113,8 @@ public class Rook extends AbstractPiece {
 				}
 			} else
 				break;
-		}	
+		}
+		refineByCheck(moves);
 		return moves;
 	}
 	

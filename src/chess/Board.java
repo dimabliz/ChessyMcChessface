@@ -39,6 +39,9 @@ public class Board {
 	public void initializeQueeningTest() {
 		myBoard[2][2] = new Pawn(PieceColor.White, new Point(2, 2), this);
 		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5), this);
+
+		myBoard[3][3] = new Rook(PieceColor.Black, new Point(3, 3), this);
+        myBoard[7][5] = new Rook(PieceColor.White, new Point(7, 5), this);
 		
 		//some pieces to make extra moves when needed
 		blackKing = new King(PieceColor.Black, new Point(0, 4), this); //top king
@@ -358,7 +361,7 @@ public class Board {
 	 * 
 	 * @Before A piece has to exist at that point or null pointer exception will be thrown.
 	 * 
-	 * @param piece
+	 * @param thePiece
 	 */
 	public void printAllowedMoves(Piece thePiece) {
 		String[][] myPlot = new String[8][8];
