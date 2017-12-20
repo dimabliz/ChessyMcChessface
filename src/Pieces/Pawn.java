@@ -124,10 +124,12 @@ public class Pawn extends AbstractPiece {
 		else {
 			if (myLocation.x+1 <= 7 && board[myLocation.x+1][myLocation.y] == null) { // one square down
 				moves.add(new Point(myLocation.y, myLocation.x+1));
+				System.out.println("single jump");
 			}
 			if (firstMove) {
 				if (myLocation.x+2 <= 7 && board[myLocation.x+2][myLocation.y] == null) { //two squares down
 					moves.add(new Point(myLocation.y, myLocation.x+2));
+					System.out.println("double jump");
 				}
 			}
 			if (myLocation.x+1 <= 7 && myLocation.y-1 >= 0) { //take right

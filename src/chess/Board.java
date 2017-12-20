@@ -275,7 +275,9 @@ public class Board {
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
-			
+
+			checkForCheckMate(movingPiece.getColor());
+
 			return checkCheck(movingPiece.getColor());
 		}
 		return false;
@@ -308,10 +310,29 @@ public class Board {
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
-			
+
+			checkForCheckMate(movingPiece.getColor());
+
 			return checkCheck(movingPiece.getColor());
 		}
 		return false;
+	}
+
+	public void checkForCheckMate(PieceColor movingColor) {
+		// Need to check for a checkmate
+		PieceColor myColor = lastPieceMoved.getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
+		if (checkCheck(movingColor)) {
+			int totalMovesAvaliable = 0;
+
+			for (int i = 0; i <= 7; i++) {
+				for (int j = 0; j <= 7; j++) {
+					if (myBoard[i][j] != null && myBoard[i][j].getColor() == myColor)
+						totalMovesAvaliable += myBoard[i][j].getAvailableMoves(myBoard).size();
+				}
+			}
+
+			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvaliable + " total moves avaliable\n");
+		}
 	}
 	
 	/**

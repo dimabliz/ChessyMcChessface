@@ -76,12 +76,8 @@ public abstract class AbstractPiece implements Piece {
 	 * @param moves
 	 */
 	protected void refineByCheck(List<Point> moves) {
-		System.out.println("refineByCheck()");
-		System.out.println();
-		
 		Point myOriginalLocation = new Point(myLocation.x, myLocation.y);
-		//for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
-		//    Point currentPoint = iterator.next();
+
 		Iterator<Point> iterator = moves.iterator();
 		while (iterator.hasNext()) {
 
@@ -97,9 +93,6 @@ public abstract class AbstractPiece implements Piece {
 		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x));
 		    if (savePiece != null)
 		    	myBoard.placePiece(savePiece, currentPoint.y, currentPoint.x);
-		}
-		for (int i = 0; i < moves.size(); i++) {
-			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
 		}
 	}
 	

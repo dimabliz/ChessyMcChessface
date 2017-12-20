@@ -68,6 +68,7 @@ public class ChessGUI extends JFrame {
 
 		pack();
 		setVisible(true);
+
 	}
 	
 	/**
