@@ -46,7 +46,6 @@ public class Knight extends AbstractPiece {
 		
 		refineBounds(moves);
 		refineByPieces(moves, board);
-		refineByCheck(moves);
 		return moves;
 	}
 	

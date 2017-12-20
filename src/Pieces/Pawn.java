@@ -167,7 +167,6 @@ public class Pawn extends AbstractPiece {
 		}
 		
 		refineByPieces(moves, board);
-		refineByCheck(moves);
 		return moves;
 	}
 	

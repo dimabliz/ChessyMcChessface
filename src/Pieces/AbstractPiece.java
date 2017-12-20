@@ -74,7 +74,6 @@ public abstract class AbstractPiece implements Piece {
 	 * Removes from available moves, if the new square will have the king in check.
 	 * 
 	 * @param moves
-	 * @param board
 	 */
 	protected void refineByCheck(List<Point> moves) {
 		System.out.println("refineByCheck()");
@@ -91,8 +90,7 @@ public abstract class AbstractPiece implements Piece {
 		    Piece savePiece = myBoard.getPiece(currentPoint.y, currentPoint.x);
 		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y));
 		    myBoard.printBoard();
-//		    if (myBoard.checkCheck(myBoard.getPiece(currentPoint.y, currentPoint.x).getColor())) {
-		    if (myBoard.checkCheck(PieceColor.White)) {
+		    if (myBoard.checkCheck(myBoard.getPiece(currentPoint.y, currentPoint.x).getColor())) {
 		    	iterator.remove();
 		    	System.out.println("ELIMINATED BY CHECK!");
 		    }

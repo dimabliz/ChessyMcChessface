@@ -82,7 +82,6 @@ public class Bishop extends AbstractPiece {
 				}
 			}
 		}
-		refineByCheck(moves);
 		return moves;
 	}
 	
