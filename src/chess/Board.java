@@ -174,8 +174,6 @@ public class Board {
 	public void simpleMove(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
-			System.out.println("Moving from (x, y): " + from.x + ", "+ from.y + " Moving to (x, y): "  + to.x + ", "+ to.y);
-			System.out.println("Moving piece: " + movingPiece);
 			movingPiece.setXY(to.y, to.x);
 			
 			//setting double square move for the pawn
