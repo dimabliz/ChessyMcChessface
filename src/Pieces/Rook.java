@@ -114,6 +114,10 @@ public class Rook extends AbstractPiece {
 			} else
 				break;
 		}
+
+		PieceColor myColor = myBoard.getLastPieceMoved().getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
+		if (this.getColor() == myColor)
+			refineByCheck(moves);
 		return moves;
 	}
 	

@@ -41,11 +41,12 @@ public class Board {
 		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5), this);
 
 		myBoard[3][3] = new Rook(PieceColor.Black, new Point(3, 3), this);
-        myBoard[7][5] = new Rook(PieceColor.White, new Point(7, 5), this);
+        myBoard[2][5] = new Rook(PieceColor.White, new Point(2, 5), this);
 		
 		//some pieces to make extra moves when needed
 		blackKing = new King(PieceColor.Black, new Point(0, 4), this); //top king
 		myBoard[0][4] = blackKing;
+		lastPieceMoved = blackKing;
 		
 		whiteKing =  new King(PieceColor.White, new Point(7, 4), this); //bottom king
 		myBoard[7][4] = whiteKing;

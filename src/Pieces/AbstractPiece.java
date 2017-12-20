@@ -88,11 +88,12 @@ public abstract class AbstractPiece implements Piece {
 			Point currentPoint = iterator.next();
 		    Piece savePiece = myBoard.getPiece(currentPoint.y, currentPoint.x);
 		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y));
-		    
+
 			PieceColor myColor = myBoard.getLastPieceMoved().getColor() == PieceColor.White ? PieceColor.White : PieceColor.Black;
 		    if (myBoard.checkCheck(myColor)) {
 		    	iterator.remove();
 		    }
+
 		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x));
 		    if (savePiece != null)
 		    	myBoard.placePiece(savePiece, currentPoint.y, currentPoint.x);
