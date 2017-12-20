@@ -66,6 +66,7 @@ public class Board {
 		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3), this); //top queen
 		blackKing = new King(PieceColor.Black, new Point(0, 4), this); //top king
 		myBoard[0][4] = blackKing;
+		lastPieceMoved = blackKing;
 		myBoard[0][5] = new Bishop(PieceColor.Black, new Point(0, 5), this); //top right bishop
 		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6), this); //top right knight
 		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7), this); //top right rook
