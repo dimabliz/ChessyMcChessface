@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 /**
  * A rook.
  * 
@@ -23,8 +24,8 @@ public class Rook extends AbstractPiece {
 	 * 
 	 * @param theColor is the color of this rook.
 	 */
-	public Rook(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.ROOK, theLocation);
+	public Rook(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.ROOK, theLocation, theBoard);
 	}
 	
 	/**
@@ -112,7 +113,11 @@ public class Rook extends AbstractPiece {
 				}
 			} else
 				break;
-		}	
+		}
+
+		PieceColor myColor = myBoard.getLastPieceMoved().getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
+		if (this.getColor() == myColor)
+			refineByCheck(moves);
 		return moves;
 	}
 	

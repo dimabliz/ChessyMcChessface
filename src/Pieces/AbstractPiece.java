@@ -6,6 +6,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 
 /**
  * Abstract Chess Piece.
@@ -20,6 +21,8 @@ public abstract class AbstractPiece implements Piece {
 	protected PiecePoints myPoints;
 	/** My location on board. */
 	protected Point myLocation;
+	/** Board class */
+	protected Board myBoard;
 	
 	/**
 	 * Creates a piece.
@@ -27,10 +30,11 @@ public abstract class AbstractPiece implements Piece {
 	 * @param theColor is color of this piece.
 	 * @param thePoints is point value of this piece.
 	 */
-	protected AbstractPiece(PieceColor theColor, PiecePoints thePoints, Point theLocation) {
+	protected AbstractPiece(final PieceColor theColor, final PiecePoints thePoints, final Point theLocation, Board theBoard) {
 		myColor = theColor;
 		myPoints = thePoints;
 		myLocation = theLocation;
+		myBoard = theBoard;
 	}
 	
 	/**
@@ -63,6 +67,39 @@ public abstract class AbstractPiece implements Piece {
 		    		&& board[currentPoint.y][currentPoint.x].getColor() == myColor) {
 		        iterator.remove();
 		    }
+		}
+	}
+	
+	/**
+	 * Removes from available moves, if the new square will have the king in check.
+	 * 
+	 * @param moves
+	 */
+	protected void refineByCheck(List<Point> moves) {
+		System.out.println("refineByCheck()");
+		System.out.println();
+		
+		Point myOriginalLocation = new Point(myLocation.x, myLocation.y);
+		//for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+		//    Point currentPoint = iterator.next();
+		Iterator<Point> iterator = moves.iterator();
+		while (iterator.hasNext()) {
+
+			Point currentPoint = iterator.next();
+		    Piece savePiece = myBoard.getPiece(currentPoint.y, currentPoint.x);
+		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y));
+
+			PieceColor myColor = myBoard.getLastPieceMoved().getColor() == PieceColor.White ? PieceColor.White : PieceColor.Black;
+		    if (myBoard.checkCheck(myColor)) {
+		    	iterator.remove();
+		    }
+
+		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x));
+		    if (savePiece != null)
+		    	myBoard.placePiece(savePiece, currentPoint.y, currentPoint.x);
+		}
+		for (int i = 0; i < moves.size(); i++) {
+			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
 		}
 	}
 	

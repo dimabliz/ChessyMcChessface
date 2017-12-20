@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 
 /**
  * A pawn.
@@ -29,8 +30,8 @@ public class Pawn extends AbstractPiece {
 	 * 
 	 * @param theColor the color of this pawn.
 	 */
-	public Pawn(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.PAWN, theLocation);
+	public Pawn(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.PAWN, theLocation, theBoard);
 	}
 	
 	/**
@@ -102,17 +103,19 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y-1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y-1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y-1]).hasMovedTwoSquares()) {
-					moves.add(new Point(myLocation.y-1, myLocation.x-1));
+					if (board[myLocation.x][myLocation.y - 1].equals(myBoard.getLastPieceMoved()))
+						moves.add(new Point(myLocation.y-1, myLocation.x-1));
 				}
 			}
-			
+
 			//adding en passant right
 			if (myLocation.x-1 >= 0 && myLocation.y+1 <= 7) { //take right
 				if (board[myLocation.x][myLocation.y+1] != null 
 						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y+1]).hasMovedTwoSquares()) {
-					moves.add(new Point(myLocation.y+1, myLocation.x-1));
+					if (board[myLocation.x][myLocation.y + 1].equals(myBoard.getLastPieceMoved()))
+						moves.add(new Point(myLocation.y+1, myLocation.x-1));
 				}
 			}
 			
@@ -146,7 +149,8 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y+1]).hasMovedTwoSquares()) {
-					moves.add(new Point(myLocation.y+1, myLocation.x+1));
+					if (board[myLocation.x][myLocation.y + 1].equals(myBoard.getLastPieceMoved()))
+						moves.add(new Point(myLocation.y+1, myLocation.x+1));
 				}
 			}
 			
@@ -156,13 +160,18 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y-1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y-1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y-1]).hasMovedTwoSquares()) {
-					moves.add(new Point(myLocation.y-1, myLocation.x+1));
+					if (board[myLocation.x][myLocation.y - 1].equals(myBoard.getLastPieceMoved()))
+						moves.add(new Point(myLocation.y-1, myLocation.x+1));
 				}
 			}
 		}
 		
 		refineByPieces(moves, board);
-		
+
+		PieceColor myColor = myBoard.getLastPieceMoved().getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
+		if (this.getColor() == myColor)
+			refineByCheck(moves);
+
 		return moves;
 	}
 	

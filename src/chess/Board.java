@@ -14,9 +14,12 @@ public class Board {
 	private Piece[][] myBoard;
 	private King whiteKing;
 	private King blackKing;
+	/** Keeps track of the last pice that was moved. Will be helpful in en passant. */
+	private Piece lastPieceMoved;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
+		lastPieceMoved = null;
 	}
 	
 	/**
@@ -34,18 +37,22 @@ public class Board {
 	 * initializes a couple pawns on the board
 	 */
 	public void initializeQueeningTest() {
-		myBoard[2][2] = new Pawn(PieceColor.White, new Point(2, 2));
-		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5));
+		myBoard[2][2] = new Pawn(PieceColor.White, new Point(2, 2), this);
+		myBoard[1][5] = new Pawn(PieceColor.Black, new Point(1, 5), this);
+
+		myBoard[3][3] = new Rook(PieceColor.Black, new Point(3, 3), this);
+        myBoard[2][5] = new Rook(PieceColor.White, new Point(2, 5), this);
 		
 		//some pieces to make extra moves when needed
-		blackKing = new King(PieceColor.Black, new Point(0, 4)); //top king
+		blackKing = new King(PieceColor.Black, new Point(0, 4), this); //top king
 		myBoard[0][4] = blackKing;
+		lastPieceMoved = blackKing;
 		
-		whiteKing =  new King(PieceColor.White, new Point(7, 4)); //bottom king
+		whiteKing =  new King(PieceColor.White, new Point(7, 4), this); //bottom king
 		myBoard[7][4] = whiteKing;
 		
-		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3)); //top queen
-		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3)); //bottom queen
+		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3), this); //top queen
+		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3), this); //bottom queen
 	}
 	
 	/**
@@ -53,28 +60,28 @@ public class Board {
 	 */
 	public void initializePieces() {
 		// set up black major pieces
-		myBoard[0][0] = new Rook(PieceColor.Black, new Point(0, 0)); //top left rook
-		myBoard[0][1] = new Knight(PieceColor.Black, new Point(0, 1)); //top left knight
-		myBoard[0][2] = new Bishop(PieceColor.Black, new Point(0, 2)); //top left bishop
-		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3)); //top queen
-		blackKing = new King(PieceColor.Black, new Point(0, 4)); //top king
+		myBoard[0][0] = new Rook(PieceColor.Black, new Point(0, 0), this); //top left rook
+		myBoard[0][1] = new Knight(PieceColor.Black, new Point(0, 1), this); //top left knight
+		myBoard[0][2] = new Bishop(PieceColor.Black, new Point(0, 2), this); //top left bishop
+		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3), this); //top queen
+		blackKing = new King(PieceColor.Black, new Point(0, 4), this); //top king
 		myBoard[0][4] = blackKing;
-		myBoard[0][5] = new Bishop(PieceColor.Black, new Point(0, 5)); //top right bishop
-		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6)); //top right knight
-		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7)); //top right rook
+		myBoard[0][5] = new Bishop(PieceColor.Black, new Point(0, 5), this); //top right bishop
+		myBoard[0][6] = new Knight(PieceColor.Black, new Point(0, 6), this); //top right knight
+		myBoard[0][7] = new Rook(PieceColor.Black, new Point(0, 7), this); //top right rook
 		
 		initializePawns(1, PieceColor.Black);
 		
 		// set up white major pieces
-		myBoard[7][0] = new Rook(PieceColor.White, new Point(7, 0)); //bottom left rook
-		myBoard[7][1] = new Knight(PieceColor.White, new Point(7, 1)); //bottom left knight
-		myBoard[7][2] = new Bishop(PieceColor.White, new Point(7, 2)); //bottom left bishop
-		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3)); //bottom queen
-		whiteKing =  new King(PieceColor.White, new Point(7, 4)); //bottom king
+		myBoard[7][0] = new Rook(PieceColor.White, new Point(7, 0), this); //bottom left rook
+		myBoard[7][1] = new Knight(PieceColor.White, new Point(7, 1), this); //bottom left knight
+		myBoard[7][2] = new Bishop(PieceColor.White, new Point(7, 2), this); //bottom left bishop
+		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3), this); //bottom queen
+		whiteKing =  new King(PieceColor.White, new Point(7, 4), this); //bottom king
 		myBoard[7][4] = whiteKing;
-		myBoard[7][5] = new Bishop(PieceColor.White, new Point(7, 5)); //bottom right bishop
-		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6)); //bottom right knight
-		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7)); //bottom right rook
+		myBoard[7][5] = new Bishop(PieceColor.White, new Point(7, 5), this); //bottom right bishop
+		myBoard[7][6] = new Knight(PieceColor.White, new Point(7, 6), this); //bottom right knight
+		myBoard[7][7] = new Rook(PieceColor.White, new Point(7, 7), this); //bottom right rook
 		
 		initializePawns(6, PieceColor.White);
 	}
@@ -92,15 +99,9 @@ public class Board {
 	}
 	
 	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
-	private boolean checkCheck(PieceColor color) {
-		List<Point> attackedSquares = getAttackedSquares(color);
+	public boolean checkCheck(PieceColor color) {
+		List<Point> attackedSquares = getAttackedSquaresNoKing(color);
 		boolean returnValue = false;
-		
-//		for (Point p : attackedSquares)
-//			System.out.println("[" + p.x + ", " + p.y + "]");
-		
-		//System.out.println("White King: [" + whiteKing.getLocation().x + ", " + whiteKing.getLocation().y + "]");
-		//System.out.println("Black King: [" + blackKing.getLocation().x + ", " + blackKing.getLocation().y + "]");
 		
 		if (color == PieceColor.White && attackedSquares.contains(blackKing.getLocation())) {
 			returnValue = true;
@@ -138,6 +139,89 @@ public class Board {
 	}
 	
 	/**
+	 * Method to get all of the squares that the passed in color pieces are attacking.
+	 * All squares except for the squares the king is attacking.
+	 * 
+	 * @param color
+	 * @return List<Point> attacked squares
+	 */
+	public List<Point> getAttackedSquaresNoKing(PieceColor color) {
+		HashSet<Point> set = new HashSet<Point>();
+		
+		for(Piece[] row : myBoard) {
+			for(Piece piece : row) {
+				if (piece != null && piece.getColor() == color && !(piece instanceof King)) {
+					List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
+					for(Point point : pieceAttacking) {
+						set.add(new Point((int) point.getY(), (int)point.getX()));
+						//set.add(point);
+					}
+				}
+			}
+		}
+		
+		List<Point> allAttackedSquares = new ArrayList<Point>();
+		allAttackedSquares.addAll(set);
+		return allAttackedSquares;
+	}
+	
+	/**
+	 * Moves from from point to to point without checking for a check.
+	 * Method used to avoid circular checks of checks.
+	 * 
+	 * @param from
+	 * @param to
+	 */
+	public void simpleMove(Point from, Point to) {
+		if (!from.equals(to)) {
+			Piece movingPiece = myBoard[from.y][from.x];
+			movingPiece.setXY(to.y, to.x);
+			
+			//setting double square move for the pawn
+			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
+				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
+				if (Math.abs(to.y - from.y) == 2) {
+					((Pawn)movingPiece).setMovedTwoSquares();
+				}
+			}
+			
+			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
+				((King)movingPiece).setMoved();
+			}
+			
+			if (movingPiece instanceof Rook && !((Rook)movingPiece).hasMoved()) {
+				((Rook)movingPiece).setMoved();
+			}
+			
+			//en passant take
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
+				if (movingPiece.isWhite()) {
+					myBoard[to.y + 1][to.x] = null;
+				} else {
+					myBoard[to.y - 1][to.x] = null;
+				}
+			}
+			
+			//castles
+			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
+				if (to.x - from.x > 0) {//right castle
+					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					myBoard[from.y][from.x+3] = null;
+					myBoard[from.y][from.x+1] = rightRook;
+				} else { //left castle
+					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					myBoard[from.y][from.x-4] = null;
+					myBoard[from.y][from.x-1] = leftRook;
+				}
+			}
+			
+			myBoard[from.y][from.x] = null;
+			myBoard[to.y][to.x] = movingPiece;
+			
+		}
+	}
+	
+	/**
 	 * Moves from from point to to point.
 	 * return whether move puts the other king in check.
 	 * @param from
@@ -146,6 +230,7 @@ public class Board {
 	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			lastPieceMoved = movingPiece;
 			
 			movingPiece.setXY(to.y, to.x);
 			
@@ -206,15 +291,16 @@ public class Board {
 	public boolean move(Point from, Point to, char upgrade) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			lastPieceMoved = movingPiece;
 			
 			if (upgrade == 'Q') {
-				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x));
+				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x), this);
 			} else if (upgrade == 'R') {
-				movingPiece = new Rook(movingPiece.getColor(), new Point(to.y, to.x));
+				movingPiece = new Rook(movingPiece.getColor(), new Point(to.y, to.x), this);
 			} else if (upgrade == 'B') {
-				movingPiece = new Bishop(movingPiece.getColor(), new Point(to.y, to.x));
+				movingPiece = new Bishop(movingPiece.getColor(), new Point(to.y, to.x), this);
 			} else if (upgrade == 'N') {
-				movingPiece = new Knight(movingPiece.getColor(), new Point(to.y, to.x));
+				movingPiece = new Knight(movingPiece.getColor(), new Point(to.y, to.x), this);
 			} else { //just in case
 				movingPiece.setXY(to.y, to.x);
 			}
@@ -234,7 +320,7 @@ public class Board {
 	 */
 	private void initializePawns(int row, PieceColor color) {
 		for(int i = 0; i < 8; i++) {
-			myBoard[row][i] = new Pawn(color, new Point(row, i));
+			myBoard[row][i] = new Pawn(color, new Point(row, i), this);
 		}
 	}
 	
@@ -274,7 +360,7 @@ public class Board {
 	 * 
 	 * @Before A piece has to exist at that point or null pointer exception will be thrown.
 	 * 
-	 * @param piece
+	 * @param thePiece
 	 */
 	public void printAllowedMoves(Piece thePiece) {
 		String[][] myPlot = new String[8][8];
@@ -299,5 +385,14 @@ public class Board {
 			System.out.println();
 		}
 	}
+
+    /**
+     * Get method for lastPieceMoved.
+     *
+     * @return the lastPieceMoved.
+     */
+	public Piece getLastPieceMoved() {
+	    return lastPieceMoved;
+    }
 }
 

@@ -117,18 +117,19 @@ public class ChessGUI extends JFrame {
 	 * @param y location on board.
 	 * @param x location on board.
 	 */
-	public void showAvailableSquares(int y, int x) {
+	public List<Point> showAvailableSquares(int y, int x) {
 		setCheckeredColor();
 
 		Piece clickedPiece = myBoard.getPiece(y, x);
-
+		List<Point> moves = null;
 		if (clickedPiece != null) {
 			getSquare(y, x).setBackground(Color.CYAN);
-			List<Point> moves = clickedPiece.getAvailableMoves(myBoard.getMyBoardArray());
+			moves = clickedPiece.getAvailableMoves(myBoard.getMyBoardArray());
 			for(Point point : moves) {
 				getSquare(point.y, point.x).setBackground(Color.GREEN);
 			}
 		}
+		return moves;
 	}
 
 	public void refreshGUI() {
@@ -249,14 +250,14 @@ public class ChessGUI extends JFrame {
 		static Point firstClick;
 		static Point secondClick;
 		static boolean isSecondClick;
-		static List<Point> avaliableMoves;
+		static List<Point> availableMoves;
 
 		public BoxListener(ChessGUI theBoard) {
 			myGui = theBoard;
 			firstClick = null;
 			secondClick = null;
 			isSecondClick = false;
-			avaliableMoves = null;
+			availableMoves = null;
 		}
 
 		@Override
@@ -276,11 +277,12 @@ public class ChessGUI extends JFrame {
 			Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
 			
 			if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite() && !myGui.endGame) {
-				myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
-				avaliableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
+				availableMoves = myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
+				//availableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
 				isSecondClick = true;
 			}
+			myGui.repaint();
 		}
 		
 		// Function to handle the event if the user picked another square after already choosing a
@@ -291,7 +293,7 @@ public class ChessGUI extends JFrame {
 			secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
 
 			boolean isSecondClickLegalMove = false;
-			for (Point possibleMove : avaliableMoves) {
+			for (Point possibleMove : availableMoves) {
 				if (secondClick.equals(possibleMove))
 					isSecondClickLegalMove = true;
 			}
@@ -321,6 +323,7 @@ public class ChessGUI extends JFrame {
 			if (clickedPiece != null && clickedPiece.isWhite() == myGui.whiteTurn) { //user chose another piece to move
 				firstClick(theEvent);
 			}
+            myGui.repaint();
 		}
 	}
 }

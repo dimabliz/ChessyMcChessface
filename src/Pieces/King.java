@@ -5,6 +5,7 @@ import java.util.List;
 
 import Enums.PieceColor;
 import Enums.PiecePoints;
+import chess.Board;
 /**
  * A king.
  * 
@@ -23,8 +24,8 @@ public class King extends AbstractPiece {
 	 * 
 	 * @param theColor of this king.
 	 */
-	public King(PieceColor theColor, Point theLocation) {
-		super(theColor, PiecePoints.KING, theLocation);
+	public King(PieceColor theColor, Point theLocation, Board theBoard) {
+		super(theColor, PiecePoints.KING, theLocation, theBoard);
 	}
 	
 	/**
@@ -51,7 +52,8 @@ public class King extends AbstractPiece {
 	 */
 	public List<Point> getAvailableMoves(final Piece[][] board) {
 		List<Point> moves = new ArrayList<Point>();
-		
+		System.out.println("getAvailableMoves()");
+		System.out.println();
 		// 8 available moves to the king
 		moves.add(new Point(myLocation.y, myLocation.x-1));
 		moves.add(new Point(myLocation.y-1, myLocation.x-1));
@@ -66,6 +68,10 @@ public class King extends AbstractPiece {
 		
 		refineBounds(moves);
 		refineByPieces(moves, board);
+		System.out.println();
+		for (int i = 0; i < moves.size(); i++) {
+			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
+		}
 		
 		if (!hasMoved()) {
 				//checking right castle
@@ -88,6 +94,7 @@ public class King extends AbstractPiece {
 					}
 				}
 		}
+		refineByCheck(moves);
 		
 		return moves;
 	}
