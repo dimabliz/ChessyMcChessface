@@ -20,10 +20,13 @@ public class Board {
 	private King blackKing;
 	/** Keeps track of the last pice that was moved. Will be helpful in en passant. */
 	private Piece lastPieceMoved;
+	/** Keeps track to check if the last piece moved was also a double jump. Needed for en-passant*/
+	private boolean lastPieceMovedDouble;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
 		lastPieceMoved = null;
+		lastPieceMovedDouble = false;
 	}
 	
 	/**
@@ -224,6 +227,8 @@ public class Board {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
 			lastPieceMoved = movingPiece;
+			// set it to false by default, if piece really moved double then it will be set in the condition below.
+			lastPieceMovedDouble = false;
 			
 			movingPiece.setXY(to.y, to.x);
 			
@@ -231,10 +236,14 @@ public class Board {
 			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
 				//((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
 				if (Math.abs(to.y - from.y) == 2) {
+					lastPieceMovedDouble = true;
 					((Pawn)movingPiece).setMoved();
 					((Pawn)movingPiece).setMovedTwoSquares();
 				}
 			}
+			
+			if (movingPiece instanceof Pawn)
+				((Pawn)movingPiece).setMoved();
 			
 			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
 				((King)movingPiece).setMoved();
@@ -411,5 +420,14 @@ public class Board {
 	public Piece getLastPieceMoved() {
 	    return lastPieceMoved;
     }
+	
+	/** 
+	 * Get method for lastPieceMOvedDOuble
+	 * 
+	 * @return the lastPieceMovedDouble
+	 */
+	public boolean getLastPieceMovedDouble() {
+		return lastPieceMovedDouble;
+	}
 }
 
