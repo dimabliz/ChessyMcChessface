@@ -8,7 +8,11 @@ import java.awt.Point;
 
 import Enums.PieceColor;
 import Pieces.*;
-
+/**
+ * 
+ * @author Maksimv@uw.edu
+ *
+ */
 public class Board {
 	
 	private Piece[][] myBoard;
@@ -173,43 +177,29 @@ public class Board {
 	 * @param from
 	 * @param to
 	 */
-	public void simpleMove(Point from, Point to) {
+	public void simpleMove(Point from, Point to, boolean movingForward) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
 			movingPiece.setXY(to.y, to.x);
 			
-			//setting double square move for the pawn
-			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
-				if (Math.abs(to.y - from.y) == 2) {
-					((Pawn)movingPiece).setMovedTwoSquares();
-				}
-			}
-			
-			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
-				((King)movingPiece).setMoved();
-			}
-			
-			if (movingPiece instanceof Rook && !((Rook)movingPiece).hasMoved()) {
-				((Rook)movingPiece).setMoved();
-			}
-			
 			//en passant take
-			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && true ) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
-					myBoard[to.y + 1][to.x] = null;
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y + 1][to.x] = null;
 				} else {
-					myBoard[to.y - 1][to.x] = null;
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y - 1][to.x] = null;
 				}
 			}
 			
 			//castles
 			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
-				if (to.x - from.x > 0) {//right castle
+				if (to.x - from.x > 0 && myBoard[from.y][from.x + 3] instanceof Rook) {//right castle
 					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
 					myBoard[from.y][from.x+3] = null;
 					myBoard[from.y][from.x+1] = rightRook;
-				} else { //left castle
+				} else if (myBoard[from.y][from.x - 4] instanceof Rook) { //left castle
 					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
 					myBoard[from.y][from.x-4] = null;
 					myBoard[from.y][from.x-1] = leftRook;
@@ -237,8 +227,9 @@ public class Board {
 			
 			//setting double square move for the pawn
 			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
+				//((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
 				if (Math.abs(to.y - from.y) == 2) {
+					((Pawn)movingPiece).setMoved();
 					((Pawn)movingPiece).setMovedTwoSquares();
 				}
 			}
@@ -254,9 +245,11 @@ public class Board {
 			//en passant take
 			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
-					myBoard[to.y + 1][to.x] = null;
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y + 1][to.x] = null;
 				} else {
-					myBoard[to.y - 1][to.x] = null;
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y - 1][to.x] = null;
 				}
 			}
 			
