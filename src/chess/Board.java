@@ -241,7 +241,7 @@ public class Board {
 			}
 			
 			//en passant take
-			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && (Pawn)movingPiece == lastPieceMoved) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
 					myBoard[to.y + 1][to.x] = null;
 				} else {
