@@ -195,11 +195,11 @@ public class Board {
 			
 			//castles
 			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
-				if (to.x - from.x > 0) {//right castle
+				if (to.x - from.x > 0 && myBoard[from.y][from.x + 3] instanceof Rook) {//right castle
 					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
 					myBoard[from.y][from.x+3] = null;
 					myBoard[from.y][from.x+1] = rightRook;
-				} else { //left castle
+				} else if (myBoard[from.y][from.x - 4] instanceof Rook) { //left castle
 					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
 					myBoard[from.y][from.x-4] = null;
 					myBoard[from.y][from.x-1] = leftRook;
