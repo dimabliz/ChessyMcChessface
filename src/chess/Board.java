@@ -183,12 +183,14 @@ public class Board {
 			movingPiece.setXY(to.y, to.x);
 			
 			//en passant take
-			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && true ) { //pawn took diagonally
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && movingForward ) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
-					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved))
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved)
+						&& myBoard[to.y][to.x] == null)
 						myBoard[to.y + 1][to.x] = null;
 				} else {
-					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved))
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved)
+						&& myBoard[to.y][to.x] == null)
 						myBoard[to.y - 1][to.x] = null;
 				}
 			}
