@@ -22,11 +22,20 @@ public class Board {
 	private Piece lastPieceMoved;
 	/** Keeps track to check if the last piece moved was also a double jump. Needed for en-passant*/
 	private boolean lastPieceMovedDouble;
+	/** Keeps track of whether we are undoing an en-passant move in simpleMove */
+	private boolean undoEnPassant;
+	/** Keeps track of the pawn that we are undoing. */
+	private Pawn undoPawn;
+	/** Keeps track of the location where we are putting the pawn back. */
+	private Point undoLocation;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
 		lastPieceMoved = null;
 		lastPieceMovedDouble = false;
+		undoEnPassant = false;
+		undoPawn = null;
+		undoLocation = null;
 	}
 	
 	/**
@@ -177,6 +186,10 @@ public class Board {
 	 * Moves from from point to to point without checking for a check.
 	 * Method used to avoid circular checks of checks.
 	 * 
+	 * it's confusing because in AbstractPiece, when we check for checks we use simpleMove to make a move, then simpleMove to move the pieces back.
+	 * This gets confusing when the move is an en-passant or a castle. For example, if we do en-passant moving forwards, we get rid fo the piece,
+	 * then when we move back it does not add the piece back to its correct location.
+	 * 
 	 * @param from
 	 * @param to
 	 */
@@ -186,16 +199,27 @@ public class Board {
 			movingPiece.setXY(to.y, to.x);
 			
 			//en passant take
-			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && movingForward ) { //pawn took diagonally
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && movingForward ) { // check that pawn took diagonally
 				if (movingPiece.isWhite()) {
 					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved)
-						&& myBoard[to.y][to.x] == null)
+							&& myBoard[to.y][to.x] == null && lastPieceMovedDouble) {
+						undoEnPassant = true;
+						undoPawn = (Pawn) myBoard[to.y + 1][to.x];
+						undoLocation = new Point(to.y + 1, to.x);
 						myBoard[to.y + 1][to.x] = null;
+					}
 				} else {
 					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved)
-						&& myBoard[to.y][to.x] == null)
+							&& myBoard[to.y][to.x] == null && lastPieceMovedDouble) {
+						undoEnPassant = true;
+						undoPawn = (Pawn) myBoard[to.y - 1][to.x];
+						undoLocation = new Point(to.y - 1, to.x);
 						myBoard[to.y - 1][to.x] = null;
+					}
 				}
+			} else if (undoEnPassant) {// undo a en passant take
+				undoEnPassant = false;
+				myBoard[undoLocation.x][undoLocation.y] = undoPawn;
 			}
 			
 			//castles
