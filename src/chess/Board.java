@@ -8,7 +8,11 @@ import java.awt.Point;
 
 import Enums.PieceColor;
 import Pieces.*;
-
+/**
+ * 
+ * @author Maksimv@uw.edu
+ *
+ */
 public class Board {
 	
 	private Piece[][] myBoard;
