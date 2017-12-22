@@ -176,9 +176,6 @@ public class Board {
 	 * 
 	 * @param from
 	 * @param to
-	 * @param movingForward is used to determine if the piece is moving forward or backward. In refineByCheck, we use simple move to move a
-	 * 			piece forward, then again to move it back to its original lcoation. THe problem with en-passant is that when we moved the pawn
-	 * 			back to its original location, we would treat the move back as an en-passant, and get rid of the piece behind it.
 	 */
 	public void simpleMove(Point from, Point to, boolean movingForward) {
 		if (!from.equals(to)) {
@@ -186,11 +183,13 @@ public class Board {
 			movingPiece.setXY(to.y, to.x);
 			
 			//en passant take
-			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && movingForward) { //pawn took diagonally
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && true ) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
-					myBoard[to.y + 1][to.x] = null;
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y + 1][to.x] = null;
 				} else {
-					myBoard[to.y - 1][to.x] = null;
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y - 1][to.x] = null;
 				}
 			}
 			
@@ -246,9 +245,11 @@ public class Board {
 			//en passant take
 			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
-					myBoard[to.y + 1][to.x] = null;
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y + 1][to.x] = null;
 				} else {
-					myBoard[to.y - 1][to.x] = null;
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y - 1][to.x] = null;
 				}
 			}
 			
