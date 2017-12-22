@@ -182,22 +182,6 @@ public class Board {
 			Piece movingPiece = myBoard[from.y][from.x];
 			movingPiece.setXY(to.y, to.x);
 			
-			//setting double square move for the pawn
-			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
-				if (Math.abs(to.y - from.y) == 2) {
-					((Pawn)movingPiece).setMovedTwoSquares();
-				}
-			}
-			
-			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
-				((King)movingPiece).setMoved();
-			}
-			
-			if (movingPiece instanceof Rook && !((Rook)movingPiece).hasMoved()) {
-				((Rook)movingPiece).setMoved();
-			}
-			
 			//en passant take
 			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
@@ -241,8 +225,9 @@ public class Board {
 			
 			//setting double square move for the pawn
 			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
+				//((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
 				if (Math.abs(to.y - from.y) == 2) {
+					((Pawn)movingPiece).setMoved();
 					((Pawn)movingPiece).setMovedTwoSquares();
 				}
 			}
