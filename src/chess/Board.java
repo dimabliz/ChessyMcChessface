@@ -20,6 +20,8 @@ public class Board {
 	private King blackKing;
 	/** Keeps track of the last pice that was moved. Will be helpful in en passant. */
 	private Piece lastPieceMoved;
+	
+	/* PAWN */
 	/** Keeps track to check if the last piece moved was also a double jump. Needed for en-passant*/
 	private boolean lastPieceMovedDouble;
 	/** Keeps track of whether we are undoing an en-passant move in simpleMove */
@@ -29,6 +31,14 @@ public class Board {
 	/** Keeps track of the location where we are putting the pawn back. */
 	private Point undoLocation;
 	
+	/* ROOK */
+	/** Keeps track of the rook that we are undoing. */
+	private Rook undoRook;
+	/** Keeps track of whether we are undoing a castle. */
+	private boolean undoCastle;
+	/** Keeps track of the location where we are putting the rook back. */
+	private Point undoRookLocation;
+	
 	public Board() {
 		myBoard = new Piece[8][8];
 		lastPieceMoved = null;
@@ -36,6 +46,9 @@ public class Board {
 		undoEnPassant = false;
 		undoPawn = null;
 		undoLocation = null;
+		undoRook = null;
+		undoCastle = false;
+		undoRookLocation = null;
 	}
 	
 	/**
@@ -223,16 +236,29 @@ public class Board {
 			}
 			
 			//castles
-			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
+			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1 && movingForward) {
 				if (to.x - from.x > 0 && myBoard[from.y][from.x + 3] instanceof Rook) {//right castle
 					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					undoRook = rightRook;
+					undoCastle = true;
+					undoRookLocation = new Point(from.y, from.x + 3);
 					myBoard[from.y][from.x+3] = null;
 					myBoard[from.y][from.x+1] = rightRook;
 				} else if (myBoard[from.y][from.x - 4] instanceof Rook) { //left castle
 					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					undoRook = leftRook;
+					undoCastle = true;
+					undoRookLocation = new Point(from.y, from.x - 4);
 					myBoard[from.y][from.x-4] = null;
 					myBoard[from.y][from.x-1] = leftRook;
 				}
+			} else if (undoCastle) {
+				undoCastle = false;
+				myBoard[undoRookLocation.x][undoRookLocation.y] = undoRook;
+				if (undoRookLocation.y == 7)
+					myBoard[to.y][to.x + 1] = null;
+				else
+					myBoard[to.y][to.x - 1] = null;
 			}
 			
 			myBoard[from.y][from.x] = null;
