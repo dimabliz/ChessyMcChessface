@@ -250,7 +250,6 @@ public class Board {
 	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
-			lastPieceMoved = movingPiece;
 			// set it to false by default, if piece really moved double then it will be set in the condition below.
 			lastPieceMovedDouble = false;
 			
@@ -303,6 +302,7 @@ public class Board {
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
+			lastPieceMoved = movingPiece;
 
 			checkForCheckMate(movingPiece.getColor());
 
@@ -322,7 +322,6 @@ public class Board {
 	public boolean move(Point from, Point to, char upgrade) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
-			lastPieceMoved = movingPiece;
 			
 			if (upgrade == 'Q') {
 				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x), this);
@@ -338,9 +337,9 @@ public class Board {
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
-
+			lastPieceMoved = movingPiece;
 			checkForCheckMate(movingPiece.getColor());
-
+ 
 			return checkCheck(movingPiece.getColor());
 		}
 		return false;
