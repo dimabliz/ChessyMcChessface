@@ -315,6 +315,14 @@ public class ChessGUI extends JFrame {
 					Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
 					myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);
 					isCheck = false;
+					
+					if (myGui.myBoard.getCountPossibleMoves() == 0) {
+						PieceColor winner = myGui.myBoard.getLastPieceMoved().getColor();
+						JOptionPane.showMessageDialog(null, winner + " wins by checkmate");
+					}
+					
+				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
+					JOptionPane.showMessageDialog(null, "Stalemate");
 				}
 				myGui.whiteTurn = !myGui.whiteTurn;
 				isSecondClick = false;

@@ -39,6 +39,10 @@ public class Board {
 	/** Keeps track of the location where we are putting the rook back. */
 	private Point undoRookLocation;
 	
+	/* check/stale mate */
+	/** Keeps track of the number of possible moves the next opponent can do. */
+	private int countPossibleMoves;
+	
 	public Board() {
 		myBoard = new Piece[8][8];
 		lastPieceMoved = null;
@@ -49,6 +53,7 @@ public class Board {
 		undoRook = null;
 		undoCastle = false;
 		undoRookLocation = null;
+		countPossibleMoves = 1;
 	}
 	
 	/**
@@ -395,17 +400,27 @@ public class Board {
 		// Need to check for a checkmate
 		PieceColor myColor = lastPieceMoved.getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
 		if (checkCheck(movingColor)) {
-			int totalMovesAvaliable = 0;
+			int totalMovesAvailable = 0;
 
 			for (int i = 0; i <= 7; i++) {
 				for (int j = 0; j <= 7; j++) {
 					if (myBoard[i][j] != null && myBoard[i][j].getColor() == myColor)
-						totalMovesAvaliable += myBoard[i][j].getAvailableMoves(myBoard).size();
+						totalMovesAvailable += myBoard[i][j].getAvailableMoves(myBoard).size();
 				}
 			}
 
-			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvaliable + " total moves avaliable\n");
+			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvailable + " total moves avaliable\n");
+			countPossibleMoves = totalMovesAvailable;
 		}
+	}
+	
+	/**
+	 * Returns the number of possible moves the opponent can perform.
+	 * 
+	 * @return the countPossibleMoves
+	 */
+	public int getCountPossibleMoves() {
+		return countPossibleMoves;
 	}
 	
 	/**

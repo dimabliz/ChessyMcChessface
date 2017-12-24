@@ -180,6 +180,7 @@ public abstract class AbstractPiece implements Piece {
 	 * 
 	 * @return the opposite color of this piece.
 	 */
+	@Override
 	public PieceColor getOppositeColor() {
 		return myColor == PieceColor.White ? PieceColor.Black : PieceColor.White;
 	}

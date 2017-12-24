@@ -27,6 +27,13 @@ public interface Piece {
 	PieceColor getColor();
 	
 	/**
+	 * Returns the opposite color of the piece.
+	 * 
+	 * @return the opposite color of the piece.
+	 */
+	public PieceColor getOppositeColor();
+	
+	/**
 	 * Returns a list of all the Points to where the current
 	 * piece is allowed to move.
 	 * 
