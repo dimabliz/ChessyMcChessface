@@ -89,6 +89,22 @@ public class Board {
 		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3), this); //bottom queen
 	}
 	
+	/** 
+	 * Initializes a stalemate to check if it's working.
+	 */
+	public void initializeStalemateTest() {
+		blackKing = new King(PieceColor.Black, new Point(0, 4), this);
+		myBoard[0][4] = blackKing;
+		lastPieceMoved = blackKing;
+		
+		myBoard[1][4] = new Pawn(PieceColor.White, new Point(1, 4), this);
+		
+		whiteKing = new King(PieceColor.White, new Point(3, 4), this);
+		myBoard[3][4] = whiteKing;
+		
+		
+	}
+	
 	/**
 	 * Method to set the board into the beginning of the state of the game.
 	 */

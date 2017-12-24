@@ -61,8 +61,9 @@ public class ChessGUI extends JFrame {
 		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
-		myBoard.initializePieces();
+		//myBoard.initializePieces();
 		//myBoard.initializeQueeningTest();
+		myBoard.initializeStalemateTest();
 		
 		initializeNames();
 
