@@ -317,10 +317,12 @@ public class Board {
 			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
 				if (to.x - from.x > 0) {//right castle
 					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					rightRook.setXY(from.y, from.x + 1);
 					myBoard[from.y][from.x+3] = null;
 					myBoard[from.y][from.x+1] = rightRook;
 				} else { //left castle
 					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					leftRook.setXY(from.y, from.x - 1);
 					myBoard[from.y][from.x-4] = null;
 					myBoard[from.y][from.x-1] = leftRook;
 				}
