@@ -174,4 +174,13 @@ public abstract class AbstractPiece implements Piece {
 	public void setXY(int x, int y) {
 		myLocation.setLocation(x, y);
 	}
+	
+	/**
+	 * returns the opposite color of this piece.
+	 * 
+	 * @return the opposite color of this piece.
+	 */
+	public PieceColor getOppositeColor() {
+		return myColor == PieceColor.White ? PieceColor.Black : PieceColor.White;
+	}
 }

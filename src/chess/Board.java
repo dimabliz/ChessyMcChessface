@@ -128,6 +128,24 @@ public class Board {
 			return blackKing.getLocation();
 	}
 	
+	/** 
+	 * Sets the whiteKings location.
+	 * 
+	 * @param theLoc is the loc to set the whiteKing to
+	 */
+	public void setWhiteKingLocation(Point theLoc) {
+		whiteKing.setXY(theLoc.x, theLoc.y);
+	}
+	
+	/**
+	 * Sets the blackKings location.
+	 * 
+	 * @param theLoc is the loc to set the blackKing to
+	 */
+	public void setBlackKingLocation(Point theLoc) {
+		blackKing.setXY(theLoc.x, theLoc.y);
+	}
+	
 	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
 	public boolean checkCheck(PieceColor color) {
 		List<Point> attackedSquares = getAttackedSquaresNoKing(color);

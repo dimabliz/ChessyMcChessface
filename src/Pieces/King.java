@@ -72,8 +72,37 @@ public class King extends AbstractPiece {
 				if (board[myLocation.x][myLocation.y+1] == null && board[myLocation.x][myLocation.y+2] == null 
 						&& board[myLocation.x][myLocation.y+3] != null && board[myLocation.x][myLocation.y+3] instanceof Rook) {
 					
+					boolean canCastle = true;
+					if (this.getColor() == PieceColor.White) {
+						if (myBoard.checkCheck(this.getOppositeColor())) // make sure king is not in check
+							canCastle = false;
+						
+						myBoard.setWhiteKingLocation(new Point(myLocation.x, myLocation.y + 1)); // make sure king is not in check on R + 1 side
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setWhiteKingLocation(new Point(myLocation.x, myLocation.y + 1));
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setWhiteKingLocation(new Point(myLocation.x, myLocation.y - 2)); // set back to original location
+					} else {
+						if (myBoard.checkCheck(this.getOppositeColor())) // make sure king is not in check
+							canCastle = false;
+						
+						myBoard.setBlackKingLocation(new Point(myLocation.x, myLocation.y + 1)); // make sure king is not in check on R + 1 side
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setBlackKingLocation(new Point(myLocation.x, myLocation.y + 1));
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setBlackKingLocation(new Point(myLocation.x, myLocation.y - 2)); // set back to original location
+					}
+							
 					Rook rightRook = (Rook) board[myLocation.x][myLocation.y+3];
-					if (!rightRook.hasMoved()) {
+					if (!rightRook.hasMoved() && canCastle) {
 						moves.add(new Point(myLocation.y+2, myLocation.x));
 					}
 				}
@@ -82,8 +111,37 @@ public class King extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y-3] == null
 						&& board[myLocation.x][myLocation.y-4] != null && board[myLocation.x][myLocation.y-4] instanceof Rook) {
 					
+					boolean canCastle = true;
+					if (this.getColor() == PieceColor.White) {
+						if (myBoard.checkCheck(this.getOppositeColor())) // make sure king is not in check
+							canCastle = false;
+						
+						myBoard.setWhiteKingLocation(new Point(myLocation.x, myLocation.y - 1)); // make sure king is not in check on L + 1 side
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setWhiteKingLocation(new Point(myLocation.x, myLocation.y - 1));
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setWhiteKingLocation(new Point(myLocation.x, myLocation.y + 2)); // set back to original location
+					} else {
+						if (myBoard.checkCheck(this.getOppositeColor())) // make sure king is not in check
+							canCastle = false;
+						
+						myBoard.setBlackKingLocation(new Point(myLocation.x, myLocation.y - 1)); // make sure king is not in check on L + 1 side
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setBlackKingLocation(new Point(myLocation.x, myLocation.y - 1));
+						if (myBoard.checkCheck(this.getOppositeColor()))
+							canCastle = false;
+						
+						myBoard.setBlackKingLocation(new Point(myLocation.x, myLocation.y + 2)); // set back to original location
+					}
+					
 					Rook leftRook = (Rook) board[myLocation.x][myLocation.y-4];
-					if (!leftRook.hasMoved()) {
+					if (!leftRook.hasMoved() && canCastle) {
 						moves.add(new Point(myLocation.y-2, myLocation.x));
 					}
 				}
