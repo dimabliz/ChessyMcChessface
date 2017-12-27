@@ -312,6 +312,9 @@ public class ChessGUI extends JFrame {
 					}
 				}
 				myGui.refreshGUI();
+
+				//System.out.println("get count possible moves" + myGui.myBoard.getCountPossibleMoves());
+
 				if (isCheck) {
 					Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
 					myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);

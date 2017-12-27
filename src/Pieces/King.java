@@ -1,6 +1,7 @@
 package Pieces;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import Enums.PieceColor;
@@ -147,8 +148,42 @@ public class King extends AbstractPiece {
 				}
 		}
 		refineByCheck(moves);
+		refineByKingsLocation(this.getOppositeColor(), moves);
 		
 		return moves;
+	}
+
+	public void refineByKingsLocation(PieceColor opositeColor, List<Point> moves) {
+		for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
+			Point currentPoint = iterator.next();
+//			Piece daPiece = myBoard.getPiece(currentPoint.y, currentPoint.x);
+//			if (daPiece != null && daPiece instanceof King && daPiece.getColor() == opositeColor) {
+//				iterator.remove();
+//				System.out.println("removed");
+//			}
+            List<Point> surroundingPoints = new ArrayList<>();
+
+            surroundingPoints.add(new Point(currentPoint.x-1, currentPoint.y-1));
+            surroundingPoints.add(new Point(currentPoint.x-1, currentPoint.y));
+            surroundingPoints.add(new Point(currentPoint.x-1, currentPoint.y+1));
+
+            surroundingPoints.add(new Point(currentPoint.x, currentPoint.y-1));
+            surroundingPoints.add(new Point(currentPoint.x, currentPoint.y+1));
+
+            surroundingPoints.add(new Point(currentPoint.x+1, currentPoint.y-1));
+            surroundingPoints.add(new Point(currentPoint.x+1, currentPoint.y));
+            surroundingPoints.add(new Point(currentPoint.x+1, currentPoint.y+1));
+
+            refineBounds(surroundingPoints);
+
+            for (Iterator<Point> iterator0 = surroundingPoints.iterator(); iterator0.hasNext(); ) {
+                Point surrounding = iterator0.next();
+                Piece daPiece = myBoard.getPiece(surrounding.y, surrounding.x);
+                if (daPiece != null && daPiece instanceof King && daPiece.getColor() == opositeColor) {
+                    iterator.remove();
+                }
+            }
+		}
 	}
 	
 	/**

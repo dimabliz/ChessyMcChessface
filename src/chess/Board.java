@@ -415,7 +415,7 @@ public class Board {
 	public void checkForCheckMate(PieceColor movingColor) {
 		// Need to check for a checkmate
 		PieceColor myColor = lastPieceMoved.getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
-		if (checkCheck(movingColor)) {
+		//if (checkCheck(movingColor)) {
 			int totalMovesAvailable = 0;
 
 			for (int i = 0; i <= 7; i++) {
@@ -427,7 +427,7 @@ public class Board {
 
 			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvailable + " total moves avaliable\n");
 			countPossibleMoves = totalMovesAvailable;
-		}
+		//}
 	}
 	
 	/**
