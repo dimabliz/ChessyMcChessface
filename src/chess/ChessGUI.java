@@ -37,9 +37,7 @@ public class ChessGUI extends JFrame {
 	private JPanel guiboard;
 	private List<Square> squareList;
 	private Board myBoard;
-	private JButton startButton;
 	private JButton endButton;
-	private boolean endGame;
 	private boolean whiteTurn = true;
 
 	public ChessGUI() {
@@ -210,27 +208,16 @@ public class ChessGUI extends JFrame {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
 		buttonPanel.setBackground(Color.BLACK);
-		startButton = new JButton("Start Game");
-		startButton.addActionListener((theEvent) -> {
-			startGameLoop();
-        });
 		
 		endButton = new JButton("End Game");
 		endButton.addActionListener((theEvent) -> {
-			if (endGame) { //second end game click
-				//resetBoard
-			}
-			endGame = true;
+            myBoard = new Board();
+            start();
         });
-		
-		buttonPanel.add(startButton);
+
 		buttonPanel.add(endButton);
 		
 		return buttonPanel;
-	}
-	
-	private void startGameLoop() {
-		endGame = false;
 	}
 	
 	//Checks if a piece is a pawn that's about to queen
@@ -278,7 +265,7 @@ public class ChessGUI extends JFrame {
 			Square clickedBox = (Square) theEvent.getSource(); 
 			Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
 			
-			if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite() && !myGui.endGame) {
+			if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite()) {
 				availableMoves = myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
 				//availableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
