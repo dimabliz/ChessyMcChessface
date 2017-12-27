@@ -8,7 +8,11 @@ import java.awt.Point;
 
 import Enums.PieceColor;
 import Pieces.*;
-
+/**
+ * 
+ * @author Maksimv@uw.edu
+ *
+ */
 public class Board {
 	
 	private Piece[][] myBoard;
@@ -17,9 +21,39 @@ public class Board {
 	/** Keeps track of the last pice that was moved. Will be helpful in en passant. */
 	private Piece lastPieceMoved;
 	
+	/* PAWN */
+	/** Keeps track to check if the last piece moved was also a double jump. Needed for en-passant*/
+	private boolean lastPieceMovedDouble;
+	/** Keeps track of whether we are undoing an en-passant move in simpleMove */
+	private boolean undoEnPassant;
+	/** Keeps track of the pawn that we are undoing. */
+	private Pawn undoPawn;
+	/** Keeps track of the location where we are putting the pawn back. */
+	private Point undoLocation;
+	
+	/* ROOK */
+	/** Keeps track of the rook that we are undoing. */
+	private Rook undoRook;
+	/** Keeps track of whether we are undoing a castle. */
+	private boolean undoCastle;
+	/** Keeps track of the location where we are putting the rook back. */
+	private Point undoRookLocation;
+	
+	/* check/stale mate */
+	/** Keeps track of the number of possible moves the next opponent can do. */
+	private int countPossibleMoves;
+	
 	public Board() {
 		myBoard = new Piece[8][8];
 		lastPieceMoved = null;
+		lastPieceMovedDouble = false;
+		undoEnPassant = false;
+		undoPawn = null;
+		undoLocation = null;
+		undoRook = null;
+		undoCastle = false;
+		undoRookLocation = null;
+		countPossibleMoves = 1;
 	}
 	
 	/**
@@ -53,6 +87,22 @@ public class Board {
 		
 		myBoard[0][3] = new Queen(PieceColor.Black, new Point(0, 3), this); //top queen
 		myBoard[7][3] = new Queen(PieceColor.White, new Point(7, 3), this); //bottom queen
+	}
+	
+	/** 
+	 * Initializes a stalemate to check if it's working.
+	 */
+	public void initializeStalemateTest() {
+		blackKing = new King(PieceColor.Black, new Point(0, 4), this);
+		myBoard[0][4] = blackKing;
+		lastPieceMoved = blackKing;
+		
+		myBoard[1][4] = new Pawn(PieceColor.White, new Point(1, 4), this);
+		
+		whiteKing = new King(PieceColor.White, new Point(3, 4), this);
+		myBoard[3][4] = whiteKing;
+		
+		
 	}
 	
 	/**
@@ -97,6 +147,24 @@ public class Board {
 			return whiteKing.getLocation();
 		else 
 			return blackKing.getLocation();
+	}
+	
+	/** 
+	 * Sets the whiteKings location.
+	 * 
+	 * @param theLoc is the loc to set the whiteKing to
+	 */
+	public void setWhiteKingLocation(Point theLoc) {
+		whiteKing.setXY(theLoc.x, theLoc.y);
+	}
+	
+	/**
+	 * Sets the blackKings location.
+	 * 
+	 * @param theLoc is the loc to set the blackKing to
+	 */
+	public void setBlackKingLocation(Point theLoc) {
+		blackKing.setXY(theLoc.x, theLoc.y);
 	}
 	
 	// Checks and returns whether the passed in Color pieces are attacking the opponent's King.
@@ -170,50 +238,66 @@ public class Board {
 	 * Moves from from point to to point without checking for a check.
 	 * Method used to avoid circular checks of checks.
 	 * 
+	 * it's confusing because in AbstractPiece, when we check for checks we use simpleMove to make a move, then simpleMove to move the pieces back.
+	 * This gets confusing when the move is an en-passant or a castle. For example, if we do en-passant moving forwards, we get rid fo the piece,
+	 * then when we move back it does not add the piece back to its correct location.
+	 * 
 	 * @param from
 	 * @param to
 	 */
-	public void simpleMove(Point from, Point to) {
+	public void simpleMove(Point from, Point to, boolean movingForward) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
 			movingPiece.setXY(to.y, to.x);
 			
-			//setting double square move for the pawn
-			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
-				if (Math.abs(to.y - from.y) == 2) {
-					((Pawn)movingPiece).setMovedTwoSquares();
-				}
-			}
-			
-			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
-				((King)movingPiece).setMoved();
-			}
-			
-			if (movingPiece instanceof Rook && !((Rook)movingPiece).hasMoved()) {
-				((Rook)movingPiece).setMoved();
-			}
-			
 			//en passant take
-			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
+			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1 && movingForward ) { // check that pawn took diagonally
 				if (movingPiece.isWhite()) {
-					myBoard[to.y + 1][to.x] = null;
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved)
+							&& myBoard[to.y][to.x] == null && lastPieceMovedDouble) {
+						undoEnPassant = true;
+						undoPawn = (Pawn) myBoard[to.y + 1][to.x];
+						undoLocation = new Point(to.y + 1, to.x);
+						myBoard[to.y + 1][to.x] = null;
+					}
 				} else {
-					myBoard[to.y - 1][to.x] = null;
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved)
+							&& myBoard[to.y][to.x] == null && lastPieceMovedDouble) {
+						undoEnPassant = true;
+						undoPawn = (Pawn) myBoard[to.y - 1][to.x];
+						undoLocation = new Point(to.y - 1, to.x);
+						myBoard[to.y - 1][to.x] = null;
+					}
 				}
+			} else if (undoEnPassant) {// undo a en passant take
+				undoEnPassant = false;
+				myBoard[undoLocation.x][undoLocation.y] = undoPawn;
 			}
 			
 			//castles
-			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
-				if (to.x - from.x > 0) {//right castle
+			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1 && movingForward) {
+				if (to.x - from.x > 0 && myBoard[from.y][from.x + 3] instanceof Rook) {//right castle
 					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					undoRook = rightRook;
+					undoCastle = true;
+					undoRookLocation = new Point(from.y, from.x + 3);
 					myBoard[from.y][from.x+3] = null;
 					myBoard[from.y][from.x+1] = rightRook;
-				} else { //left castle
+				} else if (myBoard[from.y][from.x - 4] instanceof Rook) { //left castle
 					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					undoRook = leftRook;
+					undoCastle = true;
+					undoRookLocation = new Point(from.y, from.x - 4);
 					myBoard[from.y][from.x-4] = null;
 					myBoard[from.y][from.x-1] = leftRook;
 				}
+			} else if (undoCastle) {
+				undoCastle = false;
+				myBoard[undoRookLocation.x][undoRookLocation.y] = undoRook;
+				if (undoRookLocation.y == 7)
+					myBoard[to.y][to.x + 1] = null;
+				else
+					myBoard[to.y][to.x - 1] = null;
 			}
 			
 			myBoard[from.y][from.x] = null;
@@ -231,17 +315,23 @@ public class Board {
 	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
-			lastPieceMoved = movingPiece;
+			// set it to false by default, if piece really moved double then it will be set in the condition below.
+			lastPieceMovedDouble = false;
 			
 			movingPiece.setXY(to.y, to.x);
 			
 			//setting double square move for the pawn
 			if (movingPiece instanceof Pawn && ((Pawn)movingPiece).isFirstMove()) {
-				((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
+				//((Pawn)movingPiece).setMoved(); //setting that the pawn has been moved.
 				if (Math.abs(to.y - from.y) == 2) {
+					lastPieceMovedDouble = true;
+					((Pawn)movingPiece).setMoved();
 					((Pawn)movingPiece).setMovedTwoSquares();
 				}
 			}
+			
+			if (movingPiece instanceof Pawn)
+				((Pawn)movingPiece).setMoved();
 			
 			if (movingPiece instanceof King && !((King)movingPiece).hasMoved()) {
 				((King)movingPiece).setMoved();
@@ -254,9 +344,11 @@ public class Board {
 			//en passant take
 			if (movingPiece instanceof Pawn && Math.abs(to.x - from.x) == 1) { //pawn took diagonally
 				if (movingPiece.isWhite()) {
-					myBoard[to.y + 1][to.x] = null;
+					if (myBoard[to.y + 1][to.x] instanceof Pawn && myBoard[to.y + 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y + 1][to.x] = null;
 				} else {
-					myBoard[to.y - 1][to.x] = null;
+					if (myBoard[to.y - 1][to.x] instanceof Pawn && myBoard[to.y - 1][to.x].equals(lastPieceMoved))
+						myBoard[to.y - 1][to.x] = null;
 				}
 			}
 			
@@ -264,10 +356,12 @@ public class Board {
 			if(movingPiece instanceof King && Math.abs(to.x - from.x) > 1) {
 				if (to.x - from.x > 0) {//right castle
 					Rook rightRook = (Rook) myBoard[from.y][from.x+3];
+					rightRook.setXY(from.y, from.x + 1);
 					myBoard[from.y][from.x+3] = null;
 					myBoard[from.y][from.x+1] = rightRook;
 				} else { //left castle
 					Rook leftRook = (Rook) myBoard[from.y][from.x-4];
+					leftRook.setXY(from.y, from.x - 1);
 					myBoard[from.y][from.x-4] = null;
 					myBoard[from.y][from.x-1] = leftRook;
 				}
@@ -275,7 +369,10 @@ public class Board {
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
-			
+			lastPieceMoved = movingPiece;
+
+			checkForCheckMate(movingPiece.getColor());
+
 			return checkCheck(movingPiece.getColor());
 		}
 		return false;
@@ -292,7 +389,6 @@ public class Board {
 	public boolean move(Point from, Point to, char upgrade) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
-			lastPieceMoved = movingPiece;
 			
 			if (upgrade == 'Q') {
 				movingPiece = new Queen(movingPiece.getColor(), new Point(to.y, to.x), this);
@@ -308,10 +404,39 @@ public class Board {
 			
 			myBoard[from.y][from.x] = null;
 			myBoard[to.y][to.x] = movingPiece;
-			
+			lastPieceMoved = movingPiece;
+			checkForCheckMate(movingPiece.getColor());
+ 
 			return checkCheck(movingPiece.getColor());
 		}
 		return false;
+	}
+
+	public void checkForCheckMate(PieceColor movingColor) {
+		// Need to check for a checkmate
+		PieceColor myColor = lastPieceMoved.getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
+		//if (checkCheck(movingColor)) {
+			int totalMovesAvailable = 0;
+
+			for (int i = 0; i <= 7; i++) {
+				for (int j = 0; j <= 7; j++) {
+					if (myBoard[i][j] != null && myBoard[i][j].getColor() == myColor)
+						totalMovesAvailable += myBoard[i][j].getAvailableMoves(myBoard).size();
+				}
+			}
+
+			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvailable + " total moves avaliable\n");
+			countPossibleMoves = totalMovesAvailable;
+		//}
+	}
+	
+	/**
+	 * Returns the number of possible moves the opponent can perform.
+	 * 
+	 * @return the countPossibleMoves
+	 */
+	public int getCountPossibleMoves() {
+		return countPossibleMoves;
 	}
 	
 	/**
@@ -395,5 +520,14 @@ public class Board {
 	public Piece getLastPieceMoved() {
 	    return lastPieceMoved;
     }
+	
+	/** 
+	 * Get method for lastPieceMOvedDOuble
+	 * 
+	 * @return the lastPieceMovedDouble
+	 */
+	public boolean getLastPieceMovedDouble() {
+		return lastPieceMovedDouble;
+	}
 }
 

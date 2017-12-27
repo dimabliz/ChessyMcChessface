@@ -76,30 +76,23 @@ public abstract class AbstractPiece implements Piece {
 	 * @param moves
 	 */
 	protected void refineByCheck(List<Point> moves) {
-		System.out.println("refineByCheck()");
-		System.out.println();
-		
 		Point myOriginalLocation = new Point(myLocation.x, myLocation.y);
-		//for (Iterator<Point> iterator = moves.iterator(); iterator.hasNext(); ) {
-		//    Point currentPoint = iterator.next();
+
 		Iterator<Point> iterator = moves.iterator();
 		while (iterator.hasNext()) {
 
 			Point currentPoint = iterator.next();
 		    Piece savePiece = myBoard.getPiece(currentPoint.y, currentPoint.x);
-		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y));
+		    myBoard.simpleMove(new Point(myLocation.y, myLocation.x), new Point(currentPoint.x, currentPoint.y), true);
 
 			PieceColor myColor = myBoard.getLastPieceMoved().getColor();
 		    if (myBoard.checkCheck(myColor)) {
 		    	iterator.remove();
 		    }
 
-		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x));
+		    myBoard.simpleMove(new Point(currentPoint.x, currentPoint.y), new Point(myOriginalLocation.y, myOriginalLocation.x), false);
 		    if (savePiece != null)
 		    	myBoard.placePiece(savePiece, currentPoint.y, currentPoint.x);
-		}
-		for (int i = 0; i < moves.size(); i++) {
-			System.out.println(i + ". x=" + moves.get(i).getX() + ", y=" + moves.get(i).getY());
 		}
 	}
 	
@@ -180,5 +173,15 @@ public abstract class AbstractPiece implements Piece {
 	@Override
 	public void setXY(int x, int y) {
 		myLocation.setLocation(x, y);
+	}
+	
+	/**
+	 * returns the opposite color of this piece.
+	 * 
+	 * @return the opposite color of this piece.
+	 */
+	@Override
+	public PieceColor getOppositeColor() {
+		return myColor == PieceColor.White ? PieceColor.Black : PieceColor.White;
 	}
 }

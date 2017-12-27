@@ -80,7 +80,8 @@ public class Pawn extends AbstractPiece {
 				moves.add(new Point(myLocation.y, myLocation.x-1));
 			}
 			if (firstMove) {
-				if (myLocation.x-2 >= 0 && board[myLocation.x-2][myLocation.y] == null) { //two squares up
+				if (myLocation.x-2 >= 0 && board[myLocation.x-2][myLocation.y] == null
+						&& board[myLocation.x - 1][myLocation.y] == null) { //two squares up
 					moves.add(new Point(myLocation.y, myLocation.x-2));
 				}
 			}
@@ -103,7 +104,8 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y-1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y-1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y-1]).hasMovedTwoSquares()) {
-					if (board[myLocation.x][myLocation.y - 1].equals(myBoard.getLastPieceMoved()))
+					if (board[myLocation.x][myLocation.y - 1].equals(myBoard.getLastPieceMoved())
+							&& myBoard.getLastPieceMovedDouble())
 						moves.add(new Point(myLocation.y-1, myLocation.x-1));
 				}
 			}
@@ -114,7 +116,8 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y+1]).hasMovedTwoSquares()) {
-					if (board[myLocation.x][myLocation.y + 1].equals(myBoard.getLastPieceMoved()))
+					if (board[myLocation.x][myLocation.y + 1].equals(myBoard.getLastPieceMoved())
+						&& myBoard.getLastPieceMovedDouble())
 						moves.add(new Point(myLocation.y+1, myLocation.x-1));
 				}
 			}
@@ -126,7 +129,8 @@ public class Pawn extends AbstractPiece {
 				moves.add(new Point(myLocation.y, myLocation.x+1));
 			}
 			if (firstMove) {
-				if (myLocation.x+2 <= 7 && board[myLocation.x+2][myLocation.y] == null) { //two squares down
+				if (myLocation.x+2 <= 7 && board[myLocation.x+2][myLocation.y] == null
+						&& board[myLocation.x + 1][myLocation.y] == null) { //two squares down
 					moves.add(new Point(myLocation.y, myLocation.x+2));
 				}
 			}
@@ -149,7 +153,8 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y+1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y+1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y+1]).hasMovedTwoSquares()) {
-					if (board[myLocation.x][myLocation.y + 1].equals(myBoard.getLastPieceMoved()))
+					if (board[myLocation.x][myLocation.y + 1].equals(myBoard.getLastPieceMoved())
+							&& myBoard.getLastPieceMovedDouble())
 						moves.add(new Point(myLocation.y+1, myLocation.x+1));
 				}
 			}
@@ -160,7 +165,8 @@ public class Pawn extends AbstractPiece {
 						&& board[myLocation.x][myLocation.y-1].getColor() != myColor
 						&& board[myLocation.x][myLocation.y-1] instanceof Pawn
 						&& ((Pawn) board[myLocation.x][myLocation.y-1]).hasMovedTwoSquares()) {
-					if (board[myLocation.x][myLocation.y - 1].equals(myBoard.getLastPieceMoved()))
+					if (board[myLocation.x][myLocation.y - 1].equals(myBoard.getLastPieceMoved())
+							&& myBoard.getLastPieceMovedDouble())
 						moves.add(new Point(myLocation.y-1, myLocation.x+1));
 				}
 			}

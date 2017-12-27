@@ -61,13 +61,15 @@ public class ChessGUI extends JFrame {
 		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
-		myBoard.initializePieces();
+		//myBoard.initializePieces();
 		//myBoard.initializeQueeningTest();
+		myBoard.initializeStalemateTest();
 		
 		initializeNames();
 
 		pack();
 		setVisible(true);
+
 	}
 	
 	/**
@@ -310,10 +312,21 @@ public class ChessGUI extends JFrame {
 					}
 				}
 				myGui.refreshGUI();
+
+				//System.out.println("get count possible moves" + myGui.myBoard.getCountPossibleMoves());
+
 				if (isCheck) {
 					Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
 					myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);
 					isCheck = false;
+					
+					if (myGui.myBoard.getCountPossibleMoves() == 0) {
+						PieceColor winner = myGui.myBoard.getLastPieceMoved().getColor();
+						JOptionPane.showMessageDialog(null, winner + " wins by checkmate");
+					}
+					
+				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
+					JOptionPane.showMessageDialog(null, "Stalemate");
 				}
 				myGui.whiteTurn = !myGui.whiteTurn;
 				isSecondClick = false;
