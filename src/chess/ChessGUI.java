@@ -59,9 +59,9 @@ public class ChessGUI extends JFrame {
 		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
-		//myBoard.initializePieces();
+		myBoard.initializePieces();
 		//myBoard.initializeQueeningTest();
-		myBoard.initializeStalemateTest();
+		//myBoard.initializeStalemateTest();
 		
 		initializeNames();
 
@@ -211,8 +211,7 @@ public class ChessGUI extends JFrame {
 		
 		endButton = new JButton("End Game");
 		endButton.addActionListener((theEvent) -> {
-            myBoard = new Board();
-            start();
+            restartGame();
         });
 
 		buttonPanel.add(endButton);
@@ -232,6 +231,16 @@ public class ChessGUI extends JFrame {
 			}
 		}
 		return returnValue;
+	}
+
+	private void restartGame() {
+		myBoard = new Board();
+		setCheckeredColor();
+		myBoard.initializePieces();
+		initializeNames();
+		whiteTurn = true;
+		repaint();
+
 	}
 	
 	public static class BoxListener extends MouseAdapter {
@@ -314,6 +323,7 @@ public class ChessGUI extends JFrame {
 					
 				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
 					JOptionPane.showMessageDialog(null, "Stalemate");
+
 				}
 				myGui.whiteTurn = !myGui.whiteTurn;
 				isSecondClick = false;
