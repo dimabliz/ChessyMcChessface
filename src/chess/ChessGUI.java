@@ -37,9 +37,7 @@ public class ChessGUI extends JFrame {
 	private JPanel guiboard;
 	private List<Square> squareList;
 	private Board myBoard;
-	private JButton startButton;
 	private JButton endButton;
-	private boolean endGame;
 	private boolean whiteTurn = true;
 
 	public ChessGUI() {
@@ -61,9 +59,9 @@ public class ChessGUI extends JFrame {
 		add(createButtonPanel(), BorderLayout.WEST);
 
 		setCheckeredColor();
-		//myBoard.initializePieces();
+		myBoard.initializePieces();
 		//myBoard.initializeQueeningTest();
-		myBoard.initializeStalemateTest();
+		//myBoard.initializeStalemateTest();
 		
 		initializeNames();
 
@@ -210,27 +208,15 @@ public class ChessGUI extends JFrame {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
 		buttonPanel.setBackground(Color.BLACK);
-		startButton = new JButton("Start Game");
-		startButton.addActionListener((theEvent) -> {
-			startGameLoop();
-        });
 		
 		endButton = new JButton("End Game");
 		endButton.addActionListener((theEvent) -> {
-			if (endGame) { //second end game click
-				//resetBoard
-			}
-			endGame = true;
+            restartGame();
         });
-		
-		buttonPanel.add(startButton);
+
 		buttonPanel.add(endButton);
 		
 		return buttonPanel;
-	}
-	
-	private void startGameLoop() {
-		endGame = false;
 	}
 	
 	//Checks if a piece is a pawn that's about to queen
@@ -245,6 +231,16 @@ public class ChessGUI extends JFrame {
 			}
 		}
 		return returnValue;
+	}
+
+	private void restartGame() {
+		myBoard = new Board();
+		setCheckeredColor();
+		myBoard.initializePieces();
+		initializeNames();
+		whiteTurn = true;
+		repaint();
+
 	}
 	
 	public static class BoxListener extends MouseAdapter {
@@ -278,7 +274,7 @@ public class ChessGUI extends JFrame {
 			Square clickedBox = (Square) theEvent.getSource(); 
 			Piece clickedPiece = myGui.myBoard.getPiece(clickedBox.getMyY(), clickedBox.getMyX());
 			
-			if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite() && !myGui.endGame) {
+			if (clickedPiece != null && myGui.whiteTurn == clickedPiece.isWhite()) {
 				availableMoves = myGui.showAvailableSquares(clickedBox.getMyY(), clickedBox.getMyX());
 				//availableMoves = clickedPiece.getAvailableMoves(myGui.myBoard.getMyBoardArray());
 				firstClick = new Point(clickedBox.getMyX(), clickedBox.getMyY());
@@ -327,6 +323,7 @@ public class ChessGUI extends JFrame {
 					
 				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
 					JOptionPane.showMessageDialog(null, "Stalemate");
+
 				}
 				myGui.whiteTurn = !myGui.whiteTurn;
 				isSecondClick = false;
