@@ -8,6 +8,7 @@ import java.awt.Point;
 
 import Enums.PieceColor;
 import Pieces.*;
+import AI.*;
 /**
  * 
  * @author Maksimv@uw.edu
@@ -42,6 +43,9 @@ public class Board {
 	/* check/stale mate */
 	/** Keeps track of the number of possible moves the next opponent can do. */
 	private int countPossibleMoves;
+
+	/* Fields pertaining to the AI. */
+	private AI myAI;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
@@ -54,6 +58,7 @@ public class Board {
 		undoCastle = false;
 		undoRookLocation = null;
 		countPossibleMoves = 1;
+		myAI = new AI(this, PieceColor.Black);
 	}
 	
 	/**
@@ -477,6 +482,15 @@ public class Board {
 			return result;
 		else
 			return null;
+	}
+
+	/**
+	 * Returns the AI object.
+	 *
+	 * @return the AI object.
+	 */
+	public AI getAI() {
+		return myAI;
 	}
 	
 	/**

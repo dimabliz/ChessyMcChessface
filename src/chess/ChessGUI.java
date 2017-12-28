@@ -324,9 +324,11 @@ public class ChessGUI extends JFrame {
 				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
 					JOptionPane.showMessageDialog(null, "Stalemate");
 
+				} else if (!myGui.whiteTurn) { // if white just made a move, let AI decide how to move black.
+					myGui.myBoard.getAI().makeMove();
 				}
-				myGui.whiteTurn = !myGui.whiteTurn;
-				isSecondClick = false;
+					myGui.whiteTurn = !myGui.whiteTurn;
+					isSecondClick = false;
 			}
 			
 			Piece clickedPiece = myGui.myBoard.getPiece(secondSquare.getMyY(), secondSquare.getMyX());
