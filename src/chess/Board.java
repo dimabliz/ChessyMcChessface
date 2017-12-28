@@ -425,7 +425,7 @@ public class Board {
 				}
 			}
 
-			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvailable + " total moves avaliable\n");
+			System.out.println(myColor + "s move, there are " + totalMovesAvailable + " total moves avaliable\n");
 			countPossibleMoves = totalMovesAvailable;
 		//}
 	}
