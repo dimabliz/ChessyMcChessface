@@ -11,11 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Enums.PieceColor;
 import Pieces.Pawn;
@@ -38,6 +34,7 @@ public class ChessGUI extends JFrame {
 	private List<Square> squareList;
 	private Board myBoard;
 	private JButton endButton;
+	private ButtonGroup playerOptionGroup;
 	private boolean whiteTurn = true;
 
 	public ChessGUI() {
@@ -187,7 +184,7 @@ public class ChessGUI extends JFrame {
 
 		guiboard = new JPanel(new GridLayout(8,8));
 		guiboard.setPreferredSize(new Dimension(500, 500));
-		guiboard.setBackground(Color.BLACK);
+		guiboard.setBackground(Color.GRAY);
 		guiboard.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
 		for (int i = 0; i < 64; i++) {
@@ -207,14 +204,25 @@ public class ChessGUI extends JFrame {
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
-		buttonPanel.setBackground(Color.BLACK);
+		buttonPanel.setBackground(Color.gray);
 		
 		endButton = new JButton("End Game");
 		endButton.addActionListener((theEvent) -> {
             restartGame();
         });
 
+        JRadioButton onePlayer = new JRadioButton("One Player");
+        JRadioButton twoPlayer = new JRadioButton("Two Player");
+        //rabbitButton.setActionCommand(rabbitString);
+
+        playerOptionGroup = new ButtonGroup();
+        playerOptionGroup.add(onePlayer);
+        playerOptionGroup.add(twoPlayer);
+        onePlayer.setSelected(true);
+
 		buttonPanel.add(endButton);
+		buttonPanel.add(onePlayer);
+        buttonPanel.add(twoPlayer);
 		
 		return buttonPanel;
 	}
