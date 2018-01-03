@@ -59,7 +59,7 @@ public class Board {
 		undoCastle = false;
 		undoRookLocation = null;
 		countPossibleMoves = 1;
-		myAI = new AI(this, PieceColor.Black);
+		myAI = new AI(this);
 	}
 	
 	/**
@@ -249,24 +249,26 @@ public class Board {
      */
 	public void makeComputerMove(PieceColor turn) {
 
-	    List<Move> allPossibleMoves = new ArrayList<>();
+	    myAI.makeMoveLevel1(turn);
 
-        for(Piece[] row : myBoard) {
-            for(Piece piece : row) {
-                if (piece != null && piece.getColor() == turn) {
-                    List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
-                    for(Point point : pieceAttacking) {
-                        allPossibleMoves.add(new Move(piece, piece.getLocation(), new Point((int) point.getY(), (int)point.getX())));
-                    }
-                }
-            }
-        }
-
-        Random randy = new Random();
-        Move finalMove = allPossibleMoves.get(randy.nextInt(allPossibleMoves.size()));
-
-        move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
-                new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));
+//	    List<Move> allPossibleMoves = new ArrayList<>();
+//
+//        for(Piece[] row : myBoard) {
+//            for(Piece piece : row) {
+//                if (piece != null && piece.getColor() == turn) {
+//                    List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
+//                    for(Point point : pieceAttacking) {
+//                        allPossibleMoves.add(new Move(piece, piece.getLocation(), new Point((int) point.getY(), (int)point.getX())));
+//                    }
+//                }
+//            }
+//        }
+//
+//        Random randy = new Random();
+//        Move finalMove = allPossibleMoves.get(randy.nextInt(allPossibleMoves.size()));
+//
+//        move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
+//                new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));
     }
 	
 	/**
