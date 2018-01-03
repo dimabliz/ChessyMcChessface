@@ -11,11 +11,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import Enums.PieceColor;
 import Pieces.Pawn;
@@ -38,6 +34,7 @@ public class ChessGUI extends JFrame {
 	private List<Square> squareList;
 	private Board myBoard;
 	private JButton endButton;
+	public JRadioButton onePlayer;
 	private boolean whiteTurn = true;
 
 	public ChessGUI() {
@@ -187,7 +184,7 @@ public class ChessGUI extends JFrame {
 
 		guiboard = new JPanel(new GridLayout(8,8));
 		guiboard.setPreferredSize(new Dimension(500, 500));
-		guiboard.setBackground(Color.BLACK);
+		guiboard.setBackground(Color.GRAY);
 		guiboard.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
 		for (int i = 0; i < 64; i++) {
@@ -207,14 +204,25 @@ public class ChessGUI extends JFrame {
 	private JPanel createButtonPanel() {
 		JPanel buttonPanel = new JPanel(new FlowLayout());
 		buttonPanel.setPreferredSize(new Dimension(800, 60));
-		buttonPanel.setBackground(Color.BLACK);
+		buttonPanel.setBackground(Color.gray);
 		
 		endButton = new JButton("End Game");
 		endButton.addActionListener((theEvent) -> {
             restartGame();
         });
 
+        onePlayer = new JRadioButton("One Player");
+        JRadioButton twoPlayer = new JRadioButton("Two Player");
+        //rabbitButton.setActionCommand(rabbitString);
+
+        ButtonGroup playerOptionGroup = new ButtonGroup();
+        playerOptionGroup.add(onePlayer);
+        playerOptionGroup.add(twoPlayer);
+        onePlayer.setSelected(true);
+
 		buttonPanel.add(endButton);
+		buttonPanel.add(onePlayer);
+        buttonPanel.add(twoPlayer);
 		
 		return buttonPanel;
 	}
@@ -249,6 +257,7 @@ public class ChessGUI extends JFrame {
 		static Point secondClick;
 		static boolean isSecondClick;
 		static List<Point> availableMoves;
+		static boolean singlePlayer;
 
 		public BoxListener(ChessGUI theBoard) {
 			myGui = theBoard;
@@ -260,9 +269,9 @@ public class ChessGUI extends JFrame {
 
 		@Override
 		public void mousePressed(MouseEvent theEvent) {
+		    singlePlayer = myGui.onePlayer.isSelected();
 			if (isSecondClick) {
 				secondClick(theEvent);
-				
 			} else {
 				firstClick(theEvent);
 			}
@@ -287,6 +296,7 @@ public class ChessGUI extends JFrame {
 		// legal piece to move. Needs the click event passed in.
 		private void secondClick(MouseEvent theEvent) {
 			boolean isCheck = false;
+			boolean endGame = false;
 			Square secondSquare = (Square) theEvent.getSource(); 
 			secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
 
@@ -309,8 +319,6 @@ public class ChessGUI extends JFrame {
 				}
 				myGui.refreshGUI();
 
-				//System.out.println("get count possible moves" + myGui.myBoard.getCountPossibleMoves());
-
 				if (isCheck) {
 					Point theKing = myGui.myBoard.getKingLocation(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
 					myGui.getSquare(theKing.x, theKing.y).setBackground(Color.RED);
@@ -319,22 +327,34 @@ public class ChessGUI extends JFrame {
 					if (myGui.myBoard.getCountPossibleMoves() == 0) {
 						PieceColor winner = myGui.myBoard.getLastPieceMoved().getColor();
 						JOptionPane.showMessageDialog(null, winner + " wins by checkmate");
+						endGame = true;
 					}
 					
 				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
 					JOptionPane.showMessageDialog(null, "Stalemate");
-
-				} else if (!myGui.whiteTurn) { // if white just made a move, let AI decide how to move black.
-					myGui.myBoard.getAI().makeMove();
+                    endGame = true;
 				}
-					myGui.whiteTurn = !myGui.whiteTurn;
-					isSecondClick = false;
-			}
-			
-			Piece clickedPiece = myGui.myBoard.getPiece(secondSquare.getMyY(), secondSquare.getMyX());
-			if (clickedPiece != null && clickedPiece.isWhite() == myGui.whiteTurn) { //user chose another piece to move
-				firstClick(theEvent);
-			}
+				if (singlePlayer && !endGame) {
+                    try { //simulating the computer thinking
+                        Thread.sleep(200);
+                    }
+                    catch(InterruptedException ex)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
+                    myGui.myBoard.makeComputerMove(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
+                    myGui.refreshGUI();
+                    myGui.repaint();
+                } else {
+                    myGui.whiteTurn = !myGui.whiteTurn;
+                }
+                isSecondClick = false;
+			} else {
+                Piece clickedPiece = myGui.myBoard.getPiece(secondSquare.getMyY(), secondSquare.getMyX());
+                if (clickedPiece != null && clickedPiece.isWhite() == myGui.whiteTurn) { //user chose another piece to move
+                    firstClick(theEvent);
+                }
+            }
             myGui.repaint();
 		}
 	}
