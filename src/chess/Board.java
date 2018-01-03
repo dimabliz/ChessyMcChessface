@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import java.awt.Point;
+import java.util.Random;
 
 import Enums.PieceColor;
 import Pieces.*;
@@ -233,6 +234,35 @@ public class Board {
 		allAttackedSquares.addAll(set);
 		return allAttackedSquares;
 	}
+
+    /**
+     * Method that will make computer move given the piece color.
+     * Rn it's random.
+     *
+     *
+     * @param turn what color the computer is going to move.
+     */
+	public void makeComputerMove(PieceColor turn) {
+
+	    List<Move> allPossibleMoves = new ArrayList<>();
+
+        for(Piece[] row : myBoard) {
+            for(Piece piece : row) {
+                if (piece != null && piece.getColor() == turn) {
+                    List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
+                    for(Point point : pieceAttacking) {
+                        allPossibleMoves.add(new Move(piece, piece.getLocation(), new Point((int) point.getY(), (int)point.getX())));
+                    }
+                }
+            }
+        }
+
+        Random randy = new Random();
+        Move finalMove = allPossibleMoves.get(randy.nextInt(allPossibleMoves.size()));
+
+        move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
+                new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));
+    }
 	
 	/**
 	 * Moves from from point to to point without checking for a check.
@@ -315,6 +345,10 @@ public class Board {
 	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			if (movingPiece == null) {
+			    System.err.println("Moving from location returns null");
+			    return false;
+            }
 			// set it to false by default, if piece really moved double then it will be set in the condition below.
 			lastPieceMovedDouble = false;
 			
