@@ -296,6 +296,7 @@ public class ChessGUI extends JFrame {
 		// legal piece to move. Needs the click event passed in.
 		private void secondClick(MouseEvent theEvent) {
 			boolean isCheck = false;
+			boolean endGame = false;
 			Square secondSquare = (Square) theEvent.getSource(); 
 			secondClick = new Point(secondSquare.getMyX(), secondSquare.getMyY());
 
@@ -326,13 +327,21 @@ public class ChessGUI extends JFrame {
 					if (myGui.myBoard.getCountPossibleMoves() == 0) {
 						PieceColor winner = myGui.myBoard.getLastPieceMoved().getColor();
 						JOptionPane.showMessageDialog(null, winner + " wins by checkmate");
+						endGame = true;
 					}
 					
 				} else if (myGui.myBoard.getCountPossibleMoves() == 0) {
 					JOptionPane.showMessageDialog(null, "Stalemate");
-
+                    endGame = true;
 				}
-				if (singlePlayer) {
+				if (singlePlayer && !endGame) {
+                    try { //simulating the computer thinking
+                        Thread.sleep(200);
+                    }
+                    catch(InterruptedException ex)
+                    {
+                        Thread.currentThread().interrupt();
+                    }
                     myGui.myBoard.makeComputerMove(myGui.whiteTurn ? PieceColor.Black : PieceColor.White);
                     myGui.refreshGUI();
                     myGui.repaint();
