@@ -28,7 +28,7 @@ public class AI {
         myGameBoard = theBoard;
     }
 
-    public void makeMoveLevel1(PieceColor turn) {
+    private List<Move> getAllPossibleMoves(PieceColor turn) {
         List<Move> allPossibleMoves = new ArrayList<>();
 
         for(Piece[] row : myGameBoard.getMyBoardArray()) {
@@ -41,9 +41,51 @@ public class AI {
                 }
             }
         }
+        return allPossibleMoves;
+    }
+
+    // Making a random move selection
+    public void makeMoveLevel0(PieceColor turn) {
+        List<Move> allPossibleMoves = getAllPossibleMoves(turn);
 
         Random randy = new Random();
         Move finalMove = allPossibleMoves.get(randy.nextInt(allPossibleMoves.size()));
+
+        myGameBoard.move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
+                new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));
+    }
+
+    public void makeMoveLevel1(PieceColor turn) {
+        List<Move> allPossibleMoves = getAllPossibleMoves(turn);
+
+        double maxRatio = 0.0;
+
+        for (int i = 0; i < allPossibleMoves.size(); i++) {
+            Move move = allPossibleMoves.get(i);
+
+            double tempRatio;
+            if (myGameBoard.getPiece(move.to) == null) {
+                tempRatio = 0.0;
+            } else {
+                tempRatio = myGameBoard.getPiece(move.to).getPointValue();
+            }
+            move.ratio = tempRatio / myGameBoard.getPiece(move.from).getPointValue();
+            if (move.ratio > maxRatio) {
+                maxRatio = move.ratio;
+            }
+        }
+
+        List<Move> sameRatioMoves = new ArrayList<>();
+        for (Move move : allPossibleMoves) {
+            if (move.ratio == maxRatio) {
+                sameRatioMoves.add(move);
+            }
+        }
+
+        Random randy = new Random();
+        Move finalMove = sameRatioMoves.get(randy.nextInt(sameRatioMoves.size()));
+
+        System.out.println("Ration is " + maxRatio);
 
         myGameBoard.move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
                 new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));

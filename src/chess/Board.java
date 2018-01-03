@@ -248,27 +248,7 @@ public class Board {
      * @param turn what color the computer is going to move.
      */
 	public void makeComputerMove(PieceColor turn) {
-
 	    myAI.makeMoveLevel1(turn);
-
-//	    List<Move> allPossibleMoves = new ArrayList<>();
-//
-//        for(Piece[] row : myBoard) {
-//            for(Piece piece : row) {
-//                if (piece != null && piece.getColor() == turn) {
-//                    List<Point> pieceAttacking = piece.getAvailableMoves(myBoard);
-//                    for(Point point : pieceAttacking) {
-//                        allPossibleMoves.add(new Move(piece, piece.getLocation(), new Point((int) point.getY(), (int)point.getX())));
-//                    }
-//                }
-//            }
-//        }
-//
-//        Random randy = new Random();
-//        Move finalMove = allPossibleMoves.get(randy.nextInt(allPossibleMoves.size()));
-//
-//        move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
-//                new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));
     }
 	
 	/**
@@ -456,7 +436,6 @@ public class Board {
 	public void checkForCheckMate(PieceColor movingColor) {
 		// Need to check for a checkmate
 		PieceColor myColor = lastPieceMoved.getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
-		//if (checkCheck(movingColor)) {
 			int totalMovesAvailable = 0;
 
 			for (int i = 0; i <= 7; i++) {
@@ -466,9 +445,8 @@ public class Board {
 				}
 			}
 
-			System.out.println(myColor + "s move, there are " + totalMovesAvailable + " total moves avaliable\n");
+			//System.out.println(myColor + "s move, there are " + totalMovesAvailable + " total moves available\n");
 			countPossibleMoves = totalMovesAvailable;
-		//}
 	}
 	
 	/**
@@ -519,6 +497,14 @@ public class Board {
 		else
 			return null;
 	}
+
+    public Piece getPiece(Point point) {
+        Piece result = myBoard[point.x][point.y];
+        if (result != null)
+            return result;
+        else
+            return null;
+    }
 
 	/**
 	 * Returns the AI object.
