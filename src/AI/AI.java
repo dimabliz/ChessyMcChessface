@@ -59,7 +59,7 @@ public class AI {
     public void makeMoveLevel1(PieceColor turn) {
         List<Move> allPossibleMoves = getAllPossibleMoves(turn);
 
-        double maxRatio = 0.0;
+        double maxRatio = -100.0;
 
         for (int i = 0; i < allPossibleMoves.size(); i++) {
             Move move = allPossibleMoves.get(i);
@@ -70,7 +70,14 @@ public class AI {
             } else {
                 tempRatio = myGameBoard.getPiece(move.to).getPointValue();
             }
-            move.ratio = tempRatio / myGameBoard.getPiece(move.from).getPointValue();
+            if (myGameBoard.isQueening(move.from)) {
+                System.out.println("queening " + move.from.toString());
+                move.queening = true;
+                tempRatio += 9.0; //worth of a queen
+            }else {
+                System.out.println("not queening");
+            }
+            move.ratio = tempRatio - myGameBoard.getPiece(move.from).getPointValue();
             if (move.ratio > maxRatio) {
                 maxRatio = move.ratio;
             }
@@ -87,19 +94,32 @@ public class AI {
         Move finalMove = sameRatioMoves.get(randy.nextInt(sameRatioMoves.size()));
 
         System.out.println("Ratio is " + maxRatio);
+        System.out.println("queening is " + finalMove.queening);
 
-        myGameBoard.move(new Point((int) finalMove.from.getY(), (int)finalMove.from.getX()),
-                new Point((int) finalMove.to.getY(), (int)finalMove.to.getX()));
+
+        if (finalMove.queening) {
+            System.out.println(finalMove.from);
+            System.out.println(finalMove.to);
+            myGameBoard.move(new Point((int) finalMove.from.getY(), (int) finalMove.from.getX()),
+                    new Point((int) finalMove.to.getY(), (int) finalMove.to.getX()), 'Q');
+        } else {
+            System.out.println(finalMove.from);
+            System.out.println(finalMove.to);
+            myGameBoard.move(new Point((int) finalMove.from.getY(), (int) finalMove.from.getX()),
+                    new Point((int) finalMove.to.getY(), (int) finalMove.to.getX()));
+        }
     }
 
     // Avoiding a checkmate on next move and looking for a checkmate current move.
     public void makeMoveLevel2(PieceColor turn) {
         List<Move> allPossibleMoves = getAllPossibleMoves(turn);
         boolean level2Used = false;
-
+        myGameBoard.printBoard();
+        System.out.println();
         // Code below is searching if any of the moves will checkmate the opponent
         Move checkmatingMove = null;
         for (Move move : allPossibleMoves) {
+            Piece savePiece = myGameBoard.getPiece(move.to);
             myGameBoard.simpleMove(new Point((int) move.from.getY(), (int)move.from.getX()),
                     new Point((int) move.to.getY(), (int)move.to.getX()), true);
             myGameBoard.checkForCheckMate(myGameBoard.getLastPieceMoved().getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White);
@@ -108,17 +128,24 @@ public class AI {
             }
             myGameBoard.simpleMove(new Point((int) move.to.getY(), (int)move.to.getX()),
                     new Point((int) move.from.getY(), (int)move.from.getX()), false);
+            if (savePiece != null)
+                myGameBoard.placePiece(savePiece, move.to.y, move.to.x);
         }
+        myGameBoard.printBoard();
 
         if (checkmatingMove != null) {
+            System.out.println("Found the checkmating move. Get rekt. Take a bow son, you just lost to a superior mind.");
             myGameBoard.move(new Point((int) checkmatingMove.from.getY(), (int)checkmatingMove.from.getX()),
                     new Point((int) checkmatingMove.to.getY(), (int)checkmatingMove.to.getX()));
             level2Used = true;
         }
 
         // Code below is avoiding any checkmates that the opponent has in store for them the next move.
-        
 
+
+        if (!level2Used) {
+            makeMoveLevel1(turn);
+        }
     }
 
 

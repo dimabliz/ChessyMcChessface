@@ -548,6 +548,21 @@ public class Board {
 		}
 	}
 
+	//Checks if a piece is a pawn that's about to queen
+	public boolean isQueening(Point firstClick) {
+		Piece queening = getPiece(firstClick.x, firstClick.y);
+		System.out.print(queening);
+		boolean returnValue = false;
+		if (queening instanceof Pawn) {
+			if (queening.isWhite() && firstClick.x == 1) {
+				returnValue = true;
+			} else if (!queening.isWhite() && firstClick.x == 6) {
+				returnValue = true;
+			}
+		}
+		return returnValue;
+	}
+
     /**
      * Get method for lastPieceMoved.
      *
