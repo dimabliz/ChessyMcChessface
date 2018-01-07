@@ -1,13 +1,12 @@
 package chess;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import java.awt.Point;
 
 import Enums.PieceColor;
 import Pieces.*;
+import AI.*;
 /**
  * 
  * @author Maksimv@uw.edu
@@ -38,10 +37,15 @@ public class Board {
 	private boolean undoCastle;
 	/** Keeps track of the location where we are putting the rook back. */
 	private Point undoRookLocation;
+
+	private Queue<Move> repititionMoves;
 	
 	/* check/stale mate */
 	/** Keeps track of the number of possible moves the next opponent can do. */
 	private int countPossibleMoves;
+
+	/* Fields pertaining to the AI. */
+	private AI myAI;
 	
 	public Board() {
 		myBoard = new Piece[8][8];
@@ -54,6 +58,8 @@ public class Board {
 		undoCastle = false;
 		undoRookLocation = null;
 		countPossibleMoves = 1;
+		myAI = new AI(this);
+        repititionMoves = new LinkedList<Move>();
 	}
 	
 	/**
@@ -233,6 +239,17 @@ public class Board {
 		allAttackedSquares.addAll(set);
 		return allAttackedSquares;
 	}
+
+    /**
+     * Method that will make computer move given the piece color.
+     * Rn it's random.
+     *
+     *
+     * @param turn what color the computer is going to move.
+     */
+	public void makeComputerMove(PieceColor turn) {
+	    myAI.makeMoveLevel1(turn);
+    }
 	
 	/**
 	 * Moves from from point to to point without checking for a check.
@@ -315,6 +332,10 @@ public class Board {
 	public boolean move(Point from, Point to) {
 		if (!from.equals(to)) {
 			Piece movingPiece = myBoard[from.y][from.x];
+			if (movingPiece == null) {
+			    System.err.println("Moving from location returns null");
+			    return false;
+            }
 			// set it to false by default, if piece really moved double then it will be set in the condition below.
 			lastPieceMovedDouble = false;
 			
@@ -371,6 +392,11 @@ public class Board {
 			myBoard[to.y][to.x] = movingPiece;
 			lastPieceMoved = movingPiece;
 
+            if (repititionMoves.size() > 7) {
+                repititionMoves.remove();
+            }
+
+			repititionMoves.add(new Move(from, to));
 			checkForCheckMate(movingPiece.getColor());
 
 			return checkCheck(movingPiece.getColor());
@@ -406,16 +432,70 @@ public class Board {
 			myBoard[to.y][to.x] = movingPiece;
 			lastPieceMoved = movingPiece;
 			checkForCheckMate(movingPiece.getColor());
+
+			Move repeatedMove = new Move(from, to);
+			repeatedMove.queening = true;
+			if (repititionMoves.size() > 7) {
+			    repititionMoves.remove();
+            }
+            repititionMoves.add(repeatedMove);
  
 			return checkCheck(movingPiece.getColor());
 		}
 		return false;
 	}
 
+    /**
+     * Checks if a draw was achieved where the past 8 moves were repeated.
+     *
+     * @return
+     */
+	public boolean isDrawByRepetition() {
+        if (repititionMoves.size() < 8) {
+            return false;
+        }
+        Move first = repititionMoves.remove();
+        Move second = repititionMoves.remove();
+        Move third = repititionMoves.remove();
+        Move fourth = repititionMoves.remove();
+        Move fifth = repititionMoves.remove();
+        Move sixth = repititionMoves.remove();
+        Move seventh = repititionMoves.remove();
+        Move eight = repititionMoves.remove();
+
+//        System.out.println("first: from " + first.from.toString() + " to " + first.to.toString());
+//        System.out.println("second: from " + second.from.toString() + " to " + second.to.toString());
+//        System.out.println("third: from " + third.from.toString() + " to " + third.to.toString());
+//        System.out.println("fourth: from " + fourth.from.toString() + " to " + fourth.to.toString());
+//
+//        System.out.println("fifth: from " + fifth.from.toString() + " to " + fifth.to.toString());
+//        System.out.println("sixth: from " + sixth.from.toString() + " to " + sixth.to.toString());
+//        System.out.println("seventh: from " + seventh.from.toString() + " to " + seventh.to.toString());
+//        System.out.println("eight: from " + eight.from.toString() + " to " + eight.to.toString());
+
+        System.out.println();
+
+        repititionMoves.add(first);
+        repititionMoves.add(second);
+        repititionMoves.add(third);
+        repititionMoves.add(fourth);
+        repititionMoves.add(fifth);
+        repititionMoves.add(sixth);
+        repititionMoves.add(seventh);
+        repititionMoves.add(eight);
+
+        if ((first.to).equals(fifth.to) && (first.from).equals(fifth.from)
+                && (second.to).equals(sixth.to) && (second.from).equals(sixth.from)
+                && (third.to).equals(seventh.to) && (third.from).equals(seventh.from)
+                && (fourth.to).equals(eight.to) && (fourth.from).equals(eight.from))
+            return true;
+        else return false;
+
+    }
+
 	public void checkForCheckMate(PieceColor movingColor) {
 		// Need to check for a checkmate
 		PieceColor myColor = lastPieceMoved.getColor() == PieceColor.White ? PieceColor.Black : PieceColor.White;
-		//if (checkCheck(movingColor)) {
 			int totalMovesAvailable = 0;
 
 			for (int i = 0; i <= 7; i++) {
@@ -425,9 +505,8 @@ public class Board {
 				}
 			}
 
-			System.out.println("there is a check on " + myColor + ", there are " + totalMovesAvailable + " total moves avaliable\n");
+			//System.out.println(myColor + "s move, there are " + totalMovesAvailable + " total moves available\n");
 			countPossibleMoves = totalMovesAvailable;
-		//}
 	}
 	
 	/**
@@ -478,6 +557,23 @@ public class Board {
 		else
 			return null;
 	}
+
+    public Piece getPiece(Point point) {
+        Piece result = myBoard[point.x][point.y];
+        if (result != null)
+            return result;
+        else
+            return null;
+    }
+
+	/**
+	 * Returns the AI object.
+	 *
+	 * @return the AI object.
+	 */
+	public AI getAI() {
+		return myAI;
+	}
 	
 	/**
 	 * Prints out all of the moves that the Piece at the given point is allowed to make.
@@ -510,6 +606,21 @@ public class Board {
 			}
 			System.out.println();
 		}
+	}
+
+	//Checks if a piece is a pawn that's about to queen
+	public boolean isQueening(Point firstClick) {
+		Piece queening = getPiece(firstClick.x, firstClick.y);
+		System.out.print(queening);
+		boolean returnValue = false;
+		if (queening instanceof Pawn) {
+			if (queening.isWhite() && firstClick.x == 1) {
+				returnValue = true;
+			} else if (!queening.isWhite() && firstClick.x == 6) {
+				returnValue = true;
+			}
+		}
+		return returnValue;
 	}
 
     /**
