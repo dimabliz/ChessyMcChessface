@@ -1,11 +1,6 @@
 package chess;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -334,6 +329,9 @@ public class ChessGUI extends JFrame {
 					JOptionPane.showMessageDialog(null, "Stalemate");
                     endGame = true;
 				}
+                if (myGui.myBoard.isDrawByRepetition()) {
+                    JOptionPane.showMessageDialog(null, "Draw By Repetition");
+                }
 				if (singlePlayer && !endGame) {
                     try { //simulating the computer thinking
                         Thread.sleep(200);

@@ -11,6 +11,12 @@ public class Move {
     public double ratio; // taking the piece versus the value of the piece doing the taking ratio
     public boolean queening;
 
+    public Move(Point from, Point to) {
+        this.from = from;
+        this.to = to;
+        this.queening = false;
+    }
+
     public Move(Piece piece, Point from, Point to) {
         this.piece = piece;
         this.from = from;

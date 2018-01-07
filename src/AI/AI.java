@@ -71,11 +71,8 @@ public class AI {
                 tempRatio = myGameBoard.getPiece(move.to).getPointValue();
             }
             if (myGameBoard.isQueening(move.from)) {
-                System.out.println("queening " + move.from.toString());
                 move.queening = true;
                 tempRatio += 9.0; //worth of a queen
-            }else {
-                System.out.println("not queening");
             }
             move.ratio = tempRatio - myGameBoard.getPiece(move.from).getPointValue();
             if (move.ratio > maxRatio) {
